@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition>
+        <div id="sidebar-scroll-alt">
+            <!-- Sidebar Content -->
+            <div class="sidebar-content" style="width: 800px">
+                <!-- Profile -->
+                <div class="sidebar-section" >
+                    <h2 class="text-light">Message(s)</h2>
+
+                    <h:form id="notesForm">
+                        <h:commandLink  id="btnreloadMessage" class="hidden" style="height: 15px; width: 15px; margin-left: 1em;">
+
+                            <i class="fa fa-refresh" data-toggle="tooltip" data-original-title="Actualisez la liste si la nouvelle notification n'apparaît pas"></i>
+                            <f:ajax render=":notesForm"  onevent="sendConfirm"/>
+                        </h:commandLink>
+                        <table jsf:id="notesTable" class="table  table-bordered table-vcenter">
+                            <thead>
+                                <tr>
+                                    <th style="font-size: 13px"><i class="fa fa-user"></i>Expéditeur</th>
+                                    <th style="font-size: 13px"><i class="fa fa-envelope-o"></i>Contenu du message</th>
+
+                                    <th style="font-size: 13px"><i class="fa fa-flash"></i></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <ui:repeat value="#{demandeBean.findListNonLu()}" var="nonLu">
+                                    <tr> 
+                                        <td>#{nonLu.expediteur.fonction.code}</td>
+                                        <td>#{nonLu.libelle}</td>
+                                        <td>
+                                            <h:commandLink class="btn btn-effect-ripple btn-success active" style="line-height: 1.5; font-size: 12px; padding: 5px 10px;" id="see">
+                                               Vu<i class="fa fa-check-circle pull-right"></i>
+                                               <f:ajax  listener="#{socialBean.seeMessage(nonLu)}" render="notesForm" onevent="sendConfirm"/>
+                                            </h:commandLink>
+                                        </td>
+                                    </tr>
+                                </ui:repeat>
+                            </tbody>
+                        </table>
+                    </h:form>
+                </div>
+                <!-- END Profile -->
+            </div>
+            <!-- END Sidebar Content -->
+        </div>
+    </ui:composition>
+</html>

@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition>
+
+        <ul class="nav navbar-nav-custom" >
+            <!-- flag && juridiction label -->
+            <li style="margin-left: 30px">
+                <small style="display: inline-block;" class="animation-pulse">
+                    <h:graphicImage library="images" name="anacBenin.png" alt="" style="height: 60px;"/>
+                   
+                </small>
+            </li>
+            <!-- END Main Sidebar Toggle Button -->
+
+            <!-- Header Link -->
+            <li class="hidden-xs">
+                <div style="color: white; display: inline-block; margin-left:25px; text-align: center;">
+                    <div>
+                        REPUBLIQUE DU BENIN
+                    </div>
+                    <div>
+                        <strong>FRATERNITE - JUSTICE - TRAVAIL</strong>
+                    </div>
+                </div>
+            </li>
+            <!-- END Header Link -->
+
+            <!-- Header Link -->
+            <li class="hidden-xs animation-fadeInQuick">
+                <div style="color: white; display: inline-block; text-align: center; margin-left:10px;">
+
+                    <div style="margin-top: 15px;">
+
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <!-- END Left Header Navigation -->
+
+        <!-- Right Header Navigation -->
+        <!--<h:form id="appUIForm">-->
+        <h:form id="appUIForm">
+            <ul class="nav navbar-nav-custom pull-right" >
+                <ui:include src="headerPullRightNavigation.xhtml"/>
+            </ul>
+        </h:form>
+        <!--</h:form>-->
+    </ui:composition>
+</html>

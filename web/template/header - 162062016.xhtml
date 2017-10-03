@@ -1,0 +1,301 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+    <ui:composition>
+        <!--        <ul class="nav navbar-nav-custom">
+                     Main Sidebar Toggle Button 
+                    <li>
+                        <a href="javascript:void(0)" onclick="App.sidebar('toggle-sidebar');
+                                this.blur();">
+                            <i class="fa fa-ellipsis-v fa-fw animation-fadeInRight" id="sidebar-toggle-mini"></i>
+                            <i class="fa fa-bars fa-fw animation-fadeInRight" id="sidebar-toggle-full"></i>
+                        </a>
+                    </li>
+                     END Main Sidebar Toggle Button 
+        
+                     Header Link 
+                                <li class="hidden-xs animation-fadeInQuick">
+                                    <a href=""><strong>#{bundle.Welcome}</strong></a>
+                                </li>
+                     END Header Link 
+                </ul>-->
+        <!-- END Left Header Navigation -->
+
+        <ul class="nav navbar-nav-custom">
+            <!-- flag && juridiction label -->
+            <li style="margin-left: 100px">
+                <small style="display: inline-block;">
+                    <h:graphicImage library="images" name="togo.png" alt="REPUBLIQUE TOGOLAISE" style="height: 60px;"/>
+                </small>
+            </li>
+            <!-- END Main Sidebar Toggle Button -->
+
+            <!-- Header Link -->
+            <li class="hidden-xs animation-fadeInQuick">
+                <div style="color: white; display: inline-block; margin-left:25px; text-align: center;">
+                    <div>
+                        REPUBLIQUE TOGOLAISE
+                    </div>
+                    <div>
+                        <strong>TRAVAIL - LIBERTE - PATRIE</strong>
+                    </div>
+                </div>
+            </li>
+            <!-- END Header Link -->
+
+            <!-- Header Link -->
+            <li class="hidden-xs animation-fadeInQuick">
+                <div style="color: white; display: inline-block; text-align: center; margin-left:75px;">
+                    <div>
+                        MINISTERE DE LA JUSTICE
+                    </div>
+                    <div>
+                        TRIBUNAL DE PREMIERE INSTANCE DE PREMIERE CLASSE
+                    </div>
+                    <div>
+                        DE LOME
+                    </div>
+                </div>
+            </li>
+
+            <!--            <li class="hidden-xs animation-fadeInQuick">
+                            <div style="color: white; display: inline-block; text-align: center; margin-left:30px;">
+                            <div style="color: red; display: inline-block; text-align: center; margin-left:30px;">
+                                <div class="col-sm-8 no-padding">
+                                <div style="visibility: hidden;">
+                                    MINISTERE DE LA JUSTICE
+                                </div>
+                                                    <div>
+                                                        TRIBUNAL DE PREMIERE INSTANCE DE PREMIERE
+                                                    </div>
+                                
+            
+                                </div>
+                            </div>
+                        </li>-->
+
+            <!-- END Header Link -->
+        </ul>
+        <!-- END Left Header Navigation -->
+
+        <!-- Right Header Navigation -->
+        <!--<h:form id="appUIForm">-->
+            <ul class="nav navbar-nav-custom pull-right">
+                <!-- User Dropdown -->
+                <li>
+                    <!--                <li style="width: 160px">
+                                        <a id="popoverData" href="#" data-content="Vous êtes connecté(e) avec #{connexionBean.currentUser.login} dans #{connexionBean.currentExerciceFonction.service.libelle}" rel="popover" 
+                                        <a id="popoverData" href="#" data-content="Vous êtes connecté(e) avec #{connexionBean.currentUser.login}" rel="popover" 
+                                           data-placement="bottom" 
+                                           data-original-title="Forseti Penal Bonjour," 
+                                           data-trigger="hover" 
+                                           >#{connexionBean.currentUser.nom}</a>
+                                    </li>-->
+                    <!--                <a href="#">
+                                        <ui:insert name="user_avatar"/>
+                                        <span class="user-info" style="width: 10px">
+                    #{connexionBean.currentUser.nom}
+                </span>
+            <i class="ace-icon fa fa-caret-down"></i>
+        </a>-->
+                    <!--                <ul class="dropdown-menu dropdown-menu-right">
+                                        <li class="dropdown-header">
+                                            <strong>ADMINISTRATOR</strong>
+                                        </li>
+                                        <li>
+                                            <a href="page_app_email.html">
+                                                <i class="fa fa-inbox fa-fw pull-right"></i>
+                                                Inbox
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="page_app_social.html">
+                                                <i class="fa fa-pencil-square fa-fw pull-right"></i>
+                                                Profile
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="page_app_media.html">
+                                                <i class="fa fa-picture-o fa-fw pull-right"></i>
+                                                Media Manager
+                                            </a>
+                                        </li>
+                                        <li class="divider"></li>
+                                        <li>
+                                            <a href="javascript:void(0)" onclick="App.sidebar('toggle-sidebar-alt');">
+                                                <i class="gi gi-settings fa-fw pull-right"></i>
+                                                Settings
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="page_ready_lock_screen.html">
+                                                <i class="gi gi-lock fa-fw pull-right"></i>
+                                                Lock Account
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="page_ready_login.html">
+                                                <i class="fa fa-power-off fa-fw pull-right"></i>
+                                                Log out
+                                            </a>
+                                        </li>
+                                    </ul>-->
+                </li>
+                <!-- END User Dropdown -->
+
+                <!-- Alternative Sidebar Toggle Button -->
+                <!--            <li>
+                                <a href="javascript:void(0)" onclick="App.sidebar('toggle-sidebar-alt');
+                                        this.blur();">
+                                    <i class="gi gi-settings"></i>
+                                </a>
+                            </li>-->
+                <!-- END Alternative Sidebar Toggle Button -->
+
+                <!-- flag && juridiction label -->
+                <li class="purple">
+                    <a data-toggle="dropdown" class="dropdown-toggle notification-rounded" href="#">
+                        <i class="ace-icon fa fa-bell icon-animated-bell"></i>
+                        <span class="badge badge-important">#{notificationBean.alertes.size()}</span>
+                    </a>
+
+                    <ul class="dropdown-menu dropdown-menu-right text-left" style="width:400px;overflow:auto;">
+                        <li class="dropdown-header">
+                            <i class="ace-icon fa fa-exclamation-triangle"></i>
+                            #{notificationBean.alertes.size()} Alertes
+                        </li>
+
+                        <li class="dropdown-content">
+                            <!--<div jsf:id="myDIV">-->
+                            <ul style="height: 250;overflow:auto;" class="list-group">
+                                <ui:repeat value="#{notificationBean.alertesRecentes}" var="item" varStatus="status">
+                                    <li style="font-family: Arial, sans-serif;
+                                        font-size: 100%;
+                                        color: black;
+                                        list-style-type: none;
+                                        background-image: url(#{request.contextPath}/resources/images/puce2.gif);
+                                        background-repeat: no-repeat;
+                                        background-position: 0 0.32em;
+                                        padding-left: 15px;text-decoration: blink; white-space:nowrap;"
+                                        class="list-group-item list-group-item-danger">
+                                        <div class="clearfix">
+                                            <span class="pull-left">
+                                                <i class="btn btn-xs no-hover btn-pink ace-icon fa fa-exclamation-triangle red bigger-130"></i>
+                                                <div class="blue">#{item.numeroRP}</div>
+                                                #{item.description}
+                                            </span>
+                                            <span class="pull-right badge badge-info">Il y a #{notificationBean.estAlerteDepuis(item)}</span>
+                                        </div>
+                                    </li>
+                                </ui:repeat>
+                            </ul>
+                            <!--</div>-->
+                        </li>
+
+                        <li class="dropdown-footer">
+                            <a href="/forsetiPenal/alert/index.xhtml">
+                                #{bundle.VoirAlertes}
+                                <i class="ace-icon fa fa-arrow-right"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="green">
+                    <!--                <div class="block-section">
+                                                            <div class="btn-group">
+                                                                <a href="javascript:void(0)" data-toggle="dropdown" class="btn btn-default dropdown-toggle">Dropdown <span class="caret"></span></a>
+                                                                <ul class="dropdown-menu text-left">
+                                                                    <li class="dropdown-header">
+                                                                        <i class="fa fa-user pull-right"></i> <strong>ACCOUNT</strong>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a href="javascript:void(0)">
+                                                                            <i class="fa fa-pencil pull-right"></i>
+                                                                            Edit
+                                                                        </a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a href="javascript:void(0)">
+                                                                            <i class="fa fa-cog pull-right"></i>
+                                                                            Settings
+                                                                        </a>
+                                                                    </li>
+                                                                    <li class="divider"></li>
+                                                                    <li class="disabled">
+                                                                        <a href="javascript:void(0)">Disabled</a>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                    </div>-->
+                    <a data-toggle="dropdown" class="dropdown-toggle notification-rounded" href="#">
+                        <i class="ace-icon fa fa-envelope icon-animated-vertical"></i>
+                        <span class="badge badge-success">#{notificationBean.notifications.size()}</span>
+                    </a>
+
+                    <ul class="dropdown-menu dropdown-menu-right text-left" style="width:400px;overflow:auto;">
+                        <li class="dropdown-header">
+                            <i class="ace-icon fa fa-envelope-o"></i>
+                            #{notificationBean.notifications.size()} Notifications
+                        </li>
+
+                        <li class="dropdown-content">
+                            <ul style="height:250px;overflow:auto;" class="list-group">
+                                <ui:repeat value="#{notificationBean.notificationsRecentes}" var="item" varStatus="status">
+                                    <li style="font-family: Arial, sans-serif;
+                                        font-size: 100%;
+                                        color: black;
+                                        list-style-type: none;
+                                        background-image: url(#{request.contextPath}/resources/images/puce2.gif);
+                                        background-repeat: no-repeat;
+                                        background-position: 0 0.32em;
+                                        padding-left: 15px;"
+                                        class="list-group-item list-group-item-success">
+                                                                           <!--<a href="/forsetiPenal/dossier/manage/gestion_dossier.xhtml?dossier=#{item.numeroRP}" class="clearfix">-->
+                                        <!--<a href="#" class="clearfix">-->
+                                        <span class="clearfix">
+                                            <span style="font-size: 0.8em;font-style: italic;margin-left: 10px">
+                                                <div class="blue">#{item.numeroRP}</div>
+                                                #{item.description}
+                                            </span>
+<!--                                            <span style="font-size: 0.8em;font-style: italic;" class="msg-time">
+                                                <i class="ace-icon fa fa-clock-o"></i>
+                                                <span>Au plus tard le
+                                                    <h:outputText value="#{item.dateLimite}">
+                                                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                                                    </h:outputText>
+                                                </span>
+                                            </span>-->
+                                        </span>
+                                        <!--</a>-->
+                                    </li>
+                                </ui:repeat>
+                            </ul>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="/forsetiPenal/notification/index.xhtml">
+                                #{bundle.VoirNotifications}
+                                <i class="ace-icon fa fa-arrow-right"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <!-- END Main Sidebar Toggle Button -->
+                <li>
+    <!--                <a href="#" style="display: inline-block;" data-toggle="popover" data-content="#{connexionBean.currentUser.nomPrenoms} #{connexionBean.currentUser.mail} " data-placement="bottom">
+                        <img src="#{request.contextPath}/resources/images/avatar2.png" alt="Notification" />
+    
+                    </a>-->
+                    <a rel="details" class="btn btn-small pull-left" data-toggle="popover" data-content="">
+                        <img src="#{request.contextPath}/resources/images/avatar2.png" alt="Notification" />
+                    </a>
+                </li>
+            </ul>
+        <!--</h:form>-->
+    </ui:composition>
+</html>

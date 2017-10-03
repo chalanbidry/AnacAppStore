@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ph="http://xmlns.jcp.org/jsf/passthrough">
+
+    <ui:composition>
+        <!-- Forms Components Header -->
+      <div class="content-header">
+            <div class="row">
+                <div class="col-sm-8">
+                    <div class="header-section">
+                        <h1 style="font-style:italic;font-family:Century">#{bundle.EditerCourrier } <h:panelGroup rendered="#{courrierBean.courrierInstigateur!=null}">(En réponse au courrier  N° #{courrierBean.courrierInstigateur.numCourrierArrive})</h:panelGroup>  </h1>
+                    </div>
+                </div>
+                <div class="col-sm-4 hidden-xs">
+                    <div class="header-section">
+                        <ul class="breadcrumb breadcrumb-top">
+
+                            <li>#{bundle.menuEditerCourrer}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END Forms Components Header -->
+
+        <!-- Form Components Row -->
+        <div class="row" jsf:id="waitforme">
+            <h:form id="msgForm" prependId="false">
+                <h:messages id="msg" style="display: none;" errorClass="erreurmessage" infoClass="succesmessage" showDetail="true"/>
+                <p:messages  autoUpdate="true" showDetail="true"/>
+            </h:form>
+            
+            <div class="col-md-12">
+                <!-- Horizontal Form Block -->
+                <div jsf:id="JSF-message-composite" id="message-composite" class="block">
+                    <!-- Title -->
+                    <div class="block-title clearfix">
+                        <div class="block-options pull-right">
+                            <a href="javascript:void(0)" class="btn btn-effect-ripple btn-warning" data-toggle="tooltip" title="Star"><i class="fa fa-star"></i></a>
+                            <a href="javascript:void(0)" class="btn btn-effect-ripple btn-danger" data-toggle="tooltip" title="Delete"><i class="fa fa-times"></i></a>
+                        </div>
+                        <div class="block-options pull-left">
+                            <a href="javascript:void(0)" class="btn btn-effect-ripple btn-default" id="message-view-back-From-Composite"><i class="fa fa-chevron-left"></i> Boîte de réception</a>
+                        </div>
+                    </div>
+                    <!-- END Horizontal Form Title -->
+
+                    <!-- Horizontal Form Content -->
+                    <!--l'ancien id du form est :id="ckEditorForm"-->
+                    <form   jsf:id="createDemandeForm" role="form" jsf:prependId="false" jsf:class="form-horizontal form-bordered">
+                        <div id="clickable-first" jsf:id="div1" class="step">
+                            <ui:include src="EditerCourrier.xhtml"/>
+                        </div>
+                        
+                        <div id="clickable-second" jsf:id="div2" class="step">
+                         
+                            <ui:include src="Apercu.xhtml"/>
+                        </div>
+                       
+                     
+                    </form>
+                    <!-- END Horizontal Form Content -->                    
+                </div>
+                <!-- END Horizontal Form Block -->
+            </div>
+
+        </div>
+        <div class="row">
+<!--            <ui:include src="list.xhtml"/>-->
+        </div>
+        <!-- END Form Components Row -->
+    </ui:composition>
+</html>

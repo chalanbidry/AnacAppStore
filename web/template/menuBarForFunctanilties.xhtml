@@ -1,0 +1,181 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+    <ui:composition>
+        <div id="sidebar-scroll">
+            <!-- Sidebar Content -->
+            <div class="sidebar-content">
+                <!-- Sidebar Navigation -->
+                <ul class="sidebar-nav" jsf:rendered="#{connexionBean.currentAppli.appliName=='PrestAnac'}">
+                    <li>
+                        <a href="/AnacAppStore/index.xhtml"><i class="gi gi-compass sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">#{bundle.Dashboard}</span></a>
+                    </li> 
+                    <li class="sidebar-separator">
+                        <i class="fa fa-ellipsis-h"></i>
+                    </li>
+
+                    <li class="#{menuAdministrationClass}" jsf:rendered="#{connexionBean.currentUser.admin}">
+                        <a href="#" class="sidebar-nav-menu"><i class="fa fa-chevron-left sidebar-nav-indicator sidebar-nav-mini-hide"></i><i class="fa fa-cogs sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Adminstration</span></a>
+                        <ul>
+                            <li>
+                                <a href="/AnacAppStore/administration/departement/index.xhtml" class="#{menuDepartement}">#{bundle.departement}</a>
+                            </li>
+                            <li>
+                                <a href="/AnacAppStore/administration/Service/index.xhtml" class="#{newServiceClass}">#{bundle.Service}</a>
+                            </li>
+                            <li>
+                                <a href="/AnacAppStore/administration/Division/index.xhtml" class="#{newDivisionClass}">#{bundle.Division}</a>
+                            </li>
+                            <li>
+                                <a href="/AnacAppStore/administration/fonction/index.xhtml" class="#{newFonctionClass}">#{bundle.fonction}</a>
+                            </li>
+
+
+                            <li>
+                                <a href="/AnacAppStore/administration/Utilisateur/index.xhtml" class="#{UtilisateurClass}">#{bundle.newUsers}</a>
+                            </li>
+
+                            <li>
+                                <a href="/AnacAppStore/administration/LiaisonUserGroupe/index.xhtml" class="#{UtilisateurliesClass}">#{bundle.lierUser}</a>
+                            </li>
+                            <li>
+                                <a href="/AnacAppStore/administration/LiaisonUserDepartement/index.xhtml" class="#{UtilisateurliesDepClass}">#{bundle.lierUserDep}</a>
+                            </li>
+
+                            <li>
+                                <a href="/AnacAppStore/administration/LiaisonUserAppli/index.xhtml" class="#{UtilisateurliesAppliClass}">#{bundle.lierUserAppli}</a>
+                            </li>
+                            <!--Enseignement a rmettre apres étude-->
+                            <!--                            <li>
+                                                            <a href="/AnacAppStore/administration/CategorieChristianFile/index.xhtml" class="#{CategorieChristianFileClass}">#{bundle.CategorieChristianFile}</a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="/AnacAppStore/administration/InsertionChristianFile/index.xhtml" class="#{InsertionChristianFileClass}">#{bundle.InsertionChristianFile}</a>
+                                                        </li>-->
+                        </ul>
+                    </li>
+
+                    <li class="#{menuDemandeClass}" jsf:rendered="#{connexionBean.currentUser.fonction.code=='CDRIS' or connexionBean.currentUser.fonction.code=='CDAL' }">
+                        <a href="#" class="sidebar-nav-menu"><i class="fa fa-chevron-left sidebar-nav-indicator sidebar-nav-mini-hide"></i><i class="fa fa-folder-o sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Demandes faites</span></a>
+                        <ul>
+                            <li>
+                                <a href="/AnacAppStore/gestionDemande/Demande/index.xhtml" class="#{DemandeClass}">#{bundle.NewDemandes}</a>
+                            </li>
+                            <li>
+                                <a href="/AnacAppStore/gestionDemande/InsertionDemandeAllUser/index.xhtml" class="#{InsertionDemandeAllUserClass}">#{bundle.InserDoc}</a>
+                            </li>
+                            <li>
+                                <a href="/AnacAppStore/gestionDemande/RegistreDemandeAllUser/index.xhtml" class="#{RegistreDemandeByMeClass}">#{bundle.RegistreDemande}</a>
+                            </li>
+                            <li>
+                                <a href="/AnacAppStore/gestionDemande/Categorie/index.xhtml" class="#{menuAdministrationCategorieClass}">#{bundle.Categorie}</a>
+                            </li>
+                            <li>
+                                <a href="/AnacAppStore/gestionDemande/Materiel/index.xhtml" class="#{menuAdministrationMaterielClass}">#{bundle.materiel}</a>
+                            </li>
+                            <li>
+                                <a href="/AnacAppStore/gestionDemande/Prestataire/index.xhtml" class="#{PrestataireClass}">#{bundle.Prestataire}</a>
+                            </li>
+
+                        </ul>
+                    </li>
+
+
+                    <li class="#{menuGedClass}" jsf:rendered="#{connexionBean.currentUser.fonction.code=='CSFC'}">
+                        <a href="#" class="sidebar-nav-menu"><i class="fa fa-chevron-left sidebar-nav-indicator sidebar-nav-mini-hide"></i><i class="fa fa-database sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Ged</span></a>
+                        <ul>
+                            <li>
+                                <a href="/AnacAppStore/InsertionDemande/index.xhtml" class="#{InsertionDemandeClass}">#{bundle.InsertionDemande}</a>
+                            </li>
+
+                            <li>
+                                <a href="/AnacAppStore/RegistreDemande/index.xhtml" class="#{RegistreDemandeClass}">#{bundle.RegistreTermine}</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li jsf:rendered="#{connexionBean.currentUser.fonction.code=='CSFC'}">
+                        <a href="/AnacAppStore/BondeCommande/index.xhtml" class="#{BonCommandeClass}"><i class="fa fa-pagelines"></i>#{bundle.CommandeBon}</a>
+                    </li>
+                    <li jsf:rendered="#{connexionBean.currentUser.fonction.code=='CSFC'}">
+                        <a href="/AnacAppStore/LigneBudgetaire/ligne/index.xhtml" class="#{LigneClass}"><i class="fa fa-pagelines"></i>#{bundle.ligneBudgetaire}</a>
+                    </li>
+                    <!--Enseignement a rmettre apres étude-->
+                    <!--                    <li>
+                                            <a href="/AnacAppStore/Enseignement/index.xhtml" class="#{EnseignementClass}"><i class="fa fa-bookmark"></i>&nbsp;&nbsp;&nbsp;&nbsp;#{bundle.meditation}</a>
+                                        </li>-->
+                </ul>  
+
+                <!--Application de Gestion des Courriers-->
+
+                <ul class="sidebar-nav" jsf:rendered="#{connexionBean.currentAppli.appliName == 'IGecour'}">
+                    <li class="bg-danger" jsf:rendered="#{connexionBean.currentUser.fonction.code != 'SA' and connexionBean.currentUser.fonction.code != 'SC'}">
+                        <a href="/AnacAppStore/GestionCourrier/EditerCourrier/index.xhtml" class="EditerClass"><i class="fa fa-pencil sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Editer Courrier</span></a>
+                    </li> 
+                     <li class="bg-success" jsf:rendered="#{connexionBean.currentUser.fonction.code == 'SA' or connexionBean.currentUser.fonction.code == 'SC'}">
+                        <a href="/AnacAppStore/GestionCourrier/EditerCourrierSA/index.xhtml" class="EditerClass"><i class="fa fa-pencil sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Nouveau courrier</span></a>
+                    </li> 
+                    <li class="sidebar-separator">
+                        <i class="fa fa-ellipsis-h"></i>
+                    </li>
+                    <li jsf:rendered="#{connexionBean.currentUser.fonction.code != 'SC' and connexionBean.currentUser.fonction.code != 'SD' }">
+                        <a href="/AnacAppStore/GestionCourrier/BoiteReception/index.xhtml" class="#{BoiteReceptionClass}" >
+                            <i class="fa fa-fw fa-inbox icon-push"></i>
+                            <strong>Boite de Réception</strong> &nbsp;
+                                                <span class="badge badge-success" jsf:rendered="#{connexionBean.currentUser.fonction.chefDivision}">#{courrierBean.findNbrCourrierArrSendDChefDivision()}</span>
+                            <span class="badge badge-success" jsf:rendered="#{connexionBean.currentUser.chefService}">#{courrierBean.findNbrCourrierArrSendDChefServices()}</span>
+                        <span class="badge badge-success" jsf:rendered="#{connexionBean.currentUser.directeur}">#{courrierBean.findNbrCourrierArrSendDirecteurs()}</span>
+                        <span class="badge badge-success"  jsf:rendered="#{connexionBean.currentUser.dg}">#{courrierBean.findNbrCourrierArrSendDG()}</span>
+                        <span class="badge badge-success"  jsf:rendered="#{connexionBean.currentUser.secretaireAdministratif}">#{courrierBean.findNbrCourrierArrReceiveFromSC()}</span>
+                        </a>
+                    </li>
+
+
+                    <li jsf:rendered="#{connexionBean.currentUser.fonction.code != 'SC' and connexionBean.currentUser.fonction.code != 'SD' }">
+                     <a href="/AnacAppStore/GestionCourrier/boiteEnvoi/index.xhtml" class="#{EnvoieClass}" >
+                            <i class="fa fa-fw fa-send icon-push"></i> <strong>Boîte d'envoi</strong>
+                        </a>
+                    </li>
+                  
+                    
+                    
+                     <li class="#{menuAdministrationClass}" jsf:rendered="#{connexionBean.currentUser.admin}">
+                        <a href="#" class="sidebar-nav-menu"><i class="fa fa-chevron-left sidebar-nav-indicator sidebar-nav-mini-hide"></i><i class="fa fa-cogs sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Adminstration</span></a>
+                        <ul>
+                          <li>
+                              <a href="/AnacAppStore/GestionCourrier/Administration/TypeCourrier/index.xhtml" class="#{menuTypeCourrier}">#{bundle.TypeCourrier}</a>
+                            </li>
+                        </ul>
+                     </li>
+                    
+                    <li jsf:rendered="#{connexionBean.currentUser.fonction.code=='SA' or connexionBean.currentUser.fonction.code=='SP' }">
+                     <a href="/AnacAppStore/GestionCourrier/Archive/index.xhtml" class="#{ArchiveClass}" >
+                            <i class="fa fa-archive icon-push"></i> <strong>Archive Cour. Internes</strong>
+                        </a>
+                    </li>
+                    <li jsf:rendered="#{connexionBean.currentUser.fonction.code=='SA' or connexionBean.currentUser.fonction.code=='SP' or connexionBean.currentUser.fonction.code=='SD' }">
+                     <a href="/AnacAppStore/GestionCourrier/ArchiveGene/index.xhtml" class="#{ArchiveArrClass}" >
+                            <i class="fa fa-archive icon-push"></i> <strong>Archive Genérale</strong>
+                        </a>
+                    </li>
+                    <li jsf:rendered="#{connexionBean.currentUser.fonction.code=='SP' }">
+                     <a href="/AnacAppStore/GestionCourrier/ReInsertion/index.xhtml" class="#{ReInsertionClass}" >
+                         <i class="fa fa-upload icon-push"></i> <strong>#{bundle.Reinsertion}</strong>
+                        </a>
+                    </li>
+<!--                    <li jsf:rendered="#connexionBean.currentUser.fonction.code=='SA'}">
+                     <a href="/AnacAppStore/GestionCourrier/AuthentificationQRcode/page.xhtml">
+                            <i class="fa fa-archive icon-push"></i> <strong>Authentification QRcode</strong>
+                        </a>
+                    </li>-->
+                    
+                </ul>
+
+            </div>
+            <!-- END Sidebar Content -->
+        </div>
+    </ui:composition>
+</html>

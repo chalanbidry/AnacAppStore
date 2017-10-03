@@ -1,0 +1,317 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <ui:composition template="./../../template/base.xhtml">
+        <ui:define name="selectedMenu">
+
+            <ui:param name="EditerClass" value="active"/> 
+        </ui:define>
+        <ui:define name="css">
+            <link rel="stylesheet" href="../../resources/css/print.css" type="text/css" media="print" />
+            <style>
+                #menu ul{
+                    list-style: none;
+                }
+                #menu li{
+                    display: inline;
+                }
+                .p1{
+                    display: inline;
+                }
+                .repeat{
+                    display: initial;
+                }
+                
+                .sm{
+                    display: initial;
+                }
+                .reference{padding:8px 15px;margin-bottom:20px;list-style:none;border-radius:4px}
+                .reference>li{display:inline-block}
+                
+            </style>
+        </ui:define>
+        <ui:define name="content">
+            <ui:include src="create.xhtml"/>
+            <ui:include src="Ajout.xhtml"/>
+        </ui:define>
+        <ui:define name="script">
+            <!-- ckeditor.js, load it only in the page you would like to use CKEditor (it's a heavy plugin to include it with the others!) -->
+            <script src="#{request.contextPath}/resources/js/plugins/ckeditor/ckeditor.js"></script> 
+            <!-- Load and execute javascript code used only in this page -->
+            <script src="#{request.contextPath}/resources/js/pages/formsComponents.js"></script> 
+            <script src="#{request.contextPath}/resources/js/pages/formsWizard.js"></script>
+            <!-- Load and execute javascript code used only in this page -->
+            <!--<script src="#{request.contextPath}/resources/js/pages/custumForsetiPenal.js"></script>--> 
+            <!-- jQuery, Bootstrap, jQuery plugins and Custom JS code -->
+
+            <!-- Load and execute javascript code used only in this page -->
+            <script>
+                $(function () {
+                    FormsComponents.init();
+                });
+                $(function () {
+                    UiTables.init('#listFileScan', 1);
+                });
+                $(function () {
+                    UiProgress.init();
+                });
+                $(function () {
+                    FormsWizard.init();
+                });
+
+                function global() {
+                    initialiserChosenSelect();
+                }
+
+                function startWaitMe(element) {
+                    $('#waitforme').waitMe({
+                        effect: 'timer',
+                        text: 'Patientez un peu svp...',
+                        bg: 'rgba(255,255,255,0.7)',
+                        color: '#000',
+                        sizeW: '',
+                        sizeH: '',
+                        source: ''
+                    });
+                }
+
+                function stopWaitMe(element) {
+                    $('#waitforme').waitMe('hide');
+                }
+
+                function savedemande(data) {
+                    if (data.status === "begin") {
+                        startWaitMe("#submit_new");
+                    }
+                    if (data.status === "complete") {
+                        stopWaitMe("#submit_new");
+                    }
+                    if (data.status === "success") {
+                        initialiserChosenSelect();
+                            UiTables.init('#Signataire', 1);
+                           
+                    }
+                }
+                
+                 function saveFileUpload(data) {
+                    if (data.status === "begin") {
+                        startWaitMe("#submit_new");
+                    }
+                    if (data.status === "complete") {
+                        stopWaitMe("#submit_new");
+                    }
+                    if (data.status === "success") {
+                        initialiserChosenSelect();
+                           
+                             UiTables.init('#listFileScan', 1);
+                    }
+                }
+                
+
+
+                function retourEnvoiBon(data) {
+                    if (data.status === "begin") {
+                        startWaitMe("#waitforme");
+                    }
+                    if (data.status === "complete") {
+                        stopWaitMe("#waitforme");
+                    }
+                    if (data.status === "success") {
+                        initialiserChosenSelect();
+                        UiTables.init('#DataTableID', 6);
+                    }
+                }
+
+                function editdemande(data) {
+
+                    if (data.status === "success") {
+                        initialiserChosenSelect();
+                        UiTables.init('#DataTableID', 2);
+                    }
+                }
+                function deletedemande(data) {
+
+                    if (data.status === "success") {
+                        initialiserChosenSelect();
+                        UiTables.init('#DataTableID', 2);
+                    }
+                }
+
+                function afficheDetail(data) {
+                    if (data.status === "begin") {
+                        startWaitMe('#block');
+                    }
+                    if (data.status === "complete") {
+                        stopWaitMe('#block');
+                    }
+                    if (data.status === "success") {
+                        UiTables.init('#table-demande-evenement', 2);
+                        UiTables.init('#table2-Bon-evenement', 2);
+                    }
+                }
+
+                function selectDemande(data) {
+                    if (data.status === "begin") {
+                        startWaitMe('#waitforme');
+                    }
+                    if (data.status === "complete") {
+                        stopWaitMe('#waitforme');
+                    }
+                    if (data.status === "success") {
+                        initialiserChosenSelect();
+                    }
+                }
+                function reinitChosen(data) {
+                   
+                    if (data.status === "begin") {
+                        startWaitMe('#createDemandeForm');
+                           
+                    }
+                    if (data.status === "complete") {
+                        stopWaitMe('#createDemandeForm');
+                         
+                    }
+                    if (data.status === "success") {
+                        try {
+                            initialiserChosenSelect();
+                            initialiserParDefaut();
+                            
+   
+                        } catch (err) {
+                        }
+                    }
+                }
+                
+               
+
+                function reinitChosen2(data) {
+//                    alert('dfdsgs');
+                    if (data.status === "begin") {
+                        startWaitMe('#createDemandeForm');
+                    }
+                    if (data.status === "complete") {
+                        stopWaitMe('#createDemandeForm');
+                    }
+                    if (data.status === "success") {
+                        try {
+                            initialiserChosenSelect();
+                            initialiserParDefaut();
+                            UiTables.init('#DataTableIDElement', 5);
+
+
+                        } catch (err) {
+                        }
+                    }
+                }
+
+                function ajaxOnEventNouveauDossier(data) {
+                    if (data.status === "begin") {
+                        startWaitMe('#createDemandeForm');
+
+                    }
+                    if (data.status === "complete") {
+                        stopWaitMe('#createDemandeForm');
+
+                    }
+                    if (data.status === "success") {
+                        UiTables.init('#DataTableID', 6);
+                        try {
+                            initialiserChosenSelect();
+                            FormsWizard.init();
+
+                        } catch (err) {
+                        }
+                    } else {
+                        try {
+                            FormsWizard.init();
+                            initialiserChosenSelect();
+
+                        } catch (err) {
+                        }
+                    }
+                }
+
+
+                function execute_Ajax() {
+                   
+                    $('#next2').click();
+                    
+                }
+
+                function tohtml() {
+                    var d = $('#contenuWrite');
+                    d.html(CKEDITOR.instances.editor1.getData());
+                }
+
+                function startWaitMeGlobal(element) {
+                    $("#JSF-message-composite").waitMe({
+                        effect: 'timer',
+                        text: 'Patientez un peu...',
+                        bg: 'rgba(255,255,255,0.7)',
+                        color: '#000',
+                        sizeW: '',
+                        sizeH: '',
+                        source: ''
+                    });
+                }
+
+                function stopWaitMeGlobal(element) {
+                    $("#JSF-message-composite").waitMe('hide');
+                }
+
+                function compositeCourrier(data) {
+                    if (data.status === "begin") {
+                        startWaitMeGlobal("#JSF-message-composite");
+                    }
+                    if (data.status === "complete") {
+                        stopWaitMeGlobal("#JSF-message-composite");
+                    }
+                    if (data.status === "success") {
+                        try {
+                            AppEmail.init();
+                        } catch (err) {
+                        }
+                    }
+                }
+                
+                
+                function ajaxOnEventNouveauCourrier(data) {
+                    if (data.status === "begin") {
+                        startWaitMe('#createDemandeForm');
+                        
+                    }
+                    if (data.status === "complete") {
+                        stopWaitMe('#createDemandeForm');
+                       
+                    }
+                    if (data.status === "success") {
+                       
+                        try {
+                            initialiserChosenSelect();
+                            FormsWizard.init();
+                         
+                        } catch (err) {
+                        }
+                    } else {
+                        try {
+                            FormsWizard.init();
+                            initialiserChosenSelect();
+                           
+                        } catch (err) {
+                        }
+                    }
+                }
+
+            </script>
+
+            <script type="text/javascript">
+                CKEDITOR.replace('editor1',
+                        {
+                            uiColor: '#ECE8DA'
+                        });
+            </script>
+        </ui:define>
+    </ui:composition>
+</html>

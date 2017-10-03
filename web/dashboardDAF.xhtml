@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition>
+        <div class="content-header">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="header-section">
+                        <h1>Tableau de bord </h1>
+                    </div>
+                </div>
+                <div class="col-sm-6 hidden-xs">
+                    <div class="header-section">
+                        <ul class="breadcrumb breadcrumb-top">
+                            <li>#{connexionBean.currentUser.fonction.libelle}</li>
+                            <li>Accueil</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div jsf:id="dasboardDAF" class="row">
+             <h:form id="msgFormDAF" prependId="false">
+                <h:messages id="msgDAF" style="display: none;" errorClass="erreurmessage" infoClass="succesmessage" showDetail="true"/>
+                <p:messages  autoUpdate="true" showDetail="true"/>
+            </h:form>
+            <form jsf:id="FormDasboardDAF">
+            <div jsf:id="dasboard1DAF" class="col-md-12" style="border: 1px solid #dae0e8;border-bottom-right-radius: 10px;border-bottom-left-radius: 10px;  padding-top: 10px; margin-bottom: 10px;">
+                <ui:repeat value="#{serviceBean.findListServiceForDBDAF()}" var="service">
+                <div class="col-sm-6 col-lg-3">
+                    
+                        <div class="widget-content widget-content-mini themed-background-muted">
+                            <!--<span class="pull-right text-muted">+30%</span>-->
+                            <center>
+                                <strong class="text-dark">#{service.code}</strong>
+                                <br/>
+                                <h:commandLink onclick="$('#listBonCommandeDialog').modal('show')" >
+                                <strong class="text-danger" jsf:rendered="#{!demandeBean.findListBonSendFromService(service).isEmpty()}">(#{demandeBean.findListBonSendFromService(service).size()})-Bon(s) de Commande(s)</strong>
+                                <f:ajax  render=":listBonCommandeDiv" onevent="listBonCommande" listener="#{demandeBean.passService(service)}"/>
+                                </h:commandLink>
+                            </center>
+                        </div>
+                    <h:commandLink  class="widget">
+                        <div class="widget-content text-right clearfix">
+                            <div class="widget-icon themed-background-social pull-left">
+                                <i class="fa fa-home text-light-op"></i>
+                            </div>
+                            <h2 class="widget-heading h3 themed-color-social"><strong>+#{demandeBean.getDemandeByService(service).size()}</strong></h2>
+                            <span class="text-info"> NOUVELLE(S) DEMANDE(S)</span>
+                        </div>
+                        <f:ajax  render=":listedemandeSendToDAFForm :divTitleDemandeSendToDAF" listener="#{demandeBean.passService(service)}" onevent="serviceSelected"/>
+                    </h:commandLink>
+                    
+                </div>
+                </ui:repeat>
+
+
+
+            </div>
+            </form>
+        </div>
+        <div class="row">
+            <br/><br/>
+            <ui:include src="listeDDemandeSendToDAF.xhtml"/>
+        </div>
+        
+        
+
+
+
+    </ui:composition>
+</html>

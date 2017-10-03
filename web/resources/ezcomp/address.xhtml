@@ -1,0 +1,172 @@
+<!--<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:ezcomp="http://xmlns.jcp.org/jsf/composite/ezcomp"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+     INTERFACE 
+    <cc:interface>
+        <cc:attribute name="addressBean" required="true"/>
+        <cc:attribute name="id" required="false"/>
+        <cc:attribute name="selectedAdresse" required="true"/>
+    </cc:interface>
+
+     IMPLEMENTATION 
+    <cc:implementation>
+        <div>
+            <div class="input-group" jsf:id="#{cc.attrs.id}">
+                <ezcomp:outputAddress id="#{cc.attrs.id}output" address="#{cc.attrs.selectedAdresse}"/>
+                <span class="input-group-btn">
+                    <a data-toggle="popover-hover" id="#{cc.attrs.id}overlaybutton"
+                       class="btn btn-default btn-sm shiny ui-button-icon-only" 
+                       onclick="popoverShow(
+                                       $('[id$=&#34;#{cc.attrs.id}addialog&#34;]'),
+                                       'right-10 center', 'left center',
+                                       $('[id$=&#34;#{cc.attrs.id}overlaybutton&#34;]')
+                                       )">
+                        <i class="fa fa-map-marker"></i>
+                    </a>
+                </span>
+
+            </div>
+            <div class="popover left popoverHide" id="#{cc.attrs.id}addialog">
+                <div class="arrow"></div>
+                <h4 class="popover-title"><i class="fa fa-map-marker"></i>&nbsp;&nbsp;#{bundle.AdresseCreateTitle}</h4>
+                <div class="popover-content">
+
+                    <div class="row">
+                        <div class="col-lg-6 col-sm-12 col-xs-12">
+                            DOMICILE
+                            <div class="form-group">
+                                <div class="input-group" title="#{bundle.AdresseDomicile}">
+                                    <span class="input-group-addon"><i class="fa fa-home darkorange"></i></span>
+                                    <input type="text" class="form-control" jsf:id="#{cc.attrs.id}adresseDomicile" 
+                                           placeholder="#{bundle.AdresseDomicile}"
+                                           jsf:value="#{cc.attrs.selectedAdresse.domicile}"/>
+                                </div>
+                            </div>
+                            RUE
+                            <div class="form-group">
+                                <div class="input-group" title="#{bundle.AdresseRue}">
+                                    <span class="input-group-addon"><i class="fa fa-road themeprimary"></i></span>
+                                    <input type="text" class="form-control" jsf:id="#{cc.attrs.id}adresseRue" 
+                                           placeholder="#{bundle.AdresseRue}"
+                                           jsf:value="#{cc.attrs.selectedAdresse.rue}"/>
+                                </div>
+                            </div>
+                            QUARTIER
+                            <div class="form-group">
+                                <div class="input-group" title="#{bundle.AdresseQuartier}">
+                                    <span class="input-group-addon"><i class="fa fa-location-arrow themesecondary"></i></span>
+
+                                    <p:autoComplete  
+                                        value="#{cc.attrs.selectedAdresse.quartier}" 
+                                        minQueryLength="2"
+                                        id="#{cc.attrs.id}adresseQuartier"   
+                                        var="adresseQuartierItem" itemLabel="#{adresseQuartierItem}" 
+                                        itemValue="#{adresseQuartierItem}" placeholder="#{bundle.AdresseQuartier}"
+                                        completeMethod="#{cc.attrs.addressBean.completeQuartier}"
+                                        styleClass="ui-autocomplete-without-dropdown">
+                                        <f:attribute name="selectedAdresse" value="#{cc.attrs.selectedAdresse}"/>
+                                    </p:autoComplete>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-sm-12 col-xs-12">
+                            VILLE
+                            <div class="form-group">
+                                <div class="input-group" title="#{bundle.VilleLibelle}">
+                                    <span class="input-group-addon"><i class="fa fa-map-marker themethirdcolor"></i></span>
+
+                                    <p:selectOneMenu id="#{cc.attrs.id}villeLibelle" value="#{cc.attrs.selectedAdresse.ville}" 
+                                                     filter="true">
+                                        <f:selectItem itemValue="" itemLabel="#{bundle.VilleLibelle}"/>
+                                        <f:selectItems value="#{cc.attrs.addressBean.villeItems}"
+                                                       var="villeItem"
+                                                       itemValue="#{villeItem}"
+                                                       itemLabel="#{villeItem.libelle}"
+                                                       />
+                                        <f:converter converterId="villeConverter"/>
+                                    </p:selectOneMenu>
+
+                                </div>
+                            </div>
+
+                            DEPARTEMENT / REGION
+                            <div class="form-group">
+                                <div class="input-group" title="#{bundle.DepartementLibelle}">
+                                    <span class="input-group-addon"><i class="fa fa-map-marker themefourthcolor"></i></span>
+
+                                    <p:selectOneMenu id="#{cc.attrs.id}departementLibelle" 
+                                                     value="#{cc.attrs.selectedAdresse.departement}"
+                                                     filter="true">
+                                        <f:selectItem itemValue="" itemLabel="#{bundle.DepartementLibelle}"/>
+                                        <f:selectItems value="#{departementBean.listDepartements}"
+                                                       var="departementItem"
+                                                       itemValue="#{departementItem}"
+                                                       itemLabel="#{departementItem.libelle}"
+                                                       />
+                                        <f:converter converterId="departementConverter"/>
+                                    </p:selectOneMenu>
+                                </div>
+                            </div>
+                            PAYS
+                            <div class="form-group">
+                                <div class="input-group" title="#{bundle.PaysLibelle}">
+                                    <span class="input-group-addon"><i class="fa fa-flag-o themefifthcolor"></i></span>
+
+                                    <p:autoComplete 
+                                        value="#{cc.attrs.selectedAdresse.pays}" 
+                                        minQueryLength="2"
+                                        id="#{cc.attrs.id}paysLibelle"   
+                                        var="paysItem" itemLabel="#{paysItem.libelle}" 
+                                        itemValue="#{paysItem}" 
+                                        converter="paysConverter" forceSelection="true"
+                                        dropdown="true"
+                                        completeMethod="#{cc.attrs.addressBean.completePays}"
+                                        placeholder="#{bundle.PaysLibelle}"
+                                        styleClass="ui-autocomplete-address">
+                                        <f:attribute name="selectedAdresse" value="#{cc.attrs.selectedAdresse}"/>
+                                        <p:column>  
+                                            <p:graphicImage library="images/flags" 
+                                                            name="#{paysItem.code.toLowerCase()}.png"/>
+                                        </p:column>
+                                        <p:column headerText="#{bundle.PaysLibelle}">  
+                                            #{paysItem.libelle} (#{paysItem.code})  
+                                        </p:column>
+                                    </p:autoComplete>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer popover-footer">
+                    <p:commandButton id="#{cc.attrs.id}submitButton" 
+                                     value="#{bundle.Edit}" 
+                                     process="#{cc.attrs.id}departementLibelle 
+                                     #{cc.attrs.id}villeLibelle 
+                                     #{cc.attrs.id}adresseQuartier 
+                                     #{cc.attrs.id}adresseRue 
+                                     #{cc.attrs.id}adresseDomicile 
+                                     #{cc.attrs.id}paysLibelle"
+                                     oncomplete="popoverHide(
+                                     $('[id$=&#34;#{cc.attrs.id}addialog&#34;]'))"
+                                     update="#{cc.attrs.id}output:#{cc.attrs.id}output"
+                                     styleClass="btn btn-sm btn-primary shiny icon-xs"
+                                     icon="fa fa-check"
+                                     />
+                    <button type="button" class="btn btn-sm btn-default shiny"
+                            onclick="popoverHide(
+                                            $('[id$=&#34;#{cc.attrs.id}addialog&#34;]'))">
+                        <i class="fa fa-times"></i>
+                        #{bundle.Close}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </cc:implementation>
+</html>-->

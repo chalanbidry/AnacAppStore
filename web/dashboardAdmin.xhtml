@@ -1,0 +1,182 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition>
+        <div class="content-header">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="header-section">
+                        <h1>Tableau de bord </h1>
+                    </div>
+                </div>
+                <div class="col-sm-6 hidden-xs">
+                    <div class="header-section">
+                        <ul class="breadcrumb breadcrumb-top">
+                            <li>Administrateur</li>
+                            <li>Accueil</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- First Row -->
+        <div class="row" jsf:id="first">
+            
+
+            <!--            <h:form id="msgForm1" prependId="false">
+                            <h:messages id="msg1" style="display: none;" errorClass="erreurmessage" infoClass="succesmessage" showDetail="true"/>
+                            <p:messages  autoUpdate="true" showDetail="true"/>
+                        </h:form>-->
+
+            <!-- Simple Stats Widgets -->
+
+            <div jsf:id="dsboard" class="row">
+                <div jsf:id="dsboard1" class="col-md-6" style="border: 1px solid #dae0e8;border-bottom-right-radius: 10px;border-bottom-left-radius: 10px;  padding-top: 10px; margin-bottom: 10px;">
+
+                    <div class="  alert alert-block alert-info   col-sm-6 col-lg-12">
+                        <i class="ace-icon fa fa-check green"></i>
+                        <strong class="green">
+                            #{bundle.InformatiqueDoamine}
+                        </strong>
+                    </div>
+
+
+                    <div class="col-sm-6 col-lg-6">
+                        <a href="javascript:void(0)" class="widget" jsf:id="newdossiers">
+                            <div class="widget-content widget-content-mini text-right clearfix">
+                                <div class="widget-icon pull-left themed-background">
+                                    <i class="gi gi-cardio text-light-op"></i>
+                                </div>
+                                <h2 class="widget-heading h3">
+                                    <strong><span data-toggle="counter" data-to=""></span></strong>
+                                </h2>
+                                <span class="text-muted"><strong style="font-size: 12px">Notification(s) d'Intervention</strong></span>
+                            </div>
+                        </a>
+                    </div>
+                   <div class="col-sm-6 col-lg-6" jsf:id="frappeappel">
+                        <a href="javascript:void(0)" class="widget">
+                            <div class="widget-content widget-content-mini text-right clearfix">
+                                <div class="widget-icon pull-left themed-background-danger">
+                                    <i class="gi gi-wallet text-light-op"></i>
+                                </div>
+                                <h2 class="widget-heading h3 text-danger">
+                                    <strong> <span data-toggle="counter" data-to="#{statistiqueBean.dossierFrappeAppel}"></span></strong>
+                                </h2>
+                                <span class="text-muted"><strong style="font-size: 12px">Demande(s) de prestation</strong></span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div jsf:id="dsboard2" class="col-md-6" style="border: 1px solid #dae0e8;border-bottom-right-radius: 10px;border-bottom-left-radius: 10px; padding-top: 10px; margin-bottom: 10px;">
+                    <div class="  alert alert-block alert-info   col-sm-6 col-lg-12">
+                        <i class="ace-icon fa fa-check green"></i>
+                        <strong class="green">
+                            #{bundle.EletroniqueDomaine}
+                        </strong>
+                    </div>
+                    <div class="col-sm-6 col-lg-6">
+                        <a href="javascript:void(0)" class="widget" jsf:id="newdossiers2">
+                            <div class="widget-content widget-content-mini text-right clearfix">
+                                <div class="widget-icon pull-left themed-background">
+                                    <i class="gi gi-cardio text-light-op"></i>
+                                </div>
+                                <h2 class="widget-heading h3">
+                                    <strong><span data-toggle="counter" data-to=""></span></strong>
+                                </h2>
+                                <span class="text-muted"><strong style="font-size: 12px">Notification(s) d'Intervention</strong></span>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-sm-6 col-lg-6" jsf:id="frappeappel2">
+                        <a href="javascript:void(0)" class="widget">
+                            <div class="widget-content widget-content-mini text-right clearfix">
+                                <div class="widget-icon pull-left themed-background-danger">
+                                    <i class="gi gi-wallet text-light-op"></i>
+                                </div>
+                                <h2 class="widget-heading h3 text-danger">
+                                    <strong> <span data-toggle="counter" data-to="#{statistiqueBean.dossierFrappeAppel}"></span></strong>
+                                </h2>
+                                <span class="text-muted"><strong style="font-size: 12px">Demande(s) de prestation</strong></span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- END Simple Stats Widgets -->
+        </div>
+
+        <div class="row">
+            <div class="col-sm-6 col-lg-6">
+                <!-- Chart Widget -->
+   <div class="block full">
+                    <!-- Block Tabs Title -->
+                    <form  jsf:id="SuivisForm" jsf:prependId="false" class="center-table">
+                        <div class="block-title">             
+                            <ul class="nav nav-tabs" data-toggle="tabs">
+                                <li class="active"><a href="#block-tabs-notif" data-toggle="tooltip" data-original-title="Notifications">#{bundle.listNotif}</a></li>
+                                <li><a href="#block-tabs-Demande" data-toggle="tooltip" data-original-title="Demandes">#{bundle.listDemande}</a></li>
+                                
+                                
+                            </ul>
+                        </div>
+                    </form>
+                    <!-- END Block Tabs Title -->
+
+                    <!-- Tabs Content -->
+
+                    <div class="tab-content" id="suiviForm">
+                        <div class="tab-pane active" id="block-tabs-notif">
+                            <ui:include src="listeNotifInformatique.xhtml"/>
+                        </div>
+                        <div class="tab-pane" id="block-tabs-Demande">
+                            <ui:include src="listeDemandeInformatique.xhtml"/>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- END Chart Widget -->
+            </div>
+
+            <div class="col-sm- col-lg-6">
+                <!-- Stats User Widget -->
+            <div class="block full">
+                    <!-- Block Tabs Title -->
+                    <form  jsf:id="SuivisElectroForm" jsf:prependId="false" class="center-table">
+                        <div class="block-title">             
+                            <ul class="nav nav-tabs" data-toggle="tabs">
+                                <li class="active"><a href="#block-tabs-notif" data-toggle="tooltip" data-original-title="Notifications">#{bundle.listNotif}</a></li>
+                                <li><a href="#block-tabs-Demande" data-toggle="tooltip" data-original-title="Demandes">#{bundle.listDemande}</a></li>
+                                
+                                
+                            </ul>
+                        </div>
+                    </form>
+                    <!-- END Block Tabs Title -->
+
+                    <!-- Tabs Content -->
+
+                    <div class="tab-content" id="suiviElectroForm">
+                        <div class="tab-pane active" id="block-tabs-notif">
+                            <ui:include src="listeNotifElectronique.xhtml"/>
+                        </div>
+                        <div class="tab-pane" id="block-tabs-Demande">
+                            <ui:include src="listeDemandeElectronique.xhtml"/>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- END Stats User Widget -->
+            </div>
+        </div>
+        <div class="row">
+            <ui:include src="listDemandeTraiterAdmin.xhtml"/>
+        </div>
+       
+    </ui:composition>
+</html>

@@ -1,0 +1,300 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ph="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <!-- Datatables Block -->
+        <!-- Datatables is initialized in js/pages/uiTables.js -->
+        <div style="padding:3px; padding-left:18px; border-left:4px solid #d0d0d0; margin-left:20px; font-style:italic;">
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-xs-12">
+                        <ul class="nav nav-pills nav-justified clickable-steps">
+                            <li class="active"><a href="javascript:void(0)" ><i class="gi gi-folder_open"></i> <strong>&nbsp;&nbsp;&nbsp;&nbsp;Informtions du Courrier</strong></a></li>
+                            <li><a href="javascript:void(0)" ><i class="fa fa-list "></i> <strong>&nbsp;&nbsp;Aperçu</strong></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+            <!-- END Title -->
+
+            <!-- Header -->
+
+
+            <div class="row">
+                <div class="form-group well col-md-4" style="box-shadow: 1px 1px 1px 1px #d0d0d0;">
+
+                    <label class="col-md-3 control-label"><a href="#modal-terms" data-toggle="modal">Objet ?</a></label>
+                    <div class="col-md-3">
+                        <label class="switch switch-primary" for="example-clickable-terms">
+                            <h:selectBooleanCheckbox  id="example-clickable-terms" value="#{courrierBean.newCourrier.withObjet}">
+                                <f:ajax execute="@this" listener="#{courrierBean.saveBool()}" render="divIfContacte divObAndDesti" onevent="saveDesti"/>
+                            </h:selectBooleanCheckbox>
+                            <span data-toggle="tooltip" title="I agree to the terms!"></span>
+                        </label>
+                    </div>
+                    <label class="col-md-3 control-label"><a href="#modal-terms" data-toggle="modal" class="pull-right">Titre ?</a></label>
+                    <div class="col-md-3">
+                        <label class="switch switch-primary" for="example-clickable-terms2">
+                            <h:selectBooleanCheckbox  id="example-clickable-terms2" value="#{courrierBean.newCourrier.withTitre}">
+                                <f:ajax execute="@this" listener="#{courrierBean.saveBool()}" render="divTiTre" onevent="reinitChosen"/>
+                            </h:selectBooleanCheckbox>
+                            <span data-toggle="tooltip" title="I agree to the terms!"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-1"></div>
+                <div jsf:id="divIfContacte">
+                    <div class="form-group well col-md-7"  style="box-shadow: 1px 1px 1px 1px #d0d0d0; margin-left: 5em;" jsf:rendered="#{courrierBean.newCourrier.withObjet}">
+                        <div >
+                            <label class="col-md-2 control-label"><a href="#modal-terms" data-toggle="modal">Contacte ?</a></label>
+                            <div class="col-md-1">
+                                <label class="switch switch-primary" for="example-clickable-terms3">
+                                    <h:selectBooleanCheckbox  id="example-clickable-terms3" value="#{courrierBean.newCourrier.withTelDesti}">
+                                        <f:ajax execute="@this" listener="#{courrierBean.saveBool()}" render="divTel" onevent="reinitChosen"/>
+                                    </h:selectBooleanCheckbox>
+                                    <span data-toggle="tooltip" title="I agree to the terms!"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class=" form-group  row">
+                <div class="col-md-6 no-padding">
+                    <label class="control-label" >Categorie Courrier</label>
+
+
+                    <h:selectOneMenu id="example-chosen3"  class="select-chosen" ph:data-placeholder="#{bundle.CategorieCourrier}" value="#{courrierBean.categorieCourrierSelected}" style="width: 41em;" >
+                        <f:selectItem itemValue="#{p}" itemLabel=""/>
+                        <f:selectItems value="#{categorieCourrierBean.listeCategorieCourrier}"  var="liste" itemValue="#{liste}" itemLabel="#{liste.label}"/>
+                        <f:converter converterId="categorieCourrierConverter"/>
+                        <f:ajax execute="@this" listener="#{courrierBean.findListType()}"  render="TypCou" onevent="reinitChosen"/>
+                    </h:selectOneMenu>
+                </div>
+                <div class="col-md-6 no-padding" jsf:id="TypCou">
+                    <label class=" control-label" for="exo">Type Courrier</label>
+
+                    <h:selectOneMenu id="example-chosen2"  class="select-chosen" ph:data-placeholder="#{bundle.TypeCourrier}" value="#{courrierBean.newCourrier.typeCourrier}" style="width: 41em;" >
+                        <f:selectItem value="#{p}" itemValue="#{p}" itemLabel="-------Type Courrier-----"/>
+                        <f:selectItems value="#{courrierBean.listTypeCourrier}" var="typCou" itemValue="#{typCou}"   itemLabel="#{typCou.libelle}"/>
+                        <f:converter converterId="typeCourrierConverter"/>
+                        <f:ajax execute="@this"  render="divTiTre" onevent="reinitChosen"/>
+                    </h:selectOneMenu>
+
+                </div>
+            </div>
+
+
+            <div class="form-group row" jsf:id="divTiTre">
+
+                <div class="col-sm-12" jsf:rendered="#{courrierBean.newCourrier.withTitre}">
+
+                    <center> <strong><label style="font-family: Chaparral Pro Light; font-size: 26px;">Titre :&nbsp; <u>#{courrierBean.newCourrier.typeCourrier.libelle}</u></label></strong></center>
+                </div>
+
+            </div>
+            <div  jsf:id="divObAndDesti">
+                <div id="faq-list-1" class="panel-group accordion-style1 accordion-style2" style="box-shadow: 1px 1px 1px 1px #d0d0d0;" jsf:rendered="#{courrierBean.newCourrier.withObjet}">
+                    <div class="panel panel-default" >
+                        <div class="panel-heading">
+                            <a href="#faq-1-1" data-parent="#faq-list-1" data-toggle="collapse" class="accordion-toggle collapsed">
+                                <i class="ace-icon fa fa-chevron-left pull-right" data-icon-hide="ace-icon fa fa-chevron-down" data-icon-show="ace-icon fa fa-chevron-left"></i>
+
+                                <i class="ace-icon fa fa-user bigger-130"></i>
+                                Objet et informations sur destinataires
+                            </a>
+
+                        </div>
+
+                        <div class="panel-collapse collapse" id="faq-1-1">
+                            <div class="panel-body">
+
+                                <div class="form-group">
+                                    <div class="col-sm-6" style="">
+                                        <label for="example-nf-email">Objet</label>
+                                        <input type="text" jsf:id="objet"  class="form-control" jsf:value="#{courrierBean.newCourrier.objet}"  placeholder="Objet" />
+
+                                    </div>
+                                    <div class="col-sm-6" style="">
+                                        <div class="col-md-10">
+                                            <label for="desti">#{bundle.destinataire}</label>
+                                            <input type="text" jsf:id="desti"  class="form-control" jsf:value="#{courrierBean.destinataire}"  placeholder="destinataire"/>
+                                        </div>
+                                        <div class="col-md-2 no-padding" style=" margin-top: 2em;">
+                                            <h:commandLink class="btn btn-effect-ripple btn-primary" onclick="$('#AjoutDialog').modal('show')" >  
+                                                <i class="ace-icon fa fa-plus bigger-130"></i>
+                                                <f:ajax  execute="desti" listener="#{courrierBean.ajoutDesti()}" render="listDestinataire desti" onevent="saveDesti"/>
+                                            </h:commandLink>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                <div class="form-group row" jsf:id="listDestinataire">
+                                    <table jsf:id="destinataire" class="table table-striped table-bordered table-vcenter">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center" style="width: 75px; font-size: 13px;">Destinataire</th>
+
+                                                <!--<th style="width: 120px;">Status</th>-->
+                                                <th class="text-center" style="width: 15px;"><i class="fa fa-flash"></i></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <ui:repeat value="#{courrierBean.listDestinataire}" var="item" varStatus="status">
+                                                <tr>
+                                                    <td class="text-center"><strong>#{item}</strong></td>
+
+                                                    <td class="text-center">
+
+                                                        <h:commandLink title="supprimer" class="btn btn-effect-ripple btn-xs btn-danger">
+                                                            <i class="ace-icon fa fa-trash-o bigger-130"></i>
+                                                            <f:ajax render="listDestinataire" listener="#{courrierBean.removeDesti(item)}" onevent="saveDesti"/>
+                                                        </h:commandLink> 
+                                                    </td>
+                                                </tr>
+                                            </ui:repeat>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+
+
+                                <div class="form-group" jsf:id="divTel">
+
+
+                                    <div class="col-sm-6" jsf:rendered="#{courrierBean.newCourrier.withTelDesti}">
+                                        <label for="tel">#{bundle.teldesti}</label>
+                                        <input type="text" jsf:id="tel"  class="form-control" jsf:value="#{courrierBean.newCourrier.teldestinataire}"  placeholder="Téléphone"/>
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="form-group row">
+
+                <div class="col-md-6" >
+                    <label for="example-nf-email">Date d'émission</label>
+                    <input type="text"  jsf:id="dateDemande" jsf:value="#{courrierBean.newCourrier.dateCourrier}" class="form-control input-datepicker" data-date-format="dd/mm/yyyy" placeholder="dd/mm/yyyy">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </input>  
+                </div>
+                <div class="col-md-6 no-padding">
+
+
+                    <div class="col-md-10" jsf:id="listCate">
+                        <label class=" control-label" >Signataires</label>
+                        <h:selectOneMenu id="example-chosen4"  class="select-chosen" ph:data-placeholder="Signataire" value="#{courrierBean.fonctionSelect}">
+                            <f:selectItem itemValue="#{p}" itemLabel=""/>
+                            <f:selectItems value="#{fonctionBean.listFunctionDirecteurAndDg}"  var="liste" itemValue="#{liste}" itemLabel="#{liste.libelle} (#{liste.code})"/>
+                            <f:converter converterId="fonctionConverter"/>
+
+                        </h:selectOneMenu>
+                    </div>
+                    <div class="col-md-2 no-padding" style=" margin-top: 2em;">
+                        <h:commandLink class="btn btn-effect-ripple btn-primary" onclick="$('#AjoutDialog').modal('show')" >  
+                            <i class="ace-icon fa fa-plus bigger-130"></i>
+                            <f:ajax  execute="example-chosen4" listener="#{courrierBean.passFonction()}" render="listSignataire" onevent="savedemande"/>
+                        </h:commandLink>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="form-group row" jsf:id="listSignataire">
+                <table jsf:id="Signataire" class="table table-striped table-bordered table-vcenter">
+                    <thead>
+                        <tr>
+                            <th class="text-center" style="width: 75px; font-size: 13px;">Signataire</th>
+
+                            <!--<th style="width: 120px;">Status</th>-->
+                            <th class="text-center" style="width: 15px;"><i class="fa fa-flash"></i></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <ui:repeat value="#{courrierBean.listSignataire}" var="item" varStatus="status">
+                            <tr>
+                                <td class="text-center"><strong>#{item.libelle}  (#{item.code})</strong></td>
+
+                                <td class="text-center">
+
+                                    <h:commandLink title="supprimer" class="btn btn-effect-ripple btn-xs btn-danger">
+                                        <i class="ace-icon fa fa-trash-o bigger-130"></i>
+                                        <f:ajax listener="#{courrierBean.delItem(item)}" render="listSignataire" onevent="savedemande"/>
+                                    </h:commandLink> 
+                                </td>
+                            </tr>
+                        </ui:repeat>
+                    </tbody>
+                </table>
+            </div>
+
+            <fieldset>
+                <legend><i class="fa fa-angle-right"></i> Contenu du Courrier</legend>
+                <div class="form-group"> 
+                    <!--name="textarea-ckeditor"-->
+                    <div class="col-xs-12">
+
+
+
+                        <h:inputTextarea class="ckeditor" cols="100" id="editor1" rows="100"/>
+                        <h:inputTextarea  class="hidden" value="#{courrierBean.newCourrier.contenu}" id="editorValue" onchange="tohtml();"/> 
+
+
+
+                    </div>
+
+                </div>
+            </fieldset>
+
+
+
+
+
+            <!-- Quick Reply Form -->
+
+            <!-- END Quick Reply Form -->
+
+            <div class="form-group form-actions">
+                <div class="col-md-8 col-md-offset-4">
+
+                    <button type="button"  class="btn btn-primary hidden"  style="width: 35px" id="next2"  jsf:id="executeForm_id">
+                        <i class="ace-icon fa fa-plus"></i>
+                        <f:ajax execute="div1" render="tabRef tabIntioAndDate titreObAndTire divIfObjet DivTitre  signataires " onevent="reinitChosen"/>
+                    </button>
+                    <button type="submit" class="btn btn-effect-ripple btn-primary" onclick="execute_Ajax();"  id="next1">Suivant</button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- END Datatables Block -->
+    </ui:composition>
+</html>

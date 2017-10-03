@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition>
+        <!-- Checkout Modal -->
+        <div id="AjoutDialog" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" style="width:600px;height:50px">
+                <div class="modal-content">
+                    <form  jsf:id="AjoutDialogForm" jsf:class="push">
+
+                        <div class="modal-header bg-primary">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h3 class="modal-title"><strong>#{bundle.Ajouter}</strong></h3>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                
+                                
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label" for="code">#{bundle.TypeCourrier}</label>
+                                    <div class="col-md-9">
+                                        <!--<input type="email" id="example-hf-email" name="example-hf-email" class="form-control"/>-->
+                                        <input type="text" jsf:id="codeCat"  class="form-control" jsf:value="#{typeCourrierBean.newTypeCourrier.libelle}" />
+                                        <!--<span class="help-block">Please enter your email</span>-->
+                                    </div>
+                                </div>
+                                
+                                
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-sm btn-primary" type="submit" jsf:id="submit_Four" data-dismiss="modal" jsf:action="#{typeCourrierBean.doCreateTypeCourrierArrive(event)}">
+                                <f:ajax execute="@form" render="@form :createDemandeForm:TypCou" onevent="reinitChosen"/>
+                                <i class="ace-icon fa fa-check"></i>
+                                #{bundle.Ajouter}
+                            </button>
+                           
+                            <button class="btn btn-default btn-lg active" style="line-height: 1.5; font-size: 12px; padding: 5px 10px;" data-dismiss="modal" >
+                                <i class="ace-icon fa fa-times"></i>
+                                #{bundle.Close}
+                            </button>
+
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- END Checkout Modal -->
+    </ui:composition>
+</html>

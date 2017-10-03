@@ -1,0 +1,445 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ph="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:composition >
+        <div jsf:id="modalAnnotation" class="modal" data-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content" style="min-height:54em; width:70em;" >
+
+                    <div class="modal-header" style="width: 70em;">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="blue bigger">#{bundle.FicheAnnotation} </h4>
+                    </div>
+
+                    <!-- /.col -->
+                    <div class="modal-body" style="min-height:54em; width:70em;  ">
+
+                        <form jsf:id="AnnotationForm" jsf:prependId="false" jsf:role="form">
+                            <div class="row">
+                                <div class="col-sm-12" style="padding-top: 10px;padding-left:10px;padding-right:10px" jsf:id="divTabInfoCourrierPopUp">
+                                    <fieldset  class="col-sm-12" style="border: 1px solid #dae0e8;border-bottom-right-radius: 10px;border-bottom-left-radius: 10px; padding-top: 0px; width: 100%; ">
+                                        <legend style="border: 1px solid lightgray; padding-top: 3px;padding-bottom:2px"><center> Informations sur le courrier arrivé</center></legend>
+
+                                        <table jsf:id="table-InfoCourrier"  class="table table-striped table-bordered table-vcenter" style="box-shadow: 2px 2px 2px 2px #d0d0d0;">
+                                            <tbody>
+                                                <tr>
+                                                    <td class="bolder col-xs-1"><strong>N° Courrier:</strong></td>
+                                                    <td class="col-xs-3">  #{courrierBean.selectedProgressionCourrier.courrier.numCourrierArrive}</td>
+                                                    <td class="bolder col-xs-1"><strong>Type:</strong></td>
+                                                    <td class="col-xs-3">
+                                                        #{courrierBean.selectedProgressionCourrier.courrier.typeCourrier.libelle}
+                                                    </td>
+                                                    <td class="bolder col-xs-1"><strong>Objet:</strong></td>
+                                                    <td class="col-xs-3">
+                                                        #{courrierBean.selectedProgressionCourrier.courrier.objet}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="bolder col-xs-1"><strong>Expéditeur:</strong></td>
+                                                    <td class="col-xs-3">
+                                                        #{courrierBean.selectedProgressionCourrier.courrier.expediteur}
+                                                    </td>
+
+
+                                                    <td class="bolder col-xs-1 "><strong>Date <br/>Correspondance</strong></td>
+                                                    <td class="col-xs-3 ">
+
+                                                        #{connexionBean.convertDate(courrierBean.selectedProgressionCourrier.courrier.dateCorrespondance,'dd/MM/YYYY')}
+                                                    </td>
+                                                    <td class="bolder col-xs-1 "><strong>Date <br/>Arrivée</strong></td>
+                                                    <td class="col-xs-3 ">
+
+                                                        #{connexionBean.convertDate(courrierBean.selectedProgressionCourrier.courrier.dateArrivee,'dd/MM/YYYY')}
+                                                    </td>
+
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+                                    </fieldset>
+
+
+                                </div>
+                            </div>
+                            <br/><br/>
+                            <div class="row">
+                                <fieldset  class="col-sm-12" style="border: 1px solid #dae0e8;border-bottom-right-radius: 10px;border-bottom-left-radius: 10px; padding-top: 0px; width: 100%; ">
+                                    <legend style="border: 1px solid lightgray; padding-top: 3px;padding-bottom:2px"><center>Instructions du #{connexionBean.currentUser.fonction.libelle}</center></legend>
+                                    <br/>
+                                    <div class="row"> 
+                                        <div class="col-md-8">
+                                            <table jsf:id="table-Annotation"  class="table table-striped table-bordered table-vcenter" style="box-shadow: 2px 2px 2px 2px #d0d0d0;">
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="bolder col-xs-3"><strong>#{bundle.forNAF} :</strong></td>
+                                                        <td class="col-xs-1">
+                                                            <center>
+                                                                <label class="csscheckbox csscheckbox-info">
+
+                                                                    <h:selectBooleanCheckbox  id="checkAnnotation" value="#{courrierBean.instructionChecked}">
+                                                                        <f:ajax execute="@this" listener="#{courrierBean.updateInstructions(bundle.forNAF)}"   onevent="checkInstruction"/>
+                                                                    </h:selectBooleanCheckbox>
+                                                                    <span data-toggle="tooltip" title="I agree to the terms!"></span>
+                                                                </label>
+                                                            </center>
+                                                        </td>
+                                                        <td class="bolder col-xs-3"><strong>#{bundle.forLD} :</strong></td>
+                                                        <td class="col-xs-1"> 
+                                                            <center>
+                                                                <label class="csscheckbox csscheckbox-info">
+                                                                    <h:selectBooleanCheckbox  id="checkAnnotation2" value="#{courrierBean.instructionChecked}">
+                                                                        <f:ajax execute="@this" listener="#{courrierBean.updateInstructions(bundle.forLD)}"   onevent="checkInstruction"/>
+                                                                    </h:selectBooleanCheckbox>
+                                                                    <span data-toggle="tooltip" title="I agree to the terms!"></span>
+                                                                </label>
+                                                            </center>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="bolder col-xs-3"><strong>#{bundle.forER} :</strong></td>
+                                                        <td class="col-xs-1"> 
+                                                            <center>
+                                                                <label class="csscheckbox csscheckbox-info">
+                                                                    <h:selectBooleanCheckbox  id="checkAnnotation3" value="#{courrierBean.instructionChecked}">
+                                                                        <f:ajax execute="@this" listener="#{courrierBean.updateInstructions(bundle.forERsourdine)}"   onevent="checkInstruction"/>
+                                                                    </h:selectBooleanCheckbox>
+                                                                    <span data-toggle="tooltip" title="I agree to the terms!"></span>
+                                                                </label>
+                                                            </center>
+                                                        </td>
+                                                        <td class="bolder col-xs-3"><strong>#{bundle.PAtt} :</strong></td>
+                                                        <td class="col-xs-1"> 
+                                                            <center>
+                                                                <label class="csscheckbox csscheckbox-info">
+                                                                    <h:selectBooleanCheckbox  id="checkAnnotation4" value="#{courrierBean.instructionChecked}">
+                                                                        <f:ajax execute="@this" listener="#{courrierBean.updateInstructions(bundle.PAtt)}"   onevent="checkInstruction"/>
+                                                                    </h:selectBooleanCheckbox>
+                                                                    <span data-toggle="tooltip" title="I agree to the terms!"></span>
+                                                                </label>
+                                                            </center>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="bolder col-xs-3"><strong>#{bundle.forTr} :</strong></td>
+                                                        <td class="col-xs-1"> 
+                                                            <center>
+                                                                <label class="csscheckbox csscheckbox-info">
+                                                                    <h:selectBooleanCheckbox  id="checkAnnotation5" value="#{courrierBean.instructionChecked}">
+                                                                        <f:ajax execute="@this" listener="#{courrierBean.updateInstructions(bundle.forTr)}"   onevent="checkInstruction"/>
+                                                                    </h:selectBooleanCheckbox>
+                                                                    <span data-toggle="tooltip" title="I agree to the terms!"></span>
+                                                                </label>
+                                                            </center>
+                                                        </td>
+                                                        <td class="bolder col-xs-3"><strong>#{bundle.forPai} :</strong></td>
+                                                        <td class="col-xs-1"> 
+                                                            <center>
+                                                                <label class="csscheckbox csscheckbox-info">
+                                                                    <h:selectBooleanCheckbox  id="checkAnnotation6" value="#{courrierBean.instructionChecked}">
+                                                                        <f:ajax execute="@this" listener="#{courrierBean.updateInstructions(bundle.forPai)}"   onevent="checkInstruction"/>
+                                                                    </h:selectBooleanCheckbox>
+                                                                    <span data-toggle="tooltip" title="I agree to the terms!"></span>
+                                                                </label>
+                                                            </center>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="bolder col-xs-3"><strong>#{bundle.forPrPaAndRC} :</strong></td>
+                                                        <td class="col-xs-1">
+                                                            <center>
+                                                                <label class="csscheckbox csscheckbox-info">
+                                                                    <h:selectBooleanCheckbox  id="checkAnnotation7" value="#{courrierBean.instructionChecked}">
+                                                                        <f:ajax execute="@this" listener="#{courrierBean.updateInstructions(bundle.forPrPaAndRC)}"   onevent="checkInstruction"/>
+                                                                    </h:selectBooleanCheckbox>
+                                                                    <span data-toggle="tooltip" title="I agree to the terms!"></span>
+                                                                </label>
+                                                            </center>
+                                                        </td>
+                                                        <td class="bolder col-xs-3"><strong>#{bundle.forDP} :</strong></td>
+                                                        <td class="col-xs-1"> 
+                                                            <center>
+                                                                <label class="csscheckbox csscheckbox-info">
+                                                                    <h:selectBooleanCheckbox  id="checkAnnotation8" value="#{courrierBean.instructionChecked}">
+                                                                        <f:ajax execute="@this" listener="#{courrierBean.updateInstructions(bundle.forDP)}"   onevent="checkInstruction"/>
+                                                                    </h:selectBooleanCheckbox>
+                                                                    <span data-toggle="tooltip" title="I agree to the terms!"></span>
+                                                                </label>
+                                                            </center>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="bolder col-xs-3"><strong>#{bundle.MR} :</strong></td>
+                                                        <td class="col-xs-1"> 
+                                                            <center>
+                                                                <label class="csscheckbox csscheckbox-info">
+                                                                    <h:selectBooleanCheckbox  id="checkAnnotation9" value="#{courrierBean.instructionChecked}">
+                                                                        <f:ajax execute="@this" listener="#{courrierBean.updateInstructions(bundle.MR)}"   onevent="checkInstruction"/>
+                                                                    </h:selectBooleanCheckbox>
+                                                                    <span data-toggle="tooltip" title="I agree to the terms!"></span>
+                                                                </label>
+                                                            </center>
+                                                        </td>
+                                                        <td class="bolder col-xs-3"><strong>#{bundle.forInfo}:</strong></td>
+                                                        <td class="col-xs-1"> 
+                                                            <center>
+                                                                <label class="csscheckbox csscheckbox-info">
+                                                                    <h:selectBooleanCheckbox  id="checkAnnotation10" value="#{courrierBean.instructionChecked}">
+                                                                        <f:ajax execute="@this" listener="#{courrierBean.updateInstructions(bundle.forInfo)}"   onevent="checkInstruction"/>
+                                                                    </h:selectBooleanCheckbox>
+                                                                    <span data-toggle="tooltip" title="I agree to the terms!"></span>
+                                                                </label>
+                                                            </center>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="bolder col-xs-3"><strong>#{bundle.forAccom}:</strong></td>
+                                                        <td class="col-xs-1"> 
+                                                            <center>
+                                                                <label class="csscheckbox csscheckbox-info">
+                                                                    <h:selectBooleanCheckbox  id="checkAnnotation11" value="#{courrierBean.instructionChecked}">
+                                                                        <f:ajax execute="@this" listener="#{courrierBean.updateInstructions(bundle.forAccom)}"   onevent="checkInstruction"/>
+                                                                    </h:selectBooleanCheckbox>
+                                                                    <span data-toggle="tooltip" title="I agree to the terms!"></span>
+                                                                </label>
+                                                            </center>
+                                                        </td>
+                                                        <td class="bolder col-xs-3"><strong>#{bundle.forEtAndAv} :</strong></td>
+                                                        <td class="col-xs-1"> 
+                                                            <center>
+                                                                <label class="csscheckbox csscheckbox-info">
+                                                                    <h:selectBooleanCheckbox  id="checkAnnotation12" value="#{courrierBean.instructionChecked}">
+                                                                        <f:ajax execute="@this" listener="#{courrierBean.updateInstructions(bundle.forEtAndAv)}"   onevent="checkInstruction"/>
+                                                                    </h:selectBooleanCheckbox>
+                                                                    <span data-toggle="tooltip" title="I agree to the terms!"></span>
+                                                                </label>
+                                                            </center>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="bolder col-xs-3"><strong>#{bundle.forExp} :</strong></td>
+                                                        <td class="col-xs-1"> 
+                                                            <center>
+                                                                <label class="csscheckbox csscheckbox-info">
+                                                                    <h:selectBooleanCheckbox  id="checkAnnotation13" value="#{courrierBean.instructionChecked}">
+                                                                        <f:ajax execute="@this" listener="#{courrierBean.updateInstructions(bundle.forExp)}"   onevent="checkInstruction"/>
+                                                                    </h:selectBooleanCheckbox>
+                                                                    <span data-toggle="tooltip" title="I agree to the terms!"></span>
+                                                                </label>
+                                                            </center>
+                                                        </td>
+                                                        <td class="bolder col-xs-3"><strong>#{bundle.forClas} :</strong></td>
+                                                        <td class="col-xs-1">
+                                                            <center>
+                                                                <label class="csscheckbox csscheckbox-info">
+                                                                    <h:selectBooleanCheckbox  id="checkAnnotation14" value="#{courrierBean.instructionChecked}">
+                                                                        <f:ajax execute="@this" listener="#{courrierBean.updateInstructions(bundle.forClas)}"   onevent="checkInstruction"/>
+                                                                    </h:selectBooleanCheckbox>
+                                                                    <span data-toggle="tooltip" title="I agree to the terms!"></span>
+                                                                </label>
+                                                            </center>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="bolder col-xs-3"><strong> #{bundle.MV}:</strong></td>
+                                                        <td class="col-xs-1"> 
+                                                            <center>
+                                                                <label class="csscheckbox csscheckbox-info">
+                                                                    <h:selectBooleanCheckbox  id="checkAnnotation15" value="#{courrierBean.instructionChecked}">
+                                                                        <f:ajax execute="@this" listener="#{courrierBean.updateInstructions(bundle.MV)}"   onevent="checkInstruction"/>
+                                                                    </h:selectBooleanCheckbox>
+                                                                    <span data-toggle="tooltip" title="I agree to the terms!"></span>
+                                                                </label>
+                                                            </center>
+                                                        </td>
+                                                        <td class="bolder col-xs-3"><strong>#{bundle.US} :</strong></td>
+                                                        <td class="col-xs-1">  
+                                                            <center>
+                                                                <label class="csscheckbox csscheckbox-info">
+                                                                    <h:selectBooleanCheckbox  id="checkAnnotation16" value="#{courrierBean.instructionChecked}">
+                                                                        <f:ajax execute="@this" listener="#{courrierBean.updateInstructions(bundle.US)}"   onevent="checkInstruction"/>
+                                                                    </h:selectBooleanCheckbox>
+                                                                    <span data-toggle="tooltip" title="I agree to the terms!"></span>
+                                                                </label>
+                                                            </center>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="bolder col-xs-3"></td>
+                                                        <td class="col-xs-1"> 
+
+                                                        </td>
+                                                        <td class="bolder col-xs-3"><strong>#{bundle.forSui} :</strong></td>
+                                                        <td class="col-xs-1"> 
+                                                            <center>
+                                                                <label class="csscheckbox csscheckbox-info">
+                                                                    <h:selectBooleanCheckbox  id="checkAnnotation17" value="#{courrierBean.instructionChecked}">
+                                                                        <f:ajax execute="@this" listener="#{courrierBean.updateInstructions(bundle.forSui)}"   onevent="checkInstruction"/>
+                                                                    </h:selectBooleanCheckbox>
+                                                                    <span data-toggle="tooltip" title="I agree to the terms!"></span>
+                                                                </label>
+                                                            </center>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <table jsf:id="table-DirectionsServices"  class="table table-striped table-bordered table-vcenter" style="box-shadow: 2px 2px 2px 2px #d0d0d0;">
+                                                <tbody>
+                                                    <tr>
+                                                        <td colspan="2">
+                                                            <center>
+                                                                <strong jsf:rendered="#{connexionBean.currentUser.dg}">Directions</strong>
+                                                                <strong jsf:rendered="#{connexionBean.currentUser.directeur}">Services</strong>
+                                                                <strong jsf:rendered="#{connexionBean.currentUser.chefService}">Divisions</strong>
+                                                            </center>
+                                                        </td>  
+                                                    </tr>
+                                                    <ui:repeat value="#{departementBean.listeDepartements}" var="dir" rendered="#{connexionBean.currentUser.dg}">
+                                                        <tr>
+                                                            <td class="bolder col-xs-3"><center><strong>#{dir.code}</strong></center></td>
+                                                            <td class="col-xs-1">
+                                                                <center>
+                                                                    <label class="csscheckbox csscheckbox-info">
+                                                                        <h:selectBooleanCheckbox  id="DireSer" value="#{courrierBean.instructionChecked}">
+                                                                            <f:ajax execute="@this" listener="#{courrierBean.addOrRemoveDirection(dir)}"   onevent="checkInstruction"/>
+                                                                        </h:selectBooleanCheckbox>
+                                                                        <span data-toggle="tooltip" title="I agree to the terms!"></span>
+                                                                    </label>
+                                                                </center>
+                                                            </td>
+                                                        </tr>
+                                                    </ui:repeat>
+                                                    <ui:repeat value="#{serviceBean.findServiceByDep(connexionBean.currentUser)}"    var="ser" rendered="#{connexionBean.currentUser.dg}">
+                                                        <tr>
+                                                            <td class="bolder col-xs-3"><center><strong>#{ser.code}</strong></center></td>
+                                                            <td class="col-xs-1">
+                                                                <center>
+                                                                    <label class="csscheckbox csscheckbox-info">
+                                                                        <h:selectBooleanCheckbox  id="DireSer" value="#{courrierBean.instructionChecked}">
+                                                                            <f:ajax execute="@this" listener="#{courrierBean.addOrRemoveService(ser)}"   onevent="checkInstruction"/>
+                                                                        </h:selectBooleanCheckbox>
+                                                                        <span data-toggle="tooltip" title="I agree to the terms!"></span>
+                                                                    </label>
+                                                                </center>
+                                                            </td>
+                                                        </tr>
+                                                    </ui:repeat>
+                                                    <ui:repeat value="#{divisionBean.findListDivisionByService(connexionBean.currentUser.fonction.service)}" var="divi" rendered="#{connexionBean.currentUser.chefService}">
+                                                        <tr>
+                                                            <td class="bolder col-xs-3"><center><strong>#{divi.code}</strong></center></td>
+                                                            <td class="col-xs-1">
+                                                                <center>
+                                                                    <label class="csscheckbox csscheckbox-info">
+                                                                        <h:selectBooleanCheckbox  id="DireSer" value="#{courrierBean.instructionChecked}">
+                                                                            <f:ajax execute="@this" listener="#{courrierBean.addOrRemoveDivision(divi)}"   onevent="checkInstruction"/>
+                                                                        </h:selectBooleanCheckbox>
+                                                                        <span data-toggle="tooltip" title="I agree to the terms!"></span>
+                                                                    </label>
+                                                                </center>
+                                                            </td>
+                                                        </tr>
+                                                    </ui:repeat>
+                                                    <ui:repeat value="#{serviceBean.findServiceByDep(connexionBean.currentUser)}" var="ser" rendered="#{connexionBean.currentUser.directeur}">
+                                                        <tr>
+                                                            <td class="bolder col-xs-3"><center><strong>#{ser.code}</strong></center></td>
+                                                            <td class="col-xs-1">
+                                                                <center>
+                                                                    <label class="csscheckbox csscheckbox-info">
+                                                                        <h:selectBooleanCheckbox  id="DireSer" value="#{courrierBean.instructionChecked}">
+                                                                            <f:ajax execute="@this" listener="#{courrierBean.addOrRemoveService(ser)}"   onevent="checkInstruction"/>
+                                                                        </h:selectBooleanCheckbox>
+                                                                        <span data-toggle="tooltip" title="I agree to the terms!"></span>
+                                                                    </label>
+                                                                </center>
+                                                            </td>
+                                                        </tr>
+                                                    </ui:repeat>
+                                                </tbody>
+                                            </table>
+                                            <br/>
+                                            <h:panelGroup rendered="#{connexionBean.currentUser.directeur}">
+                                            <center>
+                                                <label class="col-md-5 control-label"><a href="#modal-terms" data-toggle="modal">Option délai</a></label>
+                                                <div class="col-md-1">
+                                                    <label class="switch switch-primary" for="example-clickable-termsAnnote">
+                                                        <h:selectBooleanCheckbox  id="example-clickable-termsAnnote" value="#{courrierBean.sendWithDelai}">
+                                                            <f:ajax execute="@this"   render="dateDelai"  onevent="addDelai"/>
+                                                        </h:selectBooleanCheckbox>
+                                                        <span data-toggle="tooltip" title="I agree to the terms!"></span>
+                                                    </label>
+                                                </div>
+
+                                            </center><br/><br/>
+                                            <center>
+                                                <div class="form-group row" jsf:id="dateDelai">
+
+                                                    <div class="col-md-12" jsf:rendered="#{courrierBean.sendWithDelai}">
+                                                        <label for="dateCorrespondance">Date limite</label>
+                                                        <input type="text"  jsf:id="dateCorrespondance" jsf:value="#{courrierBean.dateLimite}" class="form-control input-datepicker" data-date-format="dd/mm/yyyy" placeholder="dd/mm/yyyy">
+                                                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                                                        </input>  
+                                                    </div></div>
+                                            </center>
+                                            </h:panelGroup>
+
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </div>
+                            <div class="row">
+                                <h4 class="sub-header"><i class="fa fa-pencil"></i> <strong>Autres instructions</strong></h4>
+
+                                <div class="col-sm-9" style="">
+                                    <h:inputTextarea id="NatureTravaux"  value="#{courrierBean.observation}" rows="5"   class="form-control" />
+                                </div>
+                            </div>
+
+                            <div class="modal-footer" style="width: 69.5em; margin-left: -1.2em; margin-bottom: -1.4em;">
+
+                                <button class="btn btn-sm btn-primary" type="submit" jsf:id="submit-condamnation" jsf:action="#{courrierBean.annotationDGorDirecOrChefSer(event,courrierBean.selectedProgressionCourrier.courrier)}">
+                                    <!--<f:ajax  execute="@form" render=":msgForm:msg" onevent="confirmations"/>-->
+                                    <i class="ace-icon fa fa-check"></i>
+                                    #{bundle.Save}
+                                </button>
+                                <button class="btn btn-default btn-lg active" type="button" style="line-height: 1.5; font-size: 12px; padding: 5px 10px;" data-dismiss="modal">
+                                    #{bundle.Close}
+                                </button>
+
+                            </div>
+
+                        </form>
+
+
+                    </div>
+                </div>
+
+
+                <!-- /.row -->
+
+
+
+            </div>
+        </div>
+
+        <!-- END Datatables Block -->
+
+        <script>
+//            $(function () {
+//                $('#functions-datatable').dataTable({
+//                    columnDefs: [{orderable: false, targets: [4]}],
+//                    pageLength: 10,
+//                    lengthMenu: [[5, 10, 20], [5, 10, 20]]
+//                });
+//            });
+        </script>
+    </ui:composition>
+</html>
+

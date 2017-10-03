@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+       xmlns:ph="http://xmlns.jcp.org/jsf/passthrough">
+
+    <ui:composition>
+        <!-- Checkout Modal -->
+        <div id="editDialog" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" style="width:600px;height:50px">
+                 <form  jsf:id="editDialogForm" jsf:class="push">
+                <div class="modal-content">
+                   
+                        <div class="modal-header bg-primary">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h3 class="modal-title"><strong>#{bundle.LigneTitleEditMsg}</strong></h3>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div>
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label" for="libelleCourt">#{bundle.ligne}</label>
+                                        <div class="col-md-9" jsf:id="listLigne">
+                                            <h:selectOneMenu id="example-chosen2"  class="select-chosen" ph:data-placeholder="#{bundle.exercice}" value="#{demandeBean.ligneGiverealoction}" style="width: 41em;" >
+                                                <f:selectItem itemValue="" itemLabel="--Sélectionnez--"/>
+                                                <f:selectItems value="#{demandeBean.listeResteBudgetaaire}"  var="liste" itemValue="#{liste}" itemLabel="#{liste.ligne}"/>
+                                                <f:converter converterId="ligneBudgetaireConverter"/>
+                                                <f:ajax  execute="@this" onevent="saveMateriel" render="@form :listeMaterielForm"/>
+                                            </h:selectOneMenu>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                                <br/><hr/>
+                                <div class="row">
+                                    <div class="col-md-5">
+                            <div style="box-shadow: 1.5px 1.5px 1.5px 1.5px gray;" jsf:id="detailLigne">
+                                <ul class="nav nav-pills nav-stacked">
+                                    <li class="active">
+                                        <a href="javascript:void(0)"><center>Détails de la ligne</center></a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0)"><u>Ligne</u> &nbsp; &nbsp;<label>#{demandeBean.ligneGiverealoction.ligne}</label> </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0)"><u>Montant alloué</u> &nbsp; &nbsp;<label>#{demandeBean.ligneGiverealoction.montant}</label> </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0)"><u>Montant restant</u>&nbsp; &nbsp;<label>#{demandeBean.ligneGiverealoction.montantRestant}</label> </a>
+                                    </li>
+                                    
+                                </ul>
+                            </div>
+                        </div>
+                                    <div class="form-group col-md-7">
+                                        <label>#{bundle.montantRealloue}</label>
+                                        <div class="input-group">
+                                            <input type="text" id="libelle_edit" class="form-control" jsf:value="#{demandeBean.montantRealloue}" placeholder="#{bundle.MontantAlloue}" required="true"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-sm btn-primary" type="submit" jsf:id="submit_edit" data-dismiss="modal" jsf:action="#{demandeBean.doCreateRealocation(event)}">
+                                <f:ajax execute="@form" render=":msgForm:msg @form :listeMaterielForm" onevent="editMateriel"/>
+                                <i class="ace-icon fa fa-check"></i>
+                                #{bundle.Edit}
+                            </button>
+                            <button class="btn btn-default btn-lg active" style="line-height: 1.5; font-size: 12px; padding: 5px 10px;" data-dismiss="modal" >
+                                <i class="ace-icon fa fa-times"></i>
+                                #{bundle.Close}
+                            </button>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+      
+        <!-- END Checkout Modal -->
+    </ui:composition>
+</html>

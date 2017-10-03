@@ -1,0 +1,290 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition>
+        <!-- Datatables Block -->
+        <!-- Datatables is initialized in js/pages/uiTables.js -->
+        <form jsf:id="ContenuForm" role="form"  jsf:prependId="false"  class="center-table"> 
+            <div jsf:rendered="#{!courrierBean.listPageEnvoiActive and !courrierBean.listDocActive}">
+                <div class="col-md-1"></div>
+                <div class="block col-md-9" style="box-shadow: 1px 1px 1px 1px lightgray;">
+
+
+
+                    <div id="message-view" class="block-section " >
+                        <!-- Title -->
+
+                        <div class="block-title clearfix">
+
+                            <div class="block-options pull-right">
+                                <h:commandLink class="btn  btn-success"  title="Visa"  rendered="#{!courrierBean.findIfAlredyVisa().viser}">
+                                    <i class="fa fa-pencil"></i>
+                                    &nbsp;Viser le courrier
+                                    <f:ajax  listener="#{courrierBean.visaUser()}" render=":ContenuForm" onevent="viewCourrier"/>
+                                </h:commandLink>
+                                <h:commandLink class="btn  btn-success"  title="Supprimer visa"  rendered="#{courrierBean.findIfAlredyVisa().viser and courrierBean.findReferenceFromPgCour(courrierBean.selectedProgressionCourrier.courrier).statut=='Nouveau Courrier'}">
+                                    <i class="fa fa-pencil"></i>
+                                    &nbsp;Supprimer visa
+                                    <f:ajax  listener="#{courrierBean.delVisaUser()}" render=":ContenuForm" onevent="viewCourrier"/>
+                                </h:commandLink>
+                                <h:commandLink class="btn  btn-success"  title="Envoyer le courrier" onclick="$('#confirmSendChefServiceDialog').modal('show')" rendered="#{courrierBean.findIfAlredyVisa().viser and courrierBean.findReferenceFromPgCour(courrierBean.selectedProgressionCourrier.courrier).statut=='Nouveau Courrier'}">
+                                    <i class="fa fa-paper-plane"></i>
+                                    &nbsp;Envoyer
+                                    <f:ajax listener="#{courrierBean.passItem(courrierBean.selectedProgressionCourrier)}" render=":confirmSendChefServiceDialogForm" onevent="confirmations"/>
+                                </h:commandLink>
+                                <h:commandLink class="btn  btn-success"  title="Ajouter une pièce jointe" onclick="$('#AddPjDialog').modal('show')">
+                                    <i class="fa fa-paperclip"></i>
+                                    &nbsp;Pièce Jointe
+                                    <f:ajax listener="#{courrierBean.passItem(courrierBean.selectedProgressionCourrier)}" render=":AddPjDialogForm" onevent="confirmations"/>
+                                </h:commandLink>
+                                <a class="btn  btn-success"  title="imprimer le courrier" onclick="window.print()">
+                                    <i class="fa fa-print"></i>
+                                    &nbsp;Imprimer
+                                </a>
+                            </div>
+                            <div class="block-options pull-left">
+                                <a href="/AnacAppStore/GestionCourrier/boiteEnvoi/index.xhtml" class="btn btn-effect-ripple btn-default">
+                                    <i class="fa fa-chevron-left"></i>                                
+                                    #{bundle.BoiteEnvoi}
+
+                                </a>
+                            </div>
+
+                        </div>
+
+                        <!-- END Title -->
+
+                        <!-- Header -->
+
+
+
+
+                        <div id="divPrint" >
+
+                            <div class="row">
+                                <div jsf:id="tabIntioAndDate">
+                                    <img src="#{request.contextPath}/resources/images/enteAnac.jpg"  alt="entete" style="width: 59.3em; height: 8em;"/>
+                                    <table border="0" cellpadding="0" cellspacing="0" style="width:945px">
+                                        <tbody>
+                                            <tr>
+                                                <td>#{courrierBean.findInitiauxRecepEnvoi()}</td>
+                                                <td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; COTONOU, LE #{connexionBean.convertDate(courrierBean.selectedProgressionCourrier.courrier.dateCourrier, 'dd-MM-yyyy')}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <p>&nbsp;</p>
+
+                                <table border="0" cellpadding="0" cellspacing="0" style="width:945px" jsf:id="tabRef">
+                                    <tbody>
+                                        <tr>
+                                            <td style="height:94px; width:349px">
+                                                <p>
+
+
+
+                                                    <div>
+
+                                                        <ul class="reference">
+                                                            <li>
+                                                                N°______
+                                                            </li>
+                                                            /
+                                                            <li>
+                                                                ANAC
+                                                            </li>
+                                                            /
+                                                            <li>
+
+                                                                MIT
+                                                            </li>/
+
+                                                            <ui:repeat value="#{courrierBean.listCourrier_Dir}" var="dir" varStatus="status">
+                                                                <li> 
+
+                                                                    <div class="push-bit">
+                                                                        <img src="#{request.contextPath}/resources/AllVisa/#{dir.userVisa.fonction.code}.gif"  alt="dd" style="width: 2em; height: 2em; margin-right: -2em;" jsf:rendered="#{dir.viser}"/><br/>
+                                                                        <small> #{dir.userVisa.fonction.departementDirec.code}</small>
+                                                                    </div>
+                                                                </li><label jsf:rendered="#{((status.index)+1)!= courrierBean.listCourrier_Dir.size()}">-</label>
+
+                                                            </ui:repeat>
+                                                            /
+                                                            <ui:repeat value="#{courrierBean.listCourrier_ChefSer}" var="ser" varStatus="status">
+                                                                <li>
+
+                                                                    <div class="push-bit">
+                                                                        <img src="#{request.contextPath}/resources/AllVisa/#{ser.userVisa.fonction.code}.gif"  alt="dd"  style="width: 2em; height: 2em; margin-right: -2em;" jsf:rendered="#{ser.viser}"/><br/>
+                                                                        <small>  #{ser.userVisa.fonction.service.code}</small>
+                                                                    </div>
+
+                                                                </li><label jsf:rendered="#{((status.index)+1)!= courrierBean.listCourrier_ChefSer.size()}">-</label>
+                                                            </ui:repeat>
+                                                            /
+                                                            <li jsf:rendered="#{courrierBean.listCourrier_ChefDiv.size() != 0}">
+                                                                <ui:repeat value="#{courrierBean.listCourrier_ChefDiv}" var="divi">
+                                                                    <div class="push-bit">
+                                                                        <img src="#{request.contextPath}/resources/AllVisa/#{divi.userVisa.fonction.code}.gif" alt="dd" style="width: 2em; height: 2em; margin-right: -2em;" jsf:rendered="#{divi.viser}"/><br/>
+                                                                        <small>  #{divi.userVisa.fonction.division.code}</small>
+                                                                    </div>
+                                                                </ui:repeat>
+
+                                                            </li>
+
+
+
+                                                            /<li>
+
+                                                                SA
+
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+
+
+                                                </p>
+
+                                            </td>
+                                            <td style="height:94px; width:349px">
+                                                <p>&nbsp;</p>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <strong jsf:id="titreObAndTire"><label style="font-family: Chaparral Pro Light; font-size: 26px;" jsf:rendered="#{courrierBean.selectedProgressionCourrier.courrier.withObjet and courrierBean.selectedProgressionCourrier.courrier.withTitre}">&nbsp; #{courrierBean.selectedProgressionCourrier.courrier.typeCourrier.libelle}</label></strong>
+                                <p>&nbsp;</p>
+
+                                <div jsf:id="divIfObjet">
+                                    <table border="0" cellpadding="0" cellspacing="0" style="width:888px;" jsf:id="tabDesti" jsf:rendered="#{courrierBean.selectedProgressionCourrier.courrier.withObjet}">
+                                        <tbody>
+                                            <tr>
+                                                <td style="height:107px; width:600px;">
+                                                    <p>&nbsp;</p>
+                                                </td>
+                                                <td style="height:107px;">
+                                                    <table style="margin-top: -5px;">
+                                                        <tr>
+                                                            <td style="width: 21em;">LE DIRECTEUR GENERAL</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="width: 5em;">&nbsp; &nbsp; &nbsp; &nbsp;A </td>
+                                                        </tr>
+                                                        <tr jsf:rendered="#{courrierBean.selectedProgressionCourrier.courrier.destinataires.size() == 1}">
+                                                            <td>MONSIEUR</td>
+                                                        </tr>
+                                                        <tr jsf:rendered="#{courrierBean.selectedProgressionCourrier.courrier.destinataires.size() > 1}">
+                                                            <td>MESSIEURS</td>
+                                                        </tr>
+                                                        <ui:repeat value="#{courrierBean.selectedProgressionCourrier.courrier.destinataires}" var="desti">
+                                                            <tr>
+                                                                <td style="width: 5em;"><strong> - &nbsp; #{desti}</strong></td>
+                                                            </tr>
+                                                        </ui:repeat>
+                                                        <tr jsf:rendered="#{courrierBean.selectedProgressionCourrier.courrier.withTelDesti}">
+                                                            <td style="width: 5em;"><u>tel</u>: #{courrierBean.selectedProgressionCourrier.courrier.teldestinataire}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="width: 5em;"><u>COTONOU</u></td>
+                                                        </tr>
+                                                    </table>
+                                                      <!--<p> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="font-size:14px"> &nbsp; &nbsp;LE DIRECTEUR GENERAL &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; A &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;<strong>&nbsp;Mr/Mm &nbsp; </strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Tel:#{courrierBean.selectedProgressionCourrier.courrier.teldestinataire} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<u>COTONOU</u></span></p>-->
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+
+                                    <table border="0" cellpadding="0" cellspacing="0" style="width:945px" jsf:id="tabObjet" jsf:rendered="#{courrierBean.selectedProgressionCourrier.courrier.withObjet}">
+                                        <tbody>
+                                            <tr>
+                                                <td style="height:94px; width:349px">
+                                                    <p><strong><u>Objet</u>:</strong> #{courrierBean.selectedProgressionCourrier.courrier.objet}</p>
+                                                </td>
+                                                <td style="height:94px; width:349px">
+                                                    <p>&nbsp;</p>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="form-group row" jsf:id="DivTitre">
+
+                                <div class="col-sm-12" jsf:rendered="#{courrierBean.selectedProgressionCourrier.courrier.withTitre and !courrierBean.selectedProgressionCourrier.courrier.withObjet}">
+
+                                    <center> <strong><label style="font-family: Chaparral Pro Light; font-size: 26px;"><u>#{courrierBean.selectedProgressionCourrier.courrier.typeCourrier.libelle}</u></label></strong></center>
+                                </div>
+
+                            </div>
+                            <div id="contenuWrite">
+                                #{courrierBean.selectedProgressionCourrier.courrier.contenu}
+                            </div>
+                            <div class="row" jsf:id="signataires">
+
+                                <ui:repeat value="#{courrierBean.findSignataires()}" var="list">
+                                    <div style="height: 5em; " class="col-sm-6 col-lg-3 pull-right">
+                                        <center jsf:rendered="#{list.signer}"> <img src="#{request.contextPath}/resources/AllSigns/#{list.utilisateur.fonction.code}.png" alt="signature manquante du DG " style="height: 7em; width: 15em; margin-top: -5em;" jsf:rendered="#{list.signer}"/></center>
+                                        <center><label style="margin-top:1em;"><u>#{list.utilisateur.prenom} #{list.utilisateur.nom}</u></label></center>
+                                    </div>
+                                </ui:repeat>
+
+
+                            </div>
+                        </div>
+
+
+
+
+                        <!-- END Message Body -->
+
+                        <!-- Attachments Row -->
+                        <!--                        <div class="row block-section">
+                                                    <div class="col-xs-6 col-sm-3 col-lg-2 text-center">
+                                                        <a href="img/placeholders/photos/photo2.jpg" data-toggle="lightbox-image">
+                                                            <img src="img/placeholders/photos/photo2.jpg" alt="photo" class="img-responsive push-bit"/>
+                                                        </a>
+                                                        <span class="text-muted">IMG0001.JPG</span>
+                                                    </div>
+                                                    <div class="col-xs-6 col-sm-3 col-lg-2 text-center">
+                                                        <a href="img/placeholders/photos/photo16.jpg" data-toggle="lightbox-image">
+                                                            <img src="img/placeholders/photos/photo16.jpg" alt="photo" class="img-responsive push-bit"/>
+                                                        </a>
+                                                        <span class="text-muted">IMG0002.JPG</span>
+                                                    </div>
+                                                    <div class="col-xs-6 col-sm-3 col-lg-2 text-center">
+                                                        <a href="img/placeholders/photos/photo9.jpg" data-toggle="lightbox-image">
+                                                            <img src="img/placeholders/photos/photo9.jpg" alt="photo" class="img-responsive push-bit"/>
+                                                        </a>
+                                                        <span class="text-muted">IMG0003.JPG</span>
+                                                    </div>
+                                                    <div class="col-xs-6 col-sm-3 col-lg-2 text-center">
+                                                        <a href="img/placeholders/photos/photo15.jpg" data-toggle="lightbox-image">
+                                                            <img src="img/placeholders/photos/photo15.jpg" alt="photo" class="img-responsive push-bit"/>
+                                                        </a>
+                                                        <span class="text-muted">IMG0004.JPG</span>
+                                                    </div>
+                                                </div>-->
+                        <!-- END Attachments Row -->
+
+                        <!-- Quick Reply Form -->
+
+                        <!-- END Quick Reply Form -->
+
+                    </div>
+
+
+
+                </div>
+                <div class="col-md-2"></div>
+            </div>
+        </form>
+        <!-- END Datatables Block -->
+    </ui:composition>
+</html>

@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+            <div class="form-group">
+                <div class="col-sm-12" style="padding-top: 10px;padding-left:10px;padding-right:10px" jsf:id="divTabInfoCourrier">
+                     
+                    <fieldset  class="col-sm-12" style="border: 1px solid #dae0e8;border-bottom-right-radius: 10px;border-bottom-left-radius: 10px; padding-top: 0px; width: 100%; ">
+                                <legend style="border: 1px solid lightgray; padding-top: 3px;padding-bottom:2px"><center> Informations sur le courrier arrivée</center></legend>
+                    <table jsf:id="table-Demande"  class="table table-striped table-bordered table-vcenter" style="box-shadow: 2px 2px 2px 2px #d0d0d0;">
+                        <tbody>
+                            <tr>
+                                 <td class="bolder col-xs-1"><strong>N° Courrier:</strong></td>
+                                 <td class="col-xs-3">  #{courrierBean.selectedProgressionCourrier.courrier.numCourrierArrive}</td>
+                             <td class="bolder col-xs-1"><strong>Type:</strong></td>
+                                <td class="col-xs-3">
+                                   #{courrierBean.selectedProgressionCourrier.courrier.typeCourrier.libelle}
+                                </td>
+                             <td class="bolder col-xs-1"><strong>Objet:</strong></td>
+                                <td class="col-xs-3">
+                                   #{courrierBean.selectedProgressionCourrier.courrier.objet}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="bolder col-xs-1"><strong>Expéditeur:</strong></td>
+                                <td class="col-xs-3">
+                                   #{courrierBean.selectedProgressionCourrier.courrier.expediteur}
+                                </td>
+                                
+                                
+                                <td class="bolder col-xs-1 "><strong>Date <br/>Correspondance</strong></td>
+                                <td class="col-xs-3 ">
+                                  
+                                       #{connexionBean.convertDate(courrierBean.selectedProgressionCourrier.courrier.dateCorrespondance,'dd/MM/YYYY')}
+                                </td>
+                                <td class="bolder col-xs-1 "><strong>Date <br/>Arrivée</strong></td>
+                                <td class="col-xs-3 ">
+                                  
+                                       #{connexionBean.convertDate(courrierBean.selectedProgressionCourrier.courrier.dateArrivee,'dd/MM/YYYY')}
+                                </td>
+                               
+                            </tr>
+                      
+                        </tbody>
+                    </table>
+                     </fieldset>
+                                       
+
+                </div>
+            </div>
+                                    
+
+    </ui:composition>
+</html>

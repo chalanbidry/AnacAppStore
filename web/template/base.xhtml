@@ -1,0 +1,404 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:insert name="selectedMenu"/>
+    <!--<ui:param name="acceuil" value="active"/>-->
+    <!--</ui:insert>-->
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>#{bundle.AppName}</title>
+        <meta name="description" content="AppUI is a Web App Bootstrap Admin Template created by pixelcave and published on Themeforest"/>
+        <meta name="author" content="pixelcave"/>
+        <meta name="robots" content="noindex, nofollow"/>
+        <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1.0"/>
+
+        <!-- Icons -->
+        <!-- The following icons can be replaced with your own, they are used by desktop and mobile browsers -->
+        <!--<h:graphicImage library="images" name="ui-bg_glass_100_f6f6f6_1x400.png"/>-->
+
+        <link rel="shortcut icon" href="#{request.contextPath}/resources/images/anacBenin.png"/>
+        <link rel="apple-touch-icon" href="img/icon57.png" sizes="57x57"/>
+        <link rel="apple-touch-icon" href="img/icon72.png" sizes="72x72"/>
+        <link rel="apple-touch-icon" href="img/icon76.png" sizes="76x76"/>
+        <link rel="apple-touch-icon" href="img/icon114.png" sizes="114x114"/>
+        <link rel="apple-touch-icon" href="img/icon120.png" sizes="120x120"/>
+        <link rel="apple-touch-icon" href="img/icon144.png" sizes="144x144"/>
+        <link rel="apple-touch-icon" href="img/icon152.png" sizes="152x152"/>
+        <link rel="apple-touch-icon" href="img/icon180.png" sizes="180x180"/>
+        <!-- END Icons -->
+
+
+
+
+
+        <!-- Stylesheets -->
+        <!-- Bootstrap is included in its original form, unaltered -->
+        <!--<h:outputStylesheet library="css" name="bootstrap.min.css"  />-->
+        <link rel="stylesheet" href="#{request.contextPath}/resources/css/bootstrap.min.css" />
+        <!-- Related styles of various icon packs and plugins -->
+        <!--<h:outputStylesheet library="css" name="plugins.css"  />-->
+        <link rel="stylesheet" href="#{request.contextPath}/resources/css/plugins.css" />
+
+        <!-- jquery-ui css -->
+        <!--        <link rel="stylesheet" href="../../resources/css/jquery-ui.css" />
+                <link rel="stylesheet" href="../../resources/css/jquery-ui.structure.css" />
+                <link rel="stylesheet" href="../../resources/css/jquery-ui.theme.css" />-->
+
+        <link rel="stylesheet" href="#{request.contextPath}/resources/css/jquery-ui.css" />
+        <link rel="stylesheet" href="#{request.contextPath}/resources/css/jquery-ui.structure.css" />
+        <link rel="stylesheet" href="#{request.contextPath}/resources/css/jquery-ui.theme.css" />
+
+        <!-- jquery ui css -->
+        <link rel="stylesheet" href="#{request.contextPath}/resources/css/bootstrap-datetimepicker.min.css" />
+        <link rel="stylesheet" href="#{request.contextPath}/resources/css/custumForsetiPenal.css" />
+        <!--<link rel="stylesheet" href="#{request.contextPath}/resources/css/datepicker.css" />-->
+        <link rel="stylesheet" href="#{request.contextPath}/resources/css/waitMe.css" />
+
+        <!-- The main stylesheet of this template. All Bootstrap overwrites are defined in here -->
+        <!--<h:outputStylesheet library="css" name="/main.css"  />-->
+        <link rel="stylesheet" href="#{request.contextPath}/resources/css/main.css" />
+
+        <!-- Include a specific file here from css/themes/ folder to alter the default theme of the template -->
+        <!--<link rel="stylesheet" href="#{request.contextPath}/resources/css/themes/passion.css" />-->
+        <!--<link rel="stylesheet" href="#{request.contextPath}/resources/css/themes/flat.css" />-->
+        <link rel="stylesheet" href="#{request.contextPath}/resources/css/themes/foncee.css" />
+
+        <link rel="stylesheet" href="#{request.contextPath}/resources/css/bootstrap.vertical-tabs.min.css" />
+        <link rel="stylesheet" href="#{request.contextPath}/resources/css/bootstrap.vertical-tabs.css" />
+
+        <!--For client facelets-->
+        <ui:insert name="css"/>
+
+        <!-- The themes stylesheet of this template (for using specific theme color in individual elements - must included last) -->
+        <!--<h:outputStylesheet library="css" name="themes.css"  />-->
+        <link rel="stylesheet" href="#{request.contextPath}/resources/css/themes.css" />
+
+        <!-- from jsf template generating -->
+        <!--        <h:outputStylesheet library="css" name="default.css"  />
+                <h:outputStylesheet library="css" name="cssLayout.css"  />-->
+        <!-- END Stylesheets -->
+
+        <!-- Modernizr (browser feature detection library) -->
+        <h:outputScript library="js/vendor/" name="modernizr-2.8.3.min.js" />
+
+
+    </h:head>
+
+    <h:body>
+
+        <div id="page-wrapper" class="page-loading">
+            <!-- Preloader -->
+            <!-- Preloader functionality (initialized in js/app.js) - pageLoading() -->
+            <!-- Used only if page preloader enabled from inc/config (PHP version) or the class 'page-loading' is added in #page-wrapper element (HTML version) -->
+            <div class="preloader">
+                <div class="inner">
+                    <!-- Animation spinner for all modern browsers -->
+                    <div class="preloader-spinner themed-background hidden-lt-ie10"></div>
+
+                    <!-- Text for IE9 -->
+                    <h3 class="text-primary visible-lt-ie10"><strong>Loading..</strong></h3>
+                </div>
+            </div>
+
+            <div id="page-container" class="header-fixed-top sidebar-visible-lg-full sidebar-light">
+                <!-- Alternative Sidebar -->
+                <div id="sidebar-alt" tabindex="-1" aria-hidden="true" style="height: 400px">
+                    <!-- Toggle Alternative Sidebar Button (visible only in static layout) -->
+                    <!--<a href="javascript:void(0)" id="sidebar-alt-close" onclick="App.sidebar('toggle-sidebar-alt');"><i class="fa fa-times"></i></a>-->
+
+                    <!-- Wrapper for scrolling functionality -->
+                    <ui:include src="menuBarSetting.xhtml"/>
+                    <!-- END Wrapper for scrolling functionality -->
+                </div>
+                <!-- END Alternative Sidebar -->
+
+                <!--<div class="col-xs-10 col-sm-5 col-md-3 no-padding">-->
+                <!-- Main Sidebar -->
+                <div id="sidebar">
+                    <!-- Sidebar Brand -->
+
+                    <div id="sidebar-brand" class="themed-background" style="height: 60px">
+                        <a href="/AnacAppStore/index.xhtml" class="sidebar-title" style="padding: 0px; height: 100%">
+                            <!--<i class="fa fa-cube"></i> <span class="sidebar-nav-mini-hide">Forseti<strong>Penal</strong></span>-->
+                            <small>
+                                
+                                <h:graphicImage library="AllAppliLogo" name="#{connexionBean.currentAppli.appliName}.PNG" alt="" style="height: 60px; width: 150px;  margin-left: 1px;"/>
+                                <!--<i class="fa fa-leaf"></i>-->
+                                <!--#{bundle.applicationName}-->
+                            </small>
+                        </a>
+                        <!--                        <a href="/forsetiV2/" class="navbar-brand" style="padding: 0px">
+                                                    <small>
+                                                        <h:graphicImage library="images" name="logo_forseti_com.png" alt="" style="height: 60px;"/>
+                                                        <i class="fa fa-leaf"></i>
+                        #{bundle.applicationName}
+                    </small>
+                </a>-->
+                    </div>
+                    <!-- END Sidebar Brand -->
+
+                    <!-- Wrapper for scrolling functionality -->
+                    <ui:include src="menuBarForFunctanilties.xhtml"/>
+                    <!-- END Wrapper for scrolling functionality -->
+
+                    <!-- Sidebar Extra Info -->
+                    <ui:include src="menuBarExtraInfo.xhtml"/>
+                    <!-- END Sidebar Extra Info -->
+
+                </div>
+                <!-- END Main Sidebar -->
+                <!--</div>-->
+                <!--<div class="col-sm-12 col-md-9 white">-->
+                <!-- Main Container -->
+                <div id="main-container">
+                    <!-- Header -->
+                    <!-- In the PHP version you can set the following options from inc/config file -->
+                    <!--
+                        Available header.navbar classes:
+
+                        'navbar-default'            for the default light header
+                        'navbar-inverse'            for an alternative dark header
+
+                        'navbar-fixed-top'          for a top fixed header (fixed main sidebar with scroll will be auto initialized, functionality can be found in js/app.js - handleSidebar())
+                            'header-fixed-top'      has to be added on #page-container only if the class 'navbar-fixed-top' was added
+
+                        'navbar-fixed-bottom'       for a bottom fixed header (fixed main sidebar with scroll will be auto initialized, functionality can be found in js/app.js - handleSidebar()))
+                            'header-fixed-bottom'   has to be added on #page-container only if the class 'navbar-fixed-bottom' was added
+                    -->
+                    <header class="navbar navbar-inverse navbar-fixed-top">
+                        <!-- Left Header Navigation -->
+                        <ui:include src="header.xhtml"/>
+                        <!--<ui:include src="detail.xhtml"/>-->
+                        <!-- END Right Header Navigation -->
+
+
+                    </header>
+                    <!-- END Header -->
+
+                    <!-- Page content -->
+                    <div jsf:id="page-content">
+                        <ui:include src="editConnectedChambre.xhtml"/>
+                        <h:form id="pc" prependId="false">
+               
+                            <h:commandLink  id="btnrefreshAllboard" class="hidden" style="height: 15px; width: 15px; margin-left: 1em;">
+                                <i class="fa fa-refresh" data-toggle="tooltip" data-original-title="Actualisez la liste si la nouvelle notification n'apparaît pas"></i>
+                                <f:ajax listener="#{demandeBean.findListDemandeInDir()}" render="contentDashBoard"  onevent="refreshAllboard"/>
+                            </h:commandLink>
+                        </h:form>
+                        <!--l'include de détail pour tout le projet-->
+                        <!--<ui:include src="../detail.xhtml"/>-->
+                        <!--<ui:include src="disconnect.xhtml"/>-->
+                        
+                            <ui:insert name="content" id="contentDashBoard"/>
+                        
+                    </div>
+                    <!-- END Page Content -->
+                </div>
+                <!-- END Main Container -->
+                <!--</div>-->
+            </div>
+            <!-- END Page Container -->
+        </div>
+        <!-- END Page Wrapper -->
+
+        <!-- jQuery, Bootstrap, jQuery plugins and Custom JS code -->
+        <script src="#{request.contextPath}/resources/js/pages/jquery.js"></script> 
+        <script src="#{request.contextPath}/resources/js/pages/jquery-ui.js"></script> 
+        <script src="#{request.contextPath}/resources/js/vendor/bootstrap.min.js"></script> 
+        <script src="#{request.contextPath}/resources/js/plugins.js"></script> 
+        <script src="#{request.contextPath}/resources/js/bootstrap-datepicker.fr.js"></script> 
+        <script src="#{request.contextPath}/resources/js/bootstrap-datetimepicker.min.js"></script> 
+        <script src="#{request.contextPath}/resources/js/app.js"></script> 
+
+        <!-- Load and execute javascript code used only in this page -->
+        <script src="#{request.contextPath}/resources/js/pages/readyDashboard.js"></script> 
+        <script src="#{request.contextPath}/resources/js/pages/uiProgress.js"></script>
+        <script src="#{request.contextPath}/resources/js/autocomplete.js"></script>
+          
+        <h:outputScript library="js" name="websocketDemande.js" rendered="#{connexionBean.currentAppli.appliName == 'PrestAnac'}"/>
+        <h:outputScript library="js" name="websocketCourrier.js" rendered="#{connexionBean.currentAppli.appliName == 'IGecour'}"/>
+        <script src="#{request.contextPath}/resources/js/forseti.penal.common.function.js"></script>
+        <!--<script src="#{request.contextPath}/resources/js/bootstrap-datepicker.js"></script>-->
+
+        <script src="#{request.contextPath}/resources/js/pages/uiTables.js"></script> 
+        <script src="#{request.contextPath}/resources/js/waitMe.js"></script>
+        <script src="#{request.contextPath}/resources/js/functionDetail.js"></script>
+         <script src="#{request.contextPath}/resources/js/pages/compNestable.js"></script>
+
+
+
+        <ui:insert name="script"/>
+
+        <script>
+            $(document).ready(function () {
+                $('#tableNotifs').DataTable({
+                    "scrollY": "200px",
+                    "scrollCollapse": true,
+                    "paging": false
+                });
+            });
+
+            $("#notesForm\\:see").click(function () {
+                $("#nbSocial").text(parseInt($("#nbSocial").text()) - 1);
+            });
+            $('#linkMessage').click(function () {
+                $("#notesForm\\:btnreloadMessage").click();
+            });
+
+            $('#linkNotif').click(function () {
+                $("#appUIForm\\:btnreloadNotif").click();
+            });
+
+            $('#linkAlerte').click(function () {
+                $("#appUIForm\\:btnreloadAlert").click();
+            });
+            $(function () {
+                UiTables.init('#DataTableIDDossiersAffectes', 5);
+                UiTables.init('#DataTableSubtitut', 2);
+                UiTables.init('#DataTableIDDetenusCabinet', 4);
+                UiTables.init('#tableListeDossiersSBT', 5);
+                UiTables.init('#tableScellesParDossier', 2);
+                UiTables.init('#DataTableIDPV', 2);
+                UiTables.init('#tableAppels', 4);
+            });
+            $(function () {
+                UiTables.init('#tableListeDossiersJuges', 5);
+            });
+            $(function () {
+                UiTables.init('#DataTableIDDossiersCommuniques', 4);
+            })
+                    ;
+            $(function () {
+                UiTables.init('#DataTableIDForAccueil', 9);
+            });
+            $(function () {
+                ReadyDashboard.init();
+            });
+            function ajaxOnRefresh(data) {
+                if (data.status === "begin") {
+                    startWaitMe('.tableBase');
+                }
+                if (data.status === "complete") {
+                    stopWaitMe('.tableBase');
+                }
+                if (data.status === "success") {
+                    try {
+
+                    } catch (err) {
+                    }
+                }
+            }
+
+//                        function startWaitMe(element) {
+//                            $('.tableBase').waitMe({
+//                                effect: 'facebook',
+//                                text: 'Patientez un peu...',
+//                                bg: 'rgba(255,255,255,0.7)',
+//                                color: '#000',
+//                                sizeW: '',
+//                                sizeH: '',
+//                                source: ''
+//                            });
+//                            //                    alert('----------ds wait fin-------------');
+//                        }
+//
+//                        function stopWaitMe(element) {
+//                            $('.page').waitMe('hide');
+//                        }
+
+
+            function toastMessage(dataTableID, columnNumber) {
+//                            initialiserParDefaut();
+//                            UiTables.init(dataTableID, columnNumber);
+            }
+
+            $('#popoverData').popover();
+            $("[rel=details]").popover({
+                trigger: 'click',
+                placement: 'bottom',
+                html: 'true',
+                content: '<center><strong>#{connexionBean.currentUser.fonction.code}</strong></center><br/> <button type="submit" class="btn btn-xs btn-success" jsf:action="#{connexionBean.changeAppli()}">Changer d application</button>\n\ <br/><br/><br/>',
+                template: '<div class="popover">\n\
+                                        <div class="arrow"></div>\n\
+                                            <h3 class="popover-title"></h3>\n\
+                                            <div class="popover-content">\n\
+                                            </div><br/><br/>\n\
+                                        <div class="popover-footer">\n\
+                                            <button type="submit" class="btn btn-xs btn-danger" jsf:action="#{connexionBean.logout()}">Déconnexion</button>\n\
+                                        </div>\n\
+                                       </div>'});
+            function showEditChambreDialog() {
+                $('#editConnectedChambreDialog').modal('show');
+            }
+            function showDisconnectDialog() {
+                $('#disconnectDialog').modal('show');
+            }
+
+            function cleanSession() {
+                $('#submit_logout').click();
+//                                    alert("test")
+            }
+//                                function testClick() {
+//                                    alert("test")
+//                                }
+
+
+
+            function detail() {
+                UiTables.init('#table-dossier-audiencer', 1);
+                UiTables.init('#dynamic-table-event', 4);
+                initialiserChosenSelect();
+            }
+
+//            webSocketStart();
+function startWaitMeAllBoard(element) {
+                    $('#page-content').waitMe({
+                        effect: 'timer',
+                        text: 'Patientez un peu...',
+                        bg: 'rgba(255,255,255,0.7)',
+                        color: '#000',
+                        sizeW: '',
+                        sizeH: '',
+                        source: ''
+                    });
+                }
+
+                function stopWaitMeAllNoard(element) {
+                    $('#page-content').waitMe('hide');
+                }
+
+                function refreshAllboard(data) {
+                    if (data.status === "begin") {
+//                        startWaitMeAllBoard('#page-content');
+                    }
+                    if (data.status === "complete") {
+//                        stopWaitMeAllNoard('#page-content');
+                    }
+                    if (data.status === "success") {
+                            UiTables.init('#DataTableID', 6);
+                    UiTables.init('#DataTableIDAdmin', 6);
+                    UiTables.init('#DataTableID1ChefDir', 6);
+                    UiTables.init('#DataTableIDWaitAutoChefDir', 6);
+                    UiTables.init('#DataTableID1SendToDAF', 6);
+                    UiTables.init('#DataTableID1DG', 6);
+                    UiTables.init('#DataTableID1CSC', 6);
+                    UiTables.init('#DataTableIDWaitAutoCSC', 6);
+                    UiTables.init('#DataTableIDListBonComande', 6);
+                    UiTables.init('#DataTableIDBonComandeDG', 6);
+                    UiTables.init('#DataTableIDBonAutoByDG', 6);
+                    UiTables.init('#DataTableDoc', 5);
+                    UiProgress.init();
+                     initialiserParDefaut();
+                     $('#page-preview').addClass('hide');
+                    }
+                }
+
+        </script>
+
+    </h:body>
+
+</html>

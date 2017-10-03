@@ -1,0 +1,171 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <ui:composition template="./../../template/base.xhtml">
+        <ui:define name="selectedMenu">
+            <ui:param name="menuDemandeClass" value="active"/>
+            <ui:param name="DemandeClass" value="active"/> 
+        </ui:define>
+        <ui:define name="css">
+
+        </ui:define>
+        <ui:define name="content">
+            <ui:include src="create.xhtml"/>
+            <ui:include src="detail.xhtml"/>
+            <ui:include src="confirmEnvoi.xhtml"/>
+            <ui:include src="Ajout.xhtml"/>
+            <!--            <ui:include src="edit.xhtml"/>
+                        <ui:include src="view.xhtml"/>
+                        <ui:include src="delete.xhtml"/>-->
+        </ui:define>
+        <ui:define name="script">
+            <!-- ckeditor.js, load it only in the page you would like to use CKEditor (it's a heavy plugin to include it with the others!) -->
+            <script src="#{request.contextPath}/resources/js/plugins/ckeditor/ckeditor.js"></script> 
+            <!-- Load and execute javascript code used only in this page -->
+            <script src="#{request.contextPath}/resources/js/pages/formsComponents.js"></script> 
+            <!-- Load and execute javascript code used only in this page -->
+            <!--<script src="#{request.contextPath}/resources/js/pages/custumForsetiPenal.js"></script>--> 
+            <!-- jQuery, Bootstrap, jQuery plugins and Custom JS code -->
+
+            <!-- Load and execute javascript code used only in this page -->
+            <script>
+                $(function () {
+                    FormsComponents.init();
+                });
+                $(function () {
+                    UiTables.init('#DataTableID', 6);
+                });
+                $(function () {
+                    UiProgress.init();
+                });
+
+                function global() {
+                    initialiserChosenSelect();
+                }
+
+                function startWaitMe(element) {
+                    $('#waitforme').waitMe({
+                        effect: 'timer',
+                        text: 'Patientez un peu svp...',
+                        bg: 'rgba(255,255,255,0.7)',
+                        color: '#000',
+                        sizeW: '',
+                        sizeH: '',
+                        source: ''
+                    });
+                }
+
+                function stopWaitMe(element) {
+                    $('#waitforme').waitMe('hide');
+                }
+
+                function savedemande(data) {
+                    if (data.status === "begin") {
+                        startWaitMe("#submit_new");
+                    }
+                    if (data.status === "complete") {
+                        stopWaitMe("#submit_new");
+                    }
+                    if (data.status === "success") {
+                        initialiserChosenSelect();
+//                        UiTables.init('#DataTableID', 6);
+                    }
+                }
+
+                function editdemande(data) {
+
+                    if (data.status === "success") {
+                        initialiserChosenSelect();
+                        UiTables.init('#DataTableID', 2);
+                    }
+                }
+                function deletedemande(data) {
+
+                    if (data.status === "success") {
+                        initialiserChosenSelect();
+                        UiTables.init('#DataTableID', 2);
+                    }
+                }
+
+                function afficheDetail(data) {
+                    if (data.status === "begin") {
+                        startWaitMe('#block');
+                    }
+                    if (data.status === "complete") {
+                        stopWaitMe('#block');
+                    }
+                    if (data.status === "success") {
+                        UiTables.init('#table-demande-evenement', 2);
+                        UiTables.init('#table2-Bon-evenement', 2);
+                    }
+                }
+                
+                
+                function afficheAjout(data) {
+                    if (data.status === "begin") {
+                        startWaitMe('#block');
+                    }
+                    if (data.status === "complete") {
+                        stopWaitMe('#block');
+                    }
+                    if (data.status === "success") {
+                      initialiserChosenSelect();
+                    }
+                }
+
+                function retourEnvoi(data) {
+                    if (data.status === "begin") {
+                        startWaitMe('#waitforme');
+                    }
+                    if (data.status === "complete") {
+                        stopWaitMe('#waitforme');
+                    }
+                    if (data.status === "success") {
+                        UiTables.init('#DataTableID', 6);
+                    }
+                }
+
+                function notif() {
+
+                
+                        var growlType = $(this).data('growl');
+
+                        $.bootstrapGrowl('<h4><strong>Notification</strong></h4> <p>vontier je porte ma croix</p>', {
+                            type: 'info',
+                            delay: 3000,
+                            allow_dismiss: true,
+                            offset: {from: 'top', amount: 20}
+                        });
+
+                        $(this).prop('disabled', true);
+
+                    
+                }
+
+            </script>
+            
+             <script type="text/javascript">
+                //<![CDATA[
+                var signe = -1;
+                var clignotementFading = function () {
+                    var obj = document.getElementById('visDoc');
+                    if (obj.style.opacity >= 0.96) {
+                        signe = -1;
+                    }
+                    if (obj.style.opacity <= 0.04) {
+                        signe = 1;
+                    }
+
+                    obj.style.opacity = (obj.style.opacity * 1) + (signe * 0.04);
+                };
+
+                // mise en place de l appel de la fonction toutes les 0.085 secondes 
+                // Pour arrêter le clignotement : clearInterval(periode); 
+                periode = setInterval(clignotementFading, 85);
+                //]]>
+            </script>
+        </ui:define>
+    </ui:composition>
+</html>

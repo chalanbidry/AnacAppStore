@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ph="http://xmlns.jcp.org/jsf/passthrough">
+    <ui:composition >
+        <div jsf:id="myModalAppercu" class="modal fade draggable" data-backdrop="static" tabindex="-1">
+
+            <div class="modal-dialog">
+                <div class="modal-content" style="margin-left: -23em;  width:90em;">
+                    <form  jsf:id="AppercuForm" jsf:class="push" jsf:prependId="false">
+                    <div class="modal-header" style="width: 90em;">
+                        <button type="button" class="close" data-dismiss="modal">×</button>
+                        <h3>#{gedBean.documentCourant.fileName}</h3>
+                    </div>
+                    
+                        <div class="modal-body" style=" width:90em;  ">
+<div class="row" id="page-preview" >
+                <!--APERCU-->
+
+                <div class="col-xs-12">
+                    <div class="widget-box widget-color-blue2">
+                        <div class="widget-header">
+                            <h4 class="widget-title lighter smaller">Aperçu du document</h4>
+                        </div>
+                        <div class="widget-body">
+                            <div class="widget-main padding-8">
+                                <object jsf:id="preview" type="#{gedBean.mineType}" data="data:#{gedBean.mineType};base64,#{gedBean.content}" style="min-height: 500px; width: 100%" ></object>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+                            
+
+
+                        </div>
+                        <div class="modal-footer">
+                            <a href="#" class="btn btn-default" data-dismiss="modal">Fermer</a>
+
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </ui:composition>
+</html>
+

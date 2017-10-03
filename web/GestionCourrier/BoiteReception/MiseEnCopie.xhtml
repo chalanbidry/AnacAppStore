@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ph="http://xmlns.jcp.org/jsf/passthrough">
+    <ui:composition >
+        <div jsf:id="miseEnCopieDialog" class="modal fade draggable" data-backdrop="static" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form jsf:id="miseEnCopieDialogForm" jsf:prependId="false" >
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="blue bigger">#{bundle.MiseEnCopie}</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="center">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <center>
+                            <label class="col-md-4 control-label"><a href="#modal-terms" data-toggle="modal">Mise en copie pour traitement ?</a></label>
+                                            <div class="col-md-1">
+                                                <label class="switch switch-primary" for="example-clickable-terms">
+                                                    <h:selectBooleanCheckbox  id="example-clickable-terms" value="#{courrierBean.typeCopieTraitement}">
+                                                        <f:ajax execute="@this"   render="miseEnCopieDialogForm divIfContacte divObAndDesti" onevent="viewCourrier"/>
+                                                    </h:selectBooleanCheckbox>
+                                                    <span data-toggle="tooltip" title="I agree to the terms!"></span>
+                                                </label>
+                                            </div>
+                                            
+                                        </center>
+                                    </div>
+                                </div>
+                                <hr/>
+                                <h:panelGroup rendered="#{courrierBean.typeCopieTraitement}">
+                                <div class="row" jsf:rendered="#{connexionBean.currentUser.chefService}">
+                                    <div class="col-md-12 no-padding" jsf:id="ChefSer">
+                                        <label class=" control-label">#{bundle.listChefService}</label>
+
+                                        <h:selectOneMenu id="example-chosen2"  class="select-chosen" ph:data-placeholder="#{bundle.listChefService}" value="#{courrierBean.userSelectForCopie}" style="width: 41em;" >
+                                            <f:selectItems value="#{courrierBean.findListotherChefSService()}" var="chef" itemValue="#{chef}"   itemLabel="#{chef.fonction.service.libelle} &nbsp; (#{chef.fonction.service.code})"/>
+                                            <f:converter converterId="utilisateurConverter"/>
+                                        </h:selectOneMenu>
+
+                                    </div>
+                                </div>
+                                <div class="row" jsf:rendered="#{connexionBean.currentUser.directeur}">
+                                    <div class="col-md-12 no-padding" jsf:id="Dir">
+                                        <label class=" control-label">#{bundle.listDirecteur}</label>
+
+                                        <h:selectOneMenu id="example-chosen"  class="select-chosen" ph:data-placeholder="#{bundle.listDirecteur}" value="#{courrierBean.userSelectForCopie}" style="width: 41em;" >
+                                            <f:selectItems value="#{courrierBean.findListDirecteur()}" var="dir" itemValue="#{dir}"   itemLabel="#{dir.fonction.departementDirec.libelle} &nbsp; (#{dir.fonction.departementDirec.code})"/>
+                                            <f:converter converterId="utilisateurConverter"/>
+                                        </h:selectOneMenu>
+
+                                    </div>
+                                </div>
+                                <hr/>
+                                <div class="row">
+                                     <div class="col-md-12">
+                                           <label class=" control-label">#{bundle.observation}</label>
+                                         <h:inputTextarea id="observationExp"  value="#{courrierBean.noteForCopie}" rows="3" class="form-control" />
+                                </div>
+                                </div>
+                                </h:panelGroup>
+                            </div>
+                        </div>
+                        <h:panelGroup rendered="#{courrierBean.typeCopieTraitement}">
+                        <div class="modal-footer">
+                            <button class="btn btn-effect-ripple btn-danger active" jsf:action="#{courrierBean.doMiseEnCopie(event,courrierBean.selectedCourrier)}" type="submite" style="line-height: 1.5; font-size: 12px; padding: 5px 10px;">
+                                #{bundle.Confirm}
+                                <!--                                <f:ajax execute="@form"  render=":msgForm:msg :listedemandeSendToDAFForm :divTitleDemandeSendToDAF " onevent="sendDG"/>-->
+                            </button>
+                        </div>
+                        </h:panelGroup>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </ui:composition>
+</html>
+

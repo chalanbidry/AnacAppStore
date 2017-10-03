@@ -1,0 +1,202 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ph="http://xmlns.jcp.org/jsf/passthrough">
+
+    <ui:composition>
+        <!-- Forms Components Header -->
+        <div class="content-header">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="header-section">
+                        <h1 style="font-style:italic;font-family:Century">#{bundle.DemandesManagement}</h1>
+                    </div>
+                </div>
+                <div class="col-sm-6 hidden-xs">
+                    <div class="header-section">
+                        <ul class="breadcrumb breadcrumb-top">
+                            <li>#{bundle.menuAccueil}</li>
+                            <li> #{bundle.menuAdministration}</li>
+                            <li>#{bundle.menuAdministrationDemande}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END Forms Components Header -->
+
+        <!-- Form Components Row -->
+        <div class="row" jsf:id="waitforme">
+            <h:form id="msgForm" prependId="false">
+                <h:messages id="msg" style="display: none;" errorClass="erreurmessage" infoClass="succesmessage" showDetail="true"/>
+                <p:messages  autoUpdate="true" showDetail="true"/>
+            </h:form>
+            <div class="col-md-12">
+                <!-- Horizontal Form Block -->
+                <div class="block">
+                    <!-- Horizontal Form Title -->
+                    <div class="block-title">
+                        <div class="block-options pull-right">
+                            <i class="gi gi-hand_right text-danger"></i>
+
+   <!--<a href="javascript:void(0)" class="btn btn-effect-ripple btn-default toggle-bordered enable-tooltip" data-toggle="button" title="Toggles .form-bordered class">#{bundle.Style}</a>-->
+   <!--<a href="javascript:void(0)" class="btn btn-effect-ripple btn-default toggle-bordered enable-tooltip" data-toggle="button" title="#{bundle.Style}">#{bundle.Style}</a>-->
+                        </div>
+                        <h2 style="font-family:Arial; text-transform: none">#{bundle.DemandesCreation}</h2>
+                    </div>
+                    <!-- END Horizontal Form Title -->
+
+                    <!-- Horizontal Form Content -->
+                    <form jsf:id="createDemandeForm" jsf:prependId="false" jsf:class="form-horizontal form-bordered">
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <div class="col-sm-3" style="">
+                                    <label class="control-label" for="Auteur">#{bundle.dateDemande}</label>  
+                                </div>
+                                <div class="col-md-9" style="padding-right: 0px; padding-left: 2em;">
+                                    <input type="text"  jsf:id="dateDemande" jsf:value="#{demandeBean.newDemande.date}" class="form-control input-datepicker" data-date-format="dd/mm/yyyy" placeholder="dd/mm/yyyy">
+                                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                                    </input>  
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="col-md-3 control-label" for="code">#{bundle.exercice}</label>
+                                <div class="col-md-9">
+                                    <h:selectOneMenu id="example-chosen2"  class="select-chosen" ph:data-placeholder="#{bundle.exercice}" value="#{demandeBean.newDemande.exercice}" style="width: 41em;" >
+                                        <f:selectItem itemValue="#{p}" itemLabel=""/>
+                                        <f:selectItems value="#{demandeBean.listExercice}"  var="liste" itemValue="#{liste}" itemLabel="#{liste.libelle}"/>
+                                        <f:converter converterId="exerciceConverter"/>
+                                    </h:selectOneMenu>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <div class="col-sm-3">
+                                    <label class="control-label" for="observationExp">#{bundle.travaux}</label>  
+                                </div>  
+                                <div class="col-sm-9" style="">
+                                    <h:inputTextarea id="observationExp"  value="#{demandeBean.newDemande.travauxARealiser}" rows="3" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <div class="col-sm-3">
+                                    <label class="control-label" for="observationExp">#{bundle.infraStructure}</label>  
+                                </div>  
+                                <div class="col-sm-9" style="">
+                                    <input type="text" jsf:id="code" name="code" class="form-control" jsf:value="#{demandeBean.newDemande.infrastructure}" placeholder="#{bundle.infraStructure}" required="true"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label class="col-md-3 control-label" for="prestataire">#{bundle.fournisseur}</label>
+                                <div class="col-md-7" jsf:id="listFour">
+                                    <h:selectOneMenu id="example-chosen3"  class="select-chosen" ph:data-placeholder="#{bundle.fournisseur}" value="#{demandeBean.newDemande.fournisseur}" style="width: 47em; border: 1px solid black;" >
+                                        <f:selectItem itemValue="#{p}" itemLabel=""/>
+                                        <f:selectItems value="#{prestataireBean.listePrestataires}"  var="liste" itemValue="#{liste}" itemLabel="#{liste.nom}"/>
+                                        <f:converter converterId="prestataireConverter"/>
+                                    </h:selectOneMenu>
+                                </div>
+                                <div class="col-md-2 no-padding">
+                                    <h:commandLink class="btn btn-effect-ripple btn-primary" onclick="$('#AjoutDialog').modal('show')" >  
+                                        <i class="ace-icon fa fa-plus bigger-130"></i>
+                                        <f:ajax  render=":AjoutDialogForm" onevent="afficheAjout" listener="#{demandeBean.passTypeAjout(bundle.FourTypeAjout)}"/>
+                                    </h:commandLink>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-md-6">
+<!--                                <div class="col-sm-3">
+                                    <label class="control-label" for="objt">#bundle.objet}</label>  
+                                </div>  
+                                <div class="col-sm-9" style="">
+                                    <input type="text" jsf:id="objet" name="objet" class="form-control" jsf:value="#demandeBean.newDemande.objet}" placeholder="#{bundle.objet}" required="true"/>
+                                </div> -->
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label class="col-md-3 control-label" >#{bundle.Categorie}</label>
+                                <div class="col-md-7" jsf:id="listCate">
+                                    <h:selectOneMenu id="example-chosen4"  class="select-chosen" ph:data-placeholder="#{bundle.Categorie}" value="#{demandeBean.selectedCategorie}" style="width: 41em;" >
+                                        <f:selectItem itemValue="#{p}" itemLabel=""/>
+                                        <f:selectItems value="#{categorieBean.listeCategories}"  var="liste" itemValue="#{liste}" itemLabel="#{liste.libelle}"/>
+                                        <f:converter converterId="categorieConverter"/>
+                                        <f:ajax  execute="@this" listener="#{demandeBean.findListMaterielByCat()}" render="divMateriel" onevent="savedemande"/>
+                                    </h:selectOneMenu>
+                                </div>
+                                <div class="col-md-2 no-padding">
+                                     <h:commandLink class="btn btn-effect-ripple btn-primary" onclick="$('#AjoutDialog').modal('show')" >  
+                                        <i class="ace-icon fa fa-plus bigger-130"></i>
+                                        <f:ajax  render=":AjoutDialogForm" onevent="afficheAjout" listener="#{demandeBean.passTypeAjout(bundle.CatTypeAjout)}"/>
+                                    </h:commandLink>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-md-6" jsf:id="divMateriel">
+                                <div class="col-sm-3">
+                                    <label class="control-label" for="objt">#{bundle.Materiel}</label>  
+                                </div>  
+                                <div class="col-md-7" jsf:id="listMate" >
+                                    <h:selectOneMenu id="example-chosen5"  class="select-chosen" ph:data-placeholder="#{bundle.Materiel}" value="#{demandeBean.selectedMateriel}" style="width: 41em;" >
+                                        <f:selectItem itemValue="#{p}" itemLabel=""/>
+                                        <f:selectItems value="#{demandeBean.listeMateriels}"  var="liste" itemValue="#{liste}" itemLabel="#{liste.nomMateriel} &nbsp; (#{liste.numero})"/>
+                                        <f:converter converterId="materielConverter"/>
+                                        <f:ajax  execute="@this" onevent="savedemande"/>
+                                    </h:selectOneMenu>
+                                </div> 
+                                <div class="col-md-2 no-padding" jsf:id="AjoutMat" jsf:rendered="#{demandeBean.selectedCategorie != null}">
+                                    <h:commandLink class="btn btn-effect-ripple btn-primary" onclick="$('#AjoutDialog').modal('show')" >  
+                                        <i class="ace-icon fa fa-plus bigger-130"></i>
+                                        <f:ajax  render=":AjoutDialogForm" onevent="afficheAjout" listener="#{demandeBean.passTypeAjout(bundle.MatTypeAjout)}"/>
+                                    </h:commandLink>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="form-group col-md-10">
+                                <div class="col-sm-3">
+                                    <label class="control-label" for="observationExp">#{bundle.NatureTravaux}</label>  
+                                </div>  
+                                <div class="col-sm-9" style="">
+                                    <h:inputTextarea id="NatureTravaux"  value="#{demandeBean.newDemande.natureDesTravaux}" rows="5" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group form-actions">
+                            <center>
+                                <div class="col-md-3">
+                                    <button type="submit"  class="btn btn-effect-ripple btn-primary" jsf:id="submit_new" jsf:action="#{demandeBean.doCreate(event)}">
+                                        #{bundle.Save}
+                                        <f:ajax execute="@form" render=":msgForm:msg @form :listedemandeForm" onevent="saveDemande"/>
+                                    </button>
+                                </div>
+                            </center>
+                            <!--                            <div class="col-md-3 pull-right">
+                                                            <a href="/AnacAppStore/print/printDemande.xhtml" target="_blank" class="btn btn-effect-ripple btn-primary"><i class="fa fa-print"></i> #{bundle.apperçu}</a>
+                                                        </div>-->
+                        </div>
+                    </form>
+                    <!-- END Horizontal Form Content -->                    
+                </div>
+                <!-- END Horizontal Form Block -->
+            </div>
+
+        </div>
+        <div class="row">
+            <ui:include src="list.xhtml"/>
+        </div>
+        <!-- END Form Components Row -->
+    </ui:composition>
+</html>

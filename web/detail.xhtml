@@ -1,0 +1,209 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition>
+        <!-- Datatables Block -->
+        <!-- Datatables is initialized in js/pages/uiTables.js -->
+        <div jsf:id="detailsDemande" class="modal" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <form jsf:id="detailsDialogForm" jsf:prependId="false">
+                        <div class="modal-header" style="border-bottom:1px solid #ffcccc;">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="blue bigger" style="color: #ff6666;">#{bundle.detailDemande} </h4>
+                        </div>
+                        <div class="row tabbable">
+
+                            <div class="col-sm-2 " >
+
+                                <ul class="nav nav-tabs tabs-left" id="myTab3" style="width: 10em;">
+                                    <li class="active">
+                                        <a data-toggle="tab" href="#home3">
+                                            <i class="pink ace-icon fa fa-tachometer bigger-110" style="color: #ff6666;"></i>
+                                            #{bundle.Demande}
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a data-toggle="tab" href="#profile3">
+                                            <i class="blue ace-icon fa fa-user bigger-110" style="color:#3399ff;"></i>
+                                            #{bundle.Evenement}
+                                        </a>
+                                    </li>
+
+                                </ul>
+                                <!--                                <div style=" width: 10em; border-right: 1px solid #ddd; margin-top: -2px;"></div>-->
+                            </div>
+                            <div class="col-sm-10">
+                                <div class="tab-content" style=" margin-left: -1em;">
+                                    <div id="home3" class="tab-pane active">
+                                        <div class="row">
+                                            <div class="col-sm-12" style="border: 0px solid black">
+                                                <div class="" >
+                                                    <div class="widget-body">
+
+                                                        <div class="" >
+
+                                                            <table class="table table-striped table-bordered table-vcenter">
+
+
+                                                                <tbody>
+                                                                      <tr>
+                                                                        <td style="font-weight:bold;" >Exercice</td>
+                                                                        <td>#{demandeBean.selectedDemande.exercice.libelle}</td>
+                                                                    </tr>
+                                                                    
+                                                                    <tr>
+                                                                        <th style="font-weight:bold;">Utilisateur à l'origine</th>
+                                                                        <th>#{demandeBean.selectedDemande.utilisateurSend.fonction.libelle}</th>
+                                                                    </tr>
+
+                                                                    <tr>
+                                                                        <td style="font-weight:bold;" >Numéro de la demande</td>
+                                                                        <td>#{demandeBean.selectedDemande.code}</td>
+                                                                    </tr>
+                                                                    
+                                                                    <tr>
+                                                                        <td style="font-weight:bold;" >Infrastructure</td>
+                                                                        <td>#{demandeBean.selectedDemande.infrastructure}</td>
+                                                                    </tr>
+                                                                    
+                                                                    <tr>
+                                                                        <td style="font-weight:bold;" >Nature des travaux</td>
+                                                                        <td>#{demandeBean.selectedDemande.natureDesTravaux}</td>
+                                                                    </tr>
+
+                                                                      <tr>
+                                                                        <td style="font-weight:bold;" >Traveaux à réalisés</td>
+                                                                        <td>#{demandeBean.selectedDemande.travauxARealiser}</td>
+                                                                    </tr>
+                                                                    
+                                                                      <tr>
+                                                                        <td style="font-weight:bold;" >Fournisseur</td>
+                                                                        <td>#{demandeBean.selectedDemande.fournisseur.nom}</td>
+                                                                    </tr>
+                                                                    
+                                                                    <tr>
+                                                                        <td style="font-weight:bold;">Statut</td>
+                                                                        <td class="bolder">#{demandeBean.findLastProgressionDemande().statut}</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td style="font-weight:bold;">Position actuelle</td>
+                                                                        <td>#{demandeBean.findLastProgressionDemande().userReceive.fonction.libelle}<!--le serrvice courant--></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td style="font-weight:bold;">Date de la demande</td>
+                                                                        <td>#{connexionBean.convertDate(demandeBean.selectedDemande.date,"dd-MM-yyyy")}</td>
+                                                                    </tr>
+                                                                   
+                                                                    <tr>
+                                                                        <td style="font-weight:bold;">Date de création</td>
+                                                                        <td>#{connexionBean.convertDate(demandeBean.selectedDemande.dateCreation,"dd-MM-yyyy")}</td>
+                                                                    </tr>
+
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                      
+                                        </div>
+
+                                    </div><!--home-->
+
+                                    <div id="profile3" class="tab-pane">                                          
+                                        <div class="widget-body">
+
+                                            <div style="margin-left: 2em; margin-top: 1em; margin-bottom: 1em; width:50em;">
+                                                <table jsf:id="table-demande-evenement" class="table table-striped table-bordered table-vcenter" >
+                                                    <thead>
+                                                        <tr>
+                                                            <th style="color:#3399ff;">Numero</th>
+                                                            <th style="color:#3399ff;">Evenements</th>
+                                                            <th style="color:#3399ff;">Utilisateur</th>
+                                                            <th style="color:#3399ff;">Date</th>
+                                                        </tr>
+                                                    </thead>
+
+                                                    <tbody>
+                                                        <ui:repeat value="#{demandeBean.findListEvenement()}" var="item" varStatus="status">
+                                                            <tr>
+                                                                <td>#{(status.index)+1}</td>
+                                                                <td>#{item.evenement.libelle}</td>
+                                                                <td>#{item.userSend.fonction.code}</td>
+                                                                <td>#{connexionBean.convertDate(item.dateCreation,"dd-MM-yyyy")}</td>
+                                                            </tr>
+                                                        </ui:repeat>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <br/>
+                                            <div style="margin-left: 2em; margin-top: 1em; margin-bottom: 1em; width:50em;">
+                                                <table jsf:id="table2-Bon-evenement" class="table table-striped table-bordered table-vcenter" >
+                                                    <thead>
+                                                        <tr>
+                                                            <th style="color:#3399ff;">Numero</th>
+                                                            <th style="color:#3399ff;">Evenements</th>
+                                                            <th style="color:#3399ff;">Utilisateur</th>
+                                                            <th style="color:#3399ff;">Date</th>
+                                                        </tr>
+                                                    </thead>
+
+                                                    <tbody>
+                                                        <ui:repeat value="#{demandeBean.findListEvenementBon()}" var="item" varStatus="status">
+                                                            <tr>
+                                                                <td>#{(status.index)+1}</td>
+                                                                <td>#{item.evenement.libelle}</td>
+                                                                <td>#{item.userSend.fonction.code}</td>
+                                                                <td>#{connexionBean.convertDate(item.dateCreation,"dd-MM-yyyy")}</td>
+                                                            </tr>
+                                                        </ui:repeat>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+
+                             
+
+                                </div>
+                            </div><!-- /.col -->
+
+
+                        </div><!-- /.row -->
+                        <div class="modal-footer">
+
+
+                            <button class="btn btn-default btn-lg active" style="line-height: 1.5; font-size: 12px; padding: 5px 10px;" data-dismiss="modal" >
+                                <i class="ace-icon fa fa-times"></i>
+                                #{bundle.Close}
+                            </button>
+
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- END Datatables Block -->
+
+        <script>
+//            $(function () {
+//                $('#functions-datatable').dataTable({
+//                    columnDefs: [{orderable: false, targets: [4]}],
+//                    pageLength: 10,
+//                    lengthMenu: [[5, 10, 20], [5, 10, 20]]
+//                });
+//            });
+        </script>
+    </ui:composition>
+</html>

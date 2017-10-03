@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+            xmlns:ph="http://xmlns.jcp.org/jsf/passthrough">
+
+
+
+    <body>
+        <ui:composition>
+            <!-- Step Info -->
+            <div style="padding:3px; padding-left:18px; border-left:4px solid #d0d0d0;  margin-left:20px; font-style:italic;">
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-xs-12">
+                            <ul class="nav nav-pills nav-justified clickable-steps">
+                                <li><a href="javascript:void(0)" ><i class="gi gi-folder_open"></i> <strong>&nbsp;&nbsp;&nbsp;&nbsp;#{bundle.CommandeBon}</strong></a></li>
+                                <li class="active"><a href="javascript:void(0)" ><i class="fa fa-list "></i> <strong>&nbsp;&nbsp;#{bundle.Element}</strong></a></li>
+                            <li><a href="javascript:void(0)"><i class="fa fa-check"></i> <strong>&nbsp;&nbsp;Confirmation</strong></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" jsf:id="div2">
+                    <div class="form-group col-sm-12">
+                        <!--                                <div class="col-sm-3">
+                                                            <label class="control-label" for="Element">#bundle.Element}</label>  
+                                                        </div>  -->
+                        <div class="col-sm-3" jsf:id="listEle">
+                            <label class=" control-label" for="exo">#{bundle.Element}</label>
+                            <h:selectOneMenu id="example-chosen4"  class="select-chosen" ph:data-placeholder="#{bundle.Element}" value="#{demandeBean.selectElement}" style="width: 41em;" >
+                                <f:selectItem itemValue="#{p}" itemLabel="inexistant"/>
+                                <f:selectItems value="#{demandeBean.listElement}"  var="liste" itemValue="#{liste}" itemLabel="#{liste.libelle}"/>
+                                <f:converter converterId="elementConverter"/>
+                                <f:ajax listener="#{demandeBean.passElement(demandeBean.selectElement)}" render="Element" onevent="selectDemande"/>
+                            </h:selectOneMenu>
+                        </div>
+                        <div class="col-sm-3" style="">
+                            <label class=" control-label" for="exo">#{bundle.Element}</label>
+                            <input type="text" jsf:id="Element" name="Element" class="form-control" jsf:value="#{demandeBean.newElement.libelle}" placeholder="#{bundle.Element}" required="true"/>
+                        </div> 
+                        <div class="col-sm-3" style="">
+                            <label class=" control-label" for="exo">#{bundle.Qte}</label>
+                            <input type="number" jsf:id="nbr" name="nbr" class="form-control" jsf:value="#{demandeBean.newCommandeElement.qte}" placeholder="#{bundle.Qte}" required="true"/>
+                        </div> 
+                        <div class="col-sm-3 input-group">
+                            <label class=" control-label" for="exo">#{bundle.PU}</label>
+                            <input type="text" jsf:id="PU" name="PU" class="form-control" jsf:value="#{demandeBean.newCommandeElement.prixUnit}" placeholder="#{bundle.PU}" required="true"/>
+                            <span class="input-group-addon">FCFA</span>
+                        </div>
+                        
+                    </div>
+                </div>
+                <br/>
+                    <div class="row">
+                        <div class="col-sm-12">
+                          
+                            <div class="col-sm-3"></div>
+                        <div class="col-sm-3" style=" float: right;" >
+                            <button type="button"  class="btn btn-effect-ripple btn-primary" jsf:id="add">
+                                #{bundle.Add}
+                                <f:ajax execute="div2" render="ListElement DataTableConfirmElement div2 listEle MontantTotalLettre" listener="#{demandeBean.ajouterElement()}"  onevent="reinitChosen2"/>
+                            </button>
+                        </div>
+                        </div>
+                    </div>
+                <br/><br/>
+                <div class="row block full" jsf:id="ListElement">
+                    <table jsf:id="DataTableIDElement" class="table table-striped table-bordered table-vcenter">
+                        <thead>
+                            <tr>
+                                <th class="text-center" style="width: 75px;">#{bundle.Element}</th>
+                                <th class="text-center" style="width: 50px;">#{bundle.EspeceUnit}</th>
+                                <th class="text-center" style="width: 50px;">#{bundle.Qte}</th>
+                                <th class="text-center" style="width: 75px;">#{bundle.PU}</th>
+                                <th class="text-center" style="width: 75px;">#{bundle.Mt}</th>
+                                <!--<th style="width: 120px;">Status</th>-->
+                                <th class="text-center" style="width: 75px;"><i class="fa fa-flash"></i></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <ui:repeat value="#{demandeBean.listCommandeElement}" var="item" varStatus="status">
+                                <tr>
+                                    <td class="text-center"><strong>#{item.element.libelle}</strong></td>
+                                    <td class="text-center"><strong>PU</strong></td>
+                                    <td class="text-center"><strong>#{item.qte}</strong></td>
+                                    <td class="text-center"><strong>#{item.prixUnit}</strong></td>
+                                    <td class="text-center"><strong>#{item.montant}</strong></td>
+                                    <td class="center"  >
+                                        
+                                        <h:commandLink title="supprimer" class="btn btn-effect-ripple btn-xs btn-danger">
+                                            <i class="ace-icon fa fa-trash-o bigger-130"></i>
+                                            <f:ajax listener="#{demandeBean.deleteItem(item)}" render="ListElement" onevent="reinitChosen2"/>
+                                        </h:commandLink> 
+                                    </td>
+                                </tr>
+                                
+                            </ui:repeat>
+                            <tr class="bg-danger">
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                              <td class="text-center"><strong>Total</strong></td>
+                              <td class="text-center"><strong>#{demandeBean.total}</strong></td>
+                                <td></td>
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+                    <br/><br/>
+                  
+                    
+                     <div class="row form-group">
+                         <label class="col-md-3 control-label">Montant Total TTC en Lettre</label>
+                            <div class="col-md-9">
+                                <input type="text" jsf:id="MontantTotalLettre" name="MontantTotalLettre" class="form-control col-md-6" jsf:value="#{demandeBean.newBonDeCommande.TTCLettre}" value="#{demandeBean.converssion(demandeBean.total)}" placeholder="Montant total TTC en Lettre" required="true"/>
+                            </div>
+                        </div>
+                </div>
+                  <div class="form-group form-actions">
+                    <div class="col-md-8 col-md-offset-4">
+                        <button type="reset" class="btn btn-effect-ripple btn-danger" id="back1">Précedent</button>
+                        
+                        <button type="submit" class="btn btn-effect-ripple btn-primary" jsf:id="next1">
+                            Suivant
+                             <f:ajax execute="MontantTotalLettre" render="ListElement DataTableConfirmElement"  onevent="reinitChosen2"/>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </ui:composition>
+    </body>
+</html>

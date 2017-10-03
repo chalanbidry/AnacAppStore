@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="address" required="true" />
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+
+        <address jsf:id="#{cc.attrs.id}">
+            <!--    DOMICILE & RUE    -->
+            <span jsf:rendered="#{not empty cc.attrs.address.domicile}" title="#{bundle.AdresseDomicile}">
+                <i class="fa fa-home"/>
+                #{cc.attrs.address.domicile}
+            </span>
+            <span jsf:rendered="#{not empty cc.attrs.address.rue}" title="#{bundle.AdresseRue}">
+                <i class="fa fa-road" />
+                #{cc.attrs.address.rue}
+            </span>
+            <br jsf:rendered="#{(not empty cc.attrs.address.domicile) or (not empty cc.attrs.address.rue)}"/>
+            
+            <!--    QUARTIER & VILLE    -->
+            <span jsf:rendered="#{not empty cc.attrs.address.quartier}" title="#{bundle.AdresseQuartier}">
+                <i class="fa fa-location-arrow"/>
+                #{cc.attrs.address.quartier}
+            </span>
+            <span jsf:rendered="#{not empty cc.attrs.address.ville}" title="#{bundle.VilleLibelle}">
+                <i class="fa fa-map-marker"/>
+                #{cc.attrs.address.ville.libelle}
+            </span>
+            <br jsf:rendered="#{(not empty cc.attrs.address.quartier) or (not empty cc.attrs.address.ville)}"/>
+            
+            <!--    DEPARTEMENT / REGION & PAYS    -->
+            <span jsf:rendered="#{not empty cc.attrs.address.departement}" title="#{bundle.DepartementLibelle}">
+                <i class="fa fa-map-marker"/>
+                #{cc.attrs.address.departement.libelle}
+            </span>
+            <span jsf:rendered="#{not empty cc.attrs.address.pays}" title="#{bundle.PaysLibelle}">
+                <img src="/forseti/javax.faces.resource/#{cc.attrs.address.pays.code.toLowerCase()}.png.xhtml?ln=images/flags" />
+                #{cc.attrs.address.pays.libelle}
+            </span>
+        </address>
+
+    </cc:implementation>
+</html>

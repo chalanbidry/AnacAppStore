@@ -1,0 +1,528 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <ui:composition template="./../template/base.xhtml">
+        <ui:define name="selectedMenu">
+            <ui:param name="menuGedClass" value="active"/>
+            <ui:param name="RegistreDemandeClass" value="active"/> 
+        </ui:define>
+        <ui:define name="css">
+
+        </ui:define>
+        <ui:define name="content">
+            <ui:include src="create.xhtml"/>
+            <ui:include src="detail.xhtml"/>
+
+
+            <!--            <ui:include src="edit.xhtml"/>
+                        <ui:include src="view.xhtml"/>
+                        <ui:include src="delete.xhtml"/>-->
+        </ui:define>
+        <ui:define name="script">
+            <!-- ckeditor.js, load it only in the page you would like to use CKEditor (it's a heavy plugin to include it with the others!) -->
+            <script src="#{request.contextPath}/resources/js/plugins/ckeditor/ckeditor.js"></script> 
+            <!-- Load and execute javascript code used only in this page -->
+            <script src="#{request.contextPath}/resources/js/pages/formsComponents.js"></script> 
+            <!-- Load and execute javascript code used only in this page -->
+            <!--<script src="#{request.contextPath}/resources/js/pages/custumForsetiPenal.js"></script>--> 
+            <!-- jQuery, Bootstrap, jQuery plugins and Custom JS code -->
+
+            <!-- Load and execute javascript code used only in this page -->
+            <script>
+                $(function () {
+                    FormsComponents.init();
+                });
+                $(function () {
+                    UiTables.init('#DataTableID', 6);
+                    UiTables.init('#DataTableID1CSC', 6);
+                    UiTables.init('#DataTableDoc', 5);
+                });
+                $(function () {
+                    UiProgress.init();
+                });
+
+                function global() {
+                    initialiserChosenSelect();
+                }
+
+                function startWaitMe(element) {
+                    $('#waitforme').waitMe({
+                        effect: 'timer',
+                        text: 'Patientez un peu svp...',
+                        bg: 'rgba(255,255,255,0.7)',
+                        color: '#000',
+                        sizeW: '',
+                        sizeH: '',
+                        source: ''
+                    });
+                }
+
+
+                function startWaitMeTest1(element) {
+                    $('#listedemandeFormCSC').waitMe({
+                        effect: 'timer',
+                        text: 'Patientez un peu...',
+                        bg: 'rgba(255,255,255,0.7)',
+                        color: '#000',
+                        sizeW: '',
+                        sizeH: '',
+                        source: ''
+                    });
+                }
+
+                function stopWaitMeTest1(element) {
+                    $('#listedemandeFormCSC').waitMe('hide');
+                }
+
+                function afficheListeAllDemandeInDirCSFC(data) {
+                    if (data.status === "begin") {
+
+                        startWaitMeTest1('#listedemandeFormCSC');
+                    }
+                    if (data.status === "complete") {
+                        //alert("complete"); 
+                        stopWaitMeTest1('#listedemandeFormCSC');
+                    }
+                    if (data.status === "success") {
+
+                        UiTables.init('#DataTableID1CSC', 6);
+//                        initialiserParDefaut();
+                        // alert("succes");  
+                    }
+                }
+
+                function stopWaitMe(element) {
+                    $('#waitforme').waitMe('hide');
+                }
+
+                function savedemande(data) {
+                    if (data.status === "begin") {
+                        startWaitMe("#submit_new");
+                    }
+                    if (data.status === "complete") {
+                        stopWaitMe("#submit_new");
+                    }
+                    if (data.status === "success") {
+                        initialiserChosenSelect();
+                        UiTables.init('#DataTableID', 6);
+                    }
+                }
+
+                function editdemande(data) {
+
+                    if (data.status === "success") {
+                        initialiserChosenSelect();
+                        UiTables.init('#DataTableID', 2);
+                    }
+                }
+                function deletedemande(data) {
+
+                    if (data.status === "success") {
+                        initialiserChosenSelect();
+                        UiTables.init('#DataTableID', 2);
+                    }
+                }
+
+                function afficheDetail(data) {
+                    if (data.status === "begin") {
+                        startWaitMe('#block');
+                    }
+                    if (data.status === "complete") {
+                        stopWaitMe('#block');
+                    }
+                    if (data.status === "success") {
+                        UiTables.init('#table-demande-evenement', 2);
+                        UiTables.init('#table2-Bon-evenement', 2);
+                    }
+                }
+
+                function retourEnvoi(data) {
+                    if (data.status === "begin") {
+                        startWaitMe('#waitforme');
+                    }
+                    if (data.status === "complete") {
+                        stopWaitMe('#waitforme');
+                    }
+                    if (data.status === "success") {
+                        UiTables.init('#DataTableID', 6);
+                    }
+                }
+                function saveDemande(data) {
+                    if (data.status === "begin") {
+                        startWaitMe('#block');
+                    }
+                    if (data.status === "complete") {
+                        stopWaitMe('#block');
+                    }
+                    if (data.status === "success") {
+                        initialiserChosenSelect();
+                    }
+                }
+
+                function afficheListeAlldocx(data) {
+                    if (data.status === "begin") {
+
+                        startWaitMe('#listeDocFormCSC');
+                    }
+                    if (data.status === "complete") {
+                        //alert("complete"); 
+                        stopWaitMe('#listeDocFormCSC');
+                    }
+                    if (data.status === "success") {
+
+                        UiTables.init('#DataTableDoc', 5);
+
+                    }
+                }
+
+
+
+            </script>
+
+            <script type="text/javascript">
+                function ajaxOnEventSelectionner(data) {
+                    if (data.status === "begin") {
+                        startWaitMe();
+                    }
+                    if (data.status === "complete") {
+                        stopWaitMe();
+                    }
+                    if (data.status === "success") {
+                        try {
+                        } catch (err) {
+                        }
+                    }
+                }
+                function ajaxOnEventOuvrir(data) {
+                    if (data.status === "begin") {
+                        startWaitMe();
+                    }
+                    if (data.status === "complete") {
+                        stopWaitMe();
+                    }
+                    if (data.status === "success") {
+                        try {
+                        } catch (err) {
+                        }
+                    }
+                }
+                function ajaxOnEventEnregistrer(data) {
+                    if (data.status === "begin") {
+                        startWaitMe();
+                    }
+                    if (data.status === "complete") {
+                        stopWaitMe();
+                    }
+                    if (data.status === "success") {
+                        try {
+                        } catch (err) {
+                        }
+                    }
+                }
+                function ajaxOnEventTelecharger(data) {
+                    if (data.status === "begin") {
+                        startWaitMe();
+                    }
+                    if (data.status === "complete") {
+                        stopWaitMe();
+                    }
+                    if (data.status === "success") {
+                        try {
+                        } catch (err) {
+                        }
+                    }
+                }
+
+                $('#btn-back').click(function () {
+                    $('#page-preview').addClass('hide');
+                });
+                $('#viewDoc').click(function () {
+
+                    $('#page-preview').removeClass('hide');
+                });
+                jQuery(function ($) {
+
+
+                    $('#page-preview').addClass('hide');
+
+
+
+
+
+                    $('#skip-validation').removeAttr('checked').on('click', function () {
+                        $validation = this.checked;
+                        if (this.checked) {
+                            $('#treeviewForm').hide();
+                            $('#listeDocumentsForm').removeClass('hide');
+                        }
+                        else {
+                            $('#listeDocumentsForm').addClass('hide');
+                            $('#treeviewForm').show();
+                        }
+                    })
+
+                    // récupère les années
+                    var annees_json = $('#annees-json').text();
+                    console.debug(annees_json);
+                    var annees = $.parseJSON(annees_json);
+                    console.debug(annees);
+
+                    //
+                    var data_source = new Array();
+                    $.each(annees, function (i, annee) {
+
+                        //
+                        var dossies = new Array();
+                        $.each(annee.dossiers, function (j, dossier) {
+
+                            console.debug(dossier.documents);
+                            //
+                            var documents = new Array();
+                            $.each(dossier.documents, function (j, document) {
+                                //var n = Math.floor(Math.random() * 100 + 1);
+                                //for (i = 1; i != n; i++) {
+                                //    var obj_document = {documentId: dossier.id + '-' + i, dossierId: dossier.id, text: '<i class="ace-icon fa fa-file-text grey"></i> ' + 'Document N°' + i, type: 'item'};
+                                var obj_document = {documentId: document.id, dossierId: dossier.id, text: '<i class="ace-icon fa fa-file-text grey"></i> ' + document.fileName, type: 'item'};
+                                documents.push(obj_document);
+                                //}
+                            });
+
+                            var obj_dossier = {dossierId: dossier.id, text: dossier.numeroRG + ' [' + documents.length + ' document(s)]', type: 'folder', 'icon-class': 'green'};
+                            obj_dossier.additionalParameters = {children: documents};
+                            dossies.push(obj_dossier);
+                        });
+
+                        var obj_annee = {text: annee.valeur + ' [' + dossies.length + ' dossier(s)]', type: 'folder', 'icon-class': 'blue'};
+                        obj_annee.additionalParameters = {children: dossies};
+                        data_source.push(obj_annee);
+                    });
+
+                    var dataSource = function (options, callback) {
+                        var $data = null;
+                        if (!("text" in options)) {
+                            if (!("type" in options)) {
+                                $data = data_source;//the root tree
+                                callback({data: $data});
+                                return;
+                            }
+                        }
+                        else if ("type" in options) {
+                            if (options.type === "folder") {
+                                if ("additionalParameters" in options) {
+                                    if ("children" in options.additionalParameters) {
+                                        $data = options.additionalParameters.children || {};
+                                    }
+                                }
+                                else
+                                    $data = {}//no data
+                            }
+                        }
+
+                        if ($data !== null)//this setTimeout is only for mimicking some random delay
+                            setTimeout(function () {
+                                callback({data: $data});
+                            }, parseInt(Math.random() * 500) + 200);
+
+                        //we have used static data here
+                        //but you can retrieve your data dynamically from a server using ajax call
+                        //checkout examples/treeview.html and examples/treeview.js for more info
+                    }
+
+                    //please refer to docs for more info
+                    $('#tree2').ace_tree({
+                        dataSource: dataSource,
+                        loadingHTML: '<div class="tree-loading"><i class="ace-icon fa fa-refresh fa-spin blue"></i></div>',
+                        'open-icon': 'ace-icon fa fa-folder-open',
+                        'close-icon': 'ace-icon fa fa-folder',
+                        'selectable': true,
+                        'multiSelect': false,
+                        'selected-icon': null,
+                        'unselected-icon': null
+                    }).on('loaded.fu.tree', function (e) {
+
+                    }).on('updated.fu.tree', function (e, result) {
+
+                    }).on('selected.fu.tree', function (e, data) {
+                        console.debug(data);
+                        var doc = data.target;
+                        if (doc !== undefined) {
+                            selectionnerDocument(doc.documentId, doc.dossierId);
+//                                $('#dossier-id').val(doc.dossierId);
+//                                $('#document-id').val(doc.documentId);
+//                                $('#submit-selectionner').click();
+                        }
+                        $('.scrollable').ace_scroll('reset');
+                    }).on('deselected.fu.tree', function (e) {
+
+                    }).on('opened.fu.tree', function (e) {
+
+                    }).on('closed.fu.tree', function (e) {
+
+                    });
+
+
+                    // scrollables
+                    $('.scrollable').each(function () {
+                        var $this = $(this);
+                        $(this).ace_scroll({
+                            size: $this.attr('data-size') || 100,
+                            //styleClass: 'scroll-left scroll-margin scroll-thin scroll-dark scroll-light no-track scroll-visible'
+                        });
+                    });
+
+                });
+                function selectionnerDocument(idDocument, idDossier) {
+                    console.log('idDocument : ' + idDocument + ' - idDossier : ' + idDossier);
+                    $('#dossier-id').val(idDossier);
+                    $('#document-id').val(idDocument);
+                    $('#submit-selectionner').click();
+                }
+                function ouvrirliste() {
+
+                    initialiserDataTableGed('#dynamic-table', [
+                        null,
+                        null,
+                        null,
+                        null,
+                        {"bSortable": false}
+                    ]);
+                }
+
+                function initialiserDataTableGed(id, columns) {
+                    //initiate dataTables plugin
+                    var oTable1 =
+                            $(id)
+                            //.wrap("<div class='dataTables_borderWrap' />")   //if you are applying horizontal scrolling (sScrollX)
+                            .dataTable({
+                                bAutoWidth: false,
+                                "aoColumns": columns,
+                                "aaSorting": [],
+                                "language": {
+                                    "url": "/forseticiv/resources/js/French.json"
+                                }
+
+                            });
+                    //oTable1.fnAdjustColumnSizing();
+
+
+                    //TableTools settings
+                    TableTools.classes.container = "btn-group btn-overlap";
+                    TableTools.classes.print = {
+                        "body": "DTTT_Print",
+                        "info": "tableTools-alert gritter-item-wrapper gritter-info gritter-center white",
+                        "message": "tableTools-print-navbar"
+                    }
+
+                    //initiate TableTools extension
+                    var tableTools_obj = new $.fn.dataTable.TableTools(oTable1, {
+                        "sRowSelect": "single",
+                        "fnRowSelected": function (row) {
+                            //check checkbox when row is selected
+
+                            console.log(row);
+                            try {
+                                var documentId = $($(row).find('.documentId').get(0)).text()
+                                var dossierId = $($(row).find('.dossierId').get(0)).text()
+                                selectionnerDocument(documentId, dossierId);
+//                                    $(row).find('input[type=checkbox]').get(0).checked = true;
+                            }
+                            catch (e) {
+                            }
+                        },
+                        "fnRowDeselected": function (row) {
+                            //uncheck checkbox
+                            try {
+//                                    $(row).find('input[type=checkbox]').get(0).checked = false;
+                            }
+                            catch (e) {
+                            }
+                        },
+                        "sSelectedClass": "success",
+                    });
+
+
+
+
+
+
+
+
+
+
+                    /////////////////////////////////
+                    //table checkboxes
+//                        $('th input[type=checkbox], td input[type=checkbox]').prop('checked', false);
+//
+//                        //select/deselect all rows according to table header checkbox
+//                        $(id + '> thead > tr > th input[type=checkbox]').eq(0).on('click', function () {
+//                            var th_checked = this.checked;//checkbox inside "TH" table header
+//
+//                            $(this).closest('table').find('tbody > tr').each(function () {
+//                                var row = this;
+//                                if (th_checked)
+//                                    tableTools_obj.fnSelect(row);
+//                                else
+//                                    tableTools_obj.fnDeselect(row);
+//                            });
+//                        });
+
+                    //select/deselect a row when the checkbox is checked/unchecked
+//                        $(id).on('click', 'td input[type=checkbox]', function () {
+//                            var row = $(this).closest('tr').get(0);
+//                            if (!this.checked) {
+//
+//                                tableTools_obj.fnSelect(row);
+//                            }
+//                            else
+//                                tableTools_obj.fnDeselect($(this).closest('tr').get(0));
+//                        });
+
+                }
+                initialiserParDefaut();
+                function updateTable() {
+                    //alert("rentre dedans");
+                    initialiserDataTableGed('#dynamic-table', [
+                        null,
+                        null,
+                        null,
+                        null,
+                        {"bSortable": false}
+                    ]);
+                }
+                function errorUpdate() {
+                    alert("erreur");
+                }
+                function affichemaj() {
+                    if (data.status === "success") {
+                        $('#id-input-file-2').ace_file_input({
+                            no_file: 'Aucun fichier ...',
+                            btn_choose: 'Choisir',
+                            btn_change: 'Changer',
+                            droppable: false,
+                            onchange: null,
+                            thumbnail: false //| true | large
+                                    //whitelist:'gif|png|jpg|jpeg'
+                                    //blacklist:'exe|php'
+                                    //onchange:''
+                                    //
+                        });
+                    }
+                }
+                function AffichePopupMajDocument() {
+
+                    $('#majGedDocumentDialog').modal('show');
+                    initialiserParDefaut();
+                    // alert("dfg");
+
+                }
+                $('#maj').click(function () {
+                    $('#majPersonneDialog').modal('show');
+
+                });
+
+            </script>
+        </ui:define>
+    </ui:composition>
+</html>

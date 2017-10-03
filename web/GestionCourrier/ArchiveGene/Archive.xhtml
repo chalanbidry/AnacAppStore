@@ -1,0 +1,184 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ph="http://xmlns.jcp.org/jsf/passthrough">
+
+    <ui:composition>
+        <!-- Datatables Block -->
+        <!-- Datatables is initialized in js/pages/uiTables.js -->
+        <div class="content-header">
+            <form jsf:id="CriterArchiveArr1Form" jsf:prependId="false" jsf:class="form-horizontal form-bordered">
+            <div class="form-group row">
+                <div class="col-sm-6">
+                    <div class="header-section">
+                        <h1> Archive Genérale</h1>
+                        
+                    </div>
+                </div>
+                <div class="col-sm-6 hidden-xs">
+                    <div class="header-section">
+                        <ul class="breadcrumb breadcrumb-top">
+                            
+                            <li><a href="">Archive Genérale</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+             
+                <div class="form-group row" jsf:rendered="#{connexionBean.currentUser.fonction.code == 'SD'}">
+                   
+                    <div class="col-md-4 no-padding" jsf:id="Departement">
+                    <label class=" control-label" for="exo">Direction</label>
+
+                    <h:selectOneMenu id="example-chosen4"  class="select-chosen" ph:data-placeholder="#{bundle.TypeCourrier}" value="#{courrierBean.selectedDirection}" style="width: 41em;" >
+                        <f:selectItem value="#{p}" itemValue="#{p}" itemLabel="-------Direction-----"/>
+                        <f:selectItems value="#{courrierBean.listDepToSD}" var="dep" itemValue="#{dep}"   itemLabel="#{dep.code}"/>
+                        <f:converter converterId="departementConverter"/>
+                    </h:selectOneMenu>
+
+                </div>
+                  
+                </div>
+                
+            <div class="form-group row">
+                <div class="col-md-4 no-padding" jsf:id="TypCou1">
+                    <label class=" control-label" for="exo">Type Courrier</label>
+
+                    <h:selectOneMenu id="example-chosen5"  class="select-chosen" ph:data-placeholder="#{bundle.TypeCourrier}" value="#{courrierBean.selectedTypeCourrier}" style="width: 41em;" >
+                        <f:selectItem value="#{p}" itemValue="#{p}" itemLabel="-------Type Courrier-----"/>
+                        <f:selectItems value="#{typeCourrierBean.listeTypeCourriers}" var="typCou" itemValue="#{typCou}"   itemLabel="#{typCou.libelle}"/>
+                        <f:converter converterId="typeCourrierConverter"/>
+                        <f:ajax execute="@this"  render="divTiTre" onevent="reinitChosen"/>
+                    </h:selectOneMenu>
+
+                </div>
+               
+                    
+                    <div class="col-md-6">
+                        <label class="control-label" for="example-daterange1">Période</label>
+                        <div class="input-group input-daterange" data-date-format="dd/mm/yyyy">
+                            <input type="text"  jsf:id="example-daterange1" jsf:value="#{courrierBean.date1}"  class="form-control input-datepicker date-picker" data-date-format="dd/mm/yyyy" placeholder="dd/mm/yyyy">
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                                <f:ajax execute="@this"  onevent="reinitChosen"/>
+                            </input>
+                            <span class="input-group-addon"> Au </span>
+                            <input type="text"  jsf:id="example-daterange2" jsf:value="#{courrierBean.date2}"  class="form-control input-datepicker date-picker" data-date-format="dd/mm/yyyy" placeholder="dd/mm/yyyy">
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                                <f:ajax execute="@this" onevent="reinitChosen"/>
+                            </input>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <button  type="submit" jsf:id="submit_stat"    class="btn btn-info" style="margin-top: 2em;">
+                            <i class="gi gi-ok_2"></i> 
+                            #{bundle.rechercher}
+                            <f:ajax execute="@form" listener="#{courrierBean.rechercheByDate()}" render=":msgForm:msg @form :page-content2 " onevent="reinitChosen"/>
+                        </button>
+                    </div>
+
+                  
+
+                
+            </div>
+             </form>
+            <br/>
+        </div>
+        <div class="row" jsf:id="waitforme">
+            <h:form id="msgForm" prependId="false">
+                <h:messages id="msg" style="display: none;" errorClass="erreurmessage" infoClass="succesmessage" showDetail="true"/>
+                <p:messages  autoUpdate="true" showDetail="true"/>
+            </h:form>
+
+            <!-- Horizontal Form Block -->
+            <h:form id="CriterArchiveArrForm" prependId="false" class="form-horizontal form-bordered">
+                
+                <!-- END Horizontal Form Block -->
+
+                <hr/>
+                <div class="row">
+                   
+
+                    <div jsf:id="page-content2" class="col-md-12" style="border: 1px solid #dae0e8;border-bottom-right-radius: 10px;border-bottom-left-radius: 10px;  padding-top: 10px; margin-bottom: 10px;" >
+                        <!-- Inner Sidebar -->
+                        <div class="block-title">
+                            
+                            <center>
+                                <h2 class="themed-background text-light" style="font-family:Arial; text-transform: none" jsf:rendered="#{courrierBean.selectedCourrier==null and courrierBean.selectedTypeCourrier!=null}">Liste des courriers de type "#{courrierBean.selectedTypeCourrier.libelle}"<br/> Total : #{courrierBean.listCourrierFindForRecherhe.size()} courrier(s)</h2>
+                                <h2 class="themed-background text-light" style="font-family:Arial; text-transform: none" jsf:rendered="#{courrierBean.selectedCourrier!=null}">Contenu du courrier N° _<label style="font-family: Castellar;">#{courrierBean.selectedCourrier.numCour}</label>_</h2>
+                            </center>
+                        </div>
+                        <!-- END Inner Sidebar -->
+
+                        <!-- Media Box Content -->
+                        <!-- Add the category value for each item in its data-category attribute (for the filter functionality to work) -->
+                        <div class="row form-group media-filter-items" jsf:rendered="#{courrierBean.selectedCourrier==null}">
+                            <ui:repeat value="#{courrierBean.listCourrierFindForRecherhe}" var="list">
+                                <div class="col-sm-4 col-lg-3">
+                                    <div class="media-items animation-fadeInQuick2">
+                                        <div class="media-items-options text-right">
+                                            <h:commandLink  rendered="#{courrierBean.selectedTypeCourrier.categorieCourrier != categorieCourrierBean.categorieCourrierArrive}" class="btn btn-xs btn-success" title="Détails du courrier"    onclick="$('#detailsCourrier').modal('show')">
+                                                <i class="fa fa-pencil"></i>
+                                                <f:ajax execute="@this" listener="#{courrierBean.findDetailInArchive(list)}" render=":detailsCourrierDialogForm" onevent="showDetail"/>
+                                            </h:commandLink>
+                                            <h:commandLink  rendered="#{courrierBean.selectedTypeCourrier.categorieCourrier == categorieCourrierBean.categorieCourrierArrive}" class="btn btn-xs btn-success" title="Détails du courrier"   onclick="$('#detailsCourrierAr').modal('show')">
+                                                <i class="fa fa-pencil"></i>
+                                                <f:ajax execute="@this" listener="#{courrierBean.findDetailInArchive(list)}" render=":detailsCourrierArDialogForm :detailsCourrierArDialogForm:olListEven " onevent="showDetailCouArr"/>
+                                            </h:commandLink>
+                                            <a href="javascript:void(0)" class="btn btn-xs btn-success" title="Ouvrir le courrier" onclick="selectionnerCourrier('#{list.code}')"><i class="fa fa-folder-open"></i></a>
+                                        </div>
+                                        <a ondblclick="selectionnerCourrier('#{list.code}')" href="#" style="text-decoration: none;">
+                                            <div class="media-items-content">
+                                                <i class="gi gi-wallet  text-success fa-5x icon-push"></i>
+                                            </div>
+                                            <h4>
+                                                <h:panelGroup rendered="#{courrierBean.selectedTypeCourrier.categorieCourrier != categorieCourrierBean.categorieCourrierArrive}"><strong>#{list.numCour}</strong></h:panelGroup>
+                                                <h:panelGroup rendered="#{courrierBean.selectedTypeCourrier.categorieCourrier == categorieCourrierBean.categorieCourrierArrive}"><strong>#{list.numCourrierArrive}</strong></h:panelGroup>
+                                               <br/>
+                                                <h:panelGroup rendered="#{courrierBean.selectedTypeCourrier.categorieCourrier != categorieCourrierBean.categorieCourrierArrive}"><small> Du #{connexionBean.convertDateHeure(list.dateCourrier)}</small></h:panelGroup>
+                                                <h:panelGroup rendered="#{courrierBean.selectedTypeCourrier.categorieCourrier == categorieCourrierBean.categorieCourrierArrive}"><small> Du #{connexionBean.convertDateHeure(list.dateCorrespondance)}</small></h:panelGroup>
+                                    <br/>
+                                                <small> créé le #{connexionBean.convertDateHeure(list.dateCreation)}</small>
+                                            </h4>
+                                        </a>
+                                    </div>
+                                </div>
+                            </ui:repeat>
+                        </div>
+                        <div class="row media-filter-items" jsf:rendered="#{courrierBean.selectedCourrier!=null}">
+                            <ui:repeat value="#{courrierBean.listDocInCour}" var="file">
+                                <div class="col-sm-4 col-lg-3">
+                                    <div class="media-items animation-fadeInQuick2">
+                                        <div class="media-items-options text-right">
+                                            <h:commandLink class="btn btn-xs btn-success" onclick="$('#myModalAppercu').modal('show')" >
+                                                <i class="fa fa-pencil"></i>
+                                                <f:ajax  render=":AppercuForm" listener="#{gedBean.ouvrirUnDocument(file)}" onevent="reinitChosen"/>
+                                            </h:commandLink>
+                                        </div>
+                                        <div class="media-items-content">
+                                            <i class="fa fa-file-pdf-o fa-5x text-warning"></i>
+                                        </div>
+                                        <h4>
+                                            <strong>#{file.fileName}</strong><br/>
+                                            <small>#{connexionBean.convertDateHeure(file.dateCreation)}, #{file.taille} Mo</small>
+                                        </h4>
+                                    </div>
+                                </div>
+                            </ui:repeat>
+
+                        </div>
+                        <!-- END Media Box Content -->
+                    </div>
+                
+                </div>
+            </h:form>
+
+        </div>
+        <!-- END Datatables Block -->
+    </ui:composition>
+</html>

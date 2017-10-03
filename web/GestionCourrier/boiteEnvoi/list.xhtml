@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <!-- Datatables Block -->
+        <!-- Datatables is initialized in js/pages/uiTables.js -->
+        <div class="content-header">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="header-section">
+                        <h1 style="font-style:italic;font-family:Century">#{bundle.BoiteEnvoi}</h1>
+                    </div>
+                </div>
+                <div class="col-sm-6 hidden-xs">
+                    <div class="header-section">
+                        <ul class="breadcrumb breadcrumb-top">
+
+                            <li>#{bundle.BoiteEnvoi}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" jsf:id="waitforme">
+            <h:form id="msgForm" prependId="false">
+                <h:messages id="msg" style="display: none;" errorClass="erreurmessage" infoClass="succesmessage" showDetail="true"/>
+                <p:messages  autoUpdate="true" showDetail="true"/>
+            </h:form>
+            <div jsf:id="divList">
+                <form jsf:id="listeCourrierForm" jsf:prependId="false" class="center-table"> 
+                    <div class="block" style="box-shadow: 1px 1px 1px 1px lightgray;" jsf:rendered="#{courrierBean.listPageEnvoiActive}">
+                        <div>
+
+                            <div id="message-list">
+                                <!-- Title -->
+                                <div class="block-title clearfix">
+                                    <div class="block-options pull-right">
+                                        <a href="javascript:void(0)" class="btn btn-effect-ripple btn-default"><i class="fa fa-arrow-left"></i> Prev</a>
+                                        <a href="javascript:void(0)" class="btn btn-effect-ripple btn-default">Next <i class="fa fa-arrow-right"></i></a>
+                                    </div>
+                                    <div class="block-options pull-left">
+                                        <a href="javascript:void(0)" class="btn btn-effect-ripple btn-info" data-toggle="tooltip" title="Archive Selected"><i class="fa fa-briefcase"></i></a>
+                                        <a href="javascript:void(0)" class="btn btn-effect-ripple btn-warning" data-toggle="tooltip" title="Star Selected"><i class="fa fa-star"></i></a>
+                                        <a href="javascript:void(0)" class="btn btn-effect-ripple btn-danger" data-toggle="tooltip" title="Delete Selected"><i class="fa fa-times"></i></a>
+                                    </div>
+                                </div>
+
+                                <!-- END Title -->
+
+                                <!-- Messages -->
+                                <div class="block-content-full">
+                                    <table jsf:id="boiteReception" class="table table-borderless table-striped table-vcenter remove-margin">
+
+                                        <tbody>
+                                            <!-- Use the first row as a prototype for your column widths -->
+                                            <ui:repeat value="#{courrierBean.allcourrierInit}" var="cour">
+                                                <tr style="border-bottom: 1px solid lightgray;">
+
+                                                    <td class="text-center">
+                                                        <strong>A:</strong>&nbsp;&nbsp;#{connexionBean.userChefService.fonction.code}
+                                                    </td>
+                                                    <td jsf:rendered="#{cour.courrier.withObjet}">
+                                                        <h5><a href="javascript:void(0)" class="text-dark"><strong>Objet:</strong> </a><span class="text-muted">&nbsp;&nbsp;&nbsp;#{cour.courrier.objet}</span></h5> 
+                                                    </td>
+                                                    <td jsf:rendered="#{!cour.courrier.withObjet}">
+                                                        <h5><a href="javascript:void(0)" class="text-dark"><strong>#{cour.courrier.titre}</strong></a><span class="text-muted">&nbsp;&nbsp;&nbsp;**************</span></h5> 
+                                                    </td>
+                                                    <td jsf:rendered="#{cour.courrier.pieceJointe}" class="hidden-xs text-center" style="width: 30px;">
+                                                        <h:commandLink title="liste des pièces jointe">
+                                                            <i class="fa fa-paperclip fa-2x text-muted"></i>
+                                                            <f:ajax listener="#{courrierBean.passCourrierViewDoc(cour)}" render=":msgForm:msg @form :listeCourrierForm :listeDocForm" onevent="viewCourrier"/>
+                                                        </h:commandLink>
+                                                    </td>
+                                                    <td jsf:rendered="#{!cour.courrier.pieceJointe}" class="hidden-xs text-center" style="width: 30px;">
+
+                                                    </td>
+                                                    <td class="hidden-xs text-right text-muted" ><em>#{connexionBean.convertDateHeure(cour.courrier.dateCreation)}</em></td>
+                                                    <td class="text-center">
+                                                        <div class="btn-group">
+                                                            <a href="javascript:void(0)" data-toggle="dropdown" class="btn btn-default dropdown-toggle" aria-expanded="false">Action <span class="caret"></span></a>
+                                                            <ul class="dropdown-menu text-left">
+
+                                                                <li>
+                                                                    
+                                                                </li>
+                                                                <li>
+                                                                    <h:commandLink title="détail"  onclick="$('#detailsCourrier').modal('show')">
+                                                                        <i class="fa fa-search-plus pull-right"></i>
+                                                                        Consulter les détails
+                                                                        <f:ajax listener="#{courrierBean.passItem(cour)}" render=":detailsCourrierDialogForm" onevent="showDetail"/>
+                                                                    </h:commandLink>
+                                                                </li>
+                                                                <li>
+                                                                    <h:commandLink title="Contenu" >
+                                                                        <i class=" fa fa-pencil pull-right"></i>
+                                                                        Consulter le contenu
+                                                                        <f:ajax listener="#{courrierBean.passCourrierView(cour)}" render=":msgForm:msg @form :listeCourrierForm :ContenuForm " onevent="viewCourrier"/>
+                                                                    
+                                                                    </h:commandLink>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+
+
+
+
+                                                    </td>
+                                                </tr>
+                                            </ui:repeat>
+
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- END Messages -->
+
+                            </div>
+
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+
+            <ui:include src="ContenuCourrier.xhtml"/>
+            <ui:include src="listDoc.xhtml"/>
+        </div>
+        <!-- END Datatables Block -->
+    </ui:composition>
+</html>

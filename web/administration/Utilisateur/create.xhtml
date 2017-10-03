@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ph="http://xmlns.jcp.org/jsf/passthrough">
+
+    <ui:composition>
+        <!-- Forms Components Header -->
+        <div class="content-header">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="header-section">
+                        <h1 style="font-style:italic;font-family:Century">#{bundle.UtilisateursManagement}</h1>
+                    </div>
+                </div>
+                <div class="col-sm-6 hidden-xs">
+                    <div class="header-section">
+                        <ul class="breadcrumb breadcrumb-top">
+                            <li>#{bundle.menuAccueil}</li>
+                            <li> #{bundle.menuAdministration}</li>
+                            <li>#{bundle.menuAdministrationUtilisateur}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END Forms Components Header -->
+
+        <!-- Form Components Row -->
+        <div class="row" jsf:id="waitforme">
+            <h:form id="msgForm" prependId="false">
+                <h:messages id="msg" style="display: none;" errorClass="erreurmessage" infoClass="succesmessage" showDetail="true"/>
+                <p:messages  autoUpdate="true" showDetail="true"/>
+            </h:form>
+            <div class="row">
+                <div class="col-md-1"></div>
+            <div class="col-md-10">
+
+                <!-- Chart Widget -->
+                <div class="block full">
+                    <!-- Block Tabs Title -->
+                    <form  jsf:id="SuivisForm" jsf:prependId="false" class="center-table">
+                        <div class="block-title">             
+                            <ul class="nav nav-tabs" data-toggle="tabs">
+                                <li class="active"><a href="#block-tabs-OtherUser" data-toggle="tooltip" data-original-title="Autres Utilisateurs">#{bundle.AutreUser}</a></li>
+                                <li><a href="#block-tabs-DG" data-toggle="tooltip" data-original-title="Secrétaire admin / Parti">#{bundle.secretaire}</a></li>
+                                <li><a href="#block-tabs-secDirection" data-toggle="tooltip" data-original-title="Secrétaire de direction">#{bundle.secretaireDirection}</a></li>
+                                <li><a href="#block-tabs-Secretaire" data-toggle="tooltip" data-original-title="DG">#{bundle.dg}</a></li>
+                            </ul>
+                        </div>
+                    </form>
+                    <!-- END Block Tabs Title -->
+
+                    <!-- Tabs Content -->
+
+                    <div class="tab-content" id="suiviForm">
+                        <div class="tab-pane active" id="block-tabs-OtherUser">
+                            <ui:include src="SimpleUserOrChefService.xhtml"/>
+                        </div>
+                        <div class="tab-pane" id="block-tabs-DG">
+                            <ui:include src="Secretaire.xhtml"/>
+                        </div>
+                        <div class="tab-pane" id="block-tabs-secDirection">
+                            <ui:include src="SecretaireDirection.xhtml"/>
+                        </div>
+                        
+                        <div class="tab-pane" id="block-tabs-Secretaire">
+                            <ui:include src="DG.xhtml"/>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- END Chart Widget -->
+
+                <!-- Horizontal Form Block -->
+
+                <!-- END Horizontal Form Block -->
+            </div>
+            <div class="col-md-1"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-10">
+                <ui:include src="list.xhtml"/>
+            </div>
+                <div class="col-md-1"></div>
+                
+            </div>
+        </div>
+        <!-- END Form Components Row -->
+    </ui:composition>
+</html>

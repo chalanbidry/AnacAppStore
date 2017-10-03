@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pa="http://xmlns.jcp.org/jsf/passthrough">
+    <ui:composition>
+        <!-- Search Form -->
+        <!-- Alternative Sidebar Toggle Button -->
+<!--        <li>
+            <a href="javascript:void(0)" onclick="App.sidebar('toggle-sidebar-alt');
+                    this.blur();">
+                <span class="badge badge-success"></span>
+                <i class="gi gi-leaf"></i>
+            </a>
+        </li>-->
+        <!-- END Alternative Sidebar Toggle Button -->
+
+         <li class="dropdown" jsf:id="social" id="linkMessage" jsf:rendered="#{connexionBean.currentAppli != null}">
+            <a href="javascript:void(0)"  onclick="App.sidebar('toggle-sidebar-alt'); this.blur();">
+                <span class="badge badge-success" id="nbSocial">0</span>
+                    <i class="gi gi-leaf"></i>
+            </a>
+         </li>
+        
+        
+        <!-- User Dropdown -->
+        <li class="dropdown" jsf:id="notifs" jsf:rendered="#{connexionBean.currentAppli != null}">
+            <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown" id="linkNotif">
+                <span class="badge badge-success" id="nbNotif">0</span>
+                <i class="ace-icon fa fa-envelope-o"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-right">
+                <li class="dropdown-header">
+                    <strong id="nbNotif2">0</strong><strong> Notifications </strong>
+                    <h:commandLink  id="btnreloadNotif" class="hidden" style="height: 15px; width: 15px; margin-left: 1em;">
+
+                        <i class="fa fa-refresh" data-toggle="tooltip" data-original-title="Actualisez la liste si la nouvelle notification n'apparaît pas"></i>
+                        <f:ajax render=":appUIForm:notifs"  onevent="sendConfirm"/>
+                    </h:commandLink>
+                </li>
+
+                <li  style="height:250px;overflow: auto"  class="list-group-item list-group-item-success" id="liNotif">
+                    <ui:repeat value="#{notificationBean.someNotification(connexionBean.currentAppli)}" var="item" varStatus="status">
+                        <h:commandLink onclick="$('#detailsDemande').modal('show')" title="Cliquer pour consulter le détail de la demande" rendered="#{connexionBean.currentAppli.appliName=='PrestAnac'}">
+                            <i class="fa fa-pencil-square fa-fw pull-right"></i>
+                            Demande N°:&nbsp;  #{item.demande.code}<br/>
+
+                            #{item.libelle}
+                            <f:ajax render=":detailsDialogForm :appUIForm:notifs" listener="#{demandeBean.passItemNotif(item)}" onevent="afficheDetail"/>
+                        </h:commandLink>
+                         <h:commandLink onclick="$('#detailsCourrier').modal('show')" title="Cliquer pour consulter le détail du courrier" rendered="#{connexionBean.currentAppli.appliName=='IGecour'}">
+                            <i class="fa fa-pencil-square fa-fw pull-right"></i>
+                            Courrier du :&nbsp;  #{item.courrier.initiateur.fonction.code}<br/>
+
+                            #{item.libelle}
+                            <f:ajax render=":detailsCourrierDialogForm :appUIForm:notifs" listener="#{courrierBean.passItemNotif(item)}" onevent="showDetail"/>
+                        </h:commandLink>
+
+
+                    </ui:repeat>
+                    <li class="divider"/>
+                    <li>
+                        <a href="#">
+                            #{bundle.VoirNotifications}
+                            <i class="ace-icon fa fa-arrow-right"></i>
+                        </a>
+
+                    </li>
+                </li>
+
+            </ul>
+        </li>
+        <li class="dropdown" jsf:id="alertes" jsf:rendered="#{connexionBean.currentAppli != null}">
+            <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown" id="linkAlerte">
+                <span class="badge badge-success" id="nbAlert">0</span>
+                <i class="ace-icon fa fa-bell icon-animated-bell"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-right">
+                <li class="dropdown-header">
+                    <strong id="nbAlert2">0</strong><strong>  Alertes </strong>
+                     <h:commandLink  id="btnreloadAlert" class="hidden" style="height: 15px; width: 15px; margin-left: 1em;" >
+
+                        <i class="fa fa-refresh" data-toggle="tooltip" data-original-title="Actualisez la liste si la nouvelle alerte n'apparaît pas"></i>
+                        <f:ajax render=":appUIForm:alertes"  onevent="sendConfirm"/>
+                    </h:commandLink>
+                </li>
+                <li style="height:250px;overflow: auto" class="list-group-item list-group-item-danger">
+                    <ui:repeat value="#{notificationBean.someCorrection(connexionBean.currentAppli)}" var="item" varStatus="status">
+                        <h:commandLink onclick="$('#detailsDemande').modal('show')" title="Cliquer pour consulter le détail de la demande" rendered="#{connexionBean.currentAppli.appliName=='PrestAnac'}">
+                            <i class="fa fa-pencil-square fa-fw pull-right"></i>
+                            Demande N°:&nbsp;  #{item.demande.code}<br/>
+
+                            #{item.sender.fonction.code} : #{item.libelle}
+                            <f:ajax render=":detailsDialogForm :appUIForm:alertes" listener="#{demandeBean.passItemNotif(item)}" onevent="afficheDetail"/>
+                        </h:commandLink>
+                        <h:commandLink onclick="$('#detailsCourrier').modal('show')" title="Cliquer pour consulter le détail du courrier" rendered="#{connexionBean.currentAppli.appliName=='IGecour'}">
+                            <i class="fa fa-pencil-square fa-fw pull-right"></i>
+                            Votre :&nbsp;  #{item.courrier.typeCourrier.libelle}<br/>
+
+                            #{item.sender.fonction.code} : #{item.libelle}
+                            <f:ajax render=":detailsCourrierDialogForm :appUIForm:notifs" listener="#{courrierBean.passItemNotif(item)}" onevent="showDetail"/>
+                        </h:commandLink>
+
+                    </ui:repeat>
+                    <li class="divider"/>
+                    <li>
+                        <a href="#">
+                            #{bundle.VoirAlertes}
+                            <i class="ace-icon fa fa-arrow-right"></i>
+                        </a>
+                    </li>
+                </li>
+            </ul>
+        </li>
+        <!-- END User Dropdown -->
+
+        <li>
+            <a rel="details" class="btn btn-small pull-left" data-toggle="popover" data-content="">
+                <img src="#{request.contextPath}/resources/images/avatar2.png" alt="Notification" />
+            </a>
+        </li>
+    </ui:composition>
+</html>

@@ -1,0 +1,532 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ph="http://xmlns.jcp.org/jsf/passthrough">
+
+    <ui:composition>
+        <!-- Forms Components Header -->
+        <div id="page-content" class="inner-sidebar-right">
+            <!-- Inner Sidebar -->
+            <div id="page-content-sidebar">
+                <h:form>
+                    <!-- Collapsible People List -->
+                    <a href="javascript:void(0)" class="btn btn-block btn-effect-ripple btn-primary visible-xs" data-toggle="collapse" data-target="#people-nav">People</a>
+                    <div id="people-nav" class="collapse navbar-collapse remove-padding" jsf:id="divConnectes">
+                        <div class="block-section">
+                            <h4 class="inner-sidebar-header">
+
+                                <h:commandLink class="btn btn-effect-ripple btn-xs btn-default pull-right" id="userPlusBtn" onclick="initialise()">
+<!--                                    <i class="fa fa-user-plus">
+                                        <span class="label label-success nav-users-indicator" id="UserInc">0</span>
+                                    </i>-->
+                                    <i class="fa fa-envelope">
+                                        <span class="label label-success nav-users-indicator" id="MsgInc">0</span>
+                                    </i>
+                                    <f:ajax  onevent="refreshUserConnecte" render="ulConnecte ulNonConnect"/>
+                                </h:commandLink>
+                                Connectés
+                            </h4>
+                            <ul class="nav-users nav-users-online" jsf:id="ulConnecte">
+                                <ui:repeat value="#{connexionBean.listConnectes}" var="connecte">
+                                    <li jsf:rendered="#{connecte!=connexionBean.currentUser}" id="btnConnect">
+                                        <h:commandLink >
+                                            <img src="#{request.contextPath}/resources/img/placeholders/avatars/avatar6.jpg" alt="image" class="nav-users-avatar"/>
+                                            <span class="label label-success nav-users-indicator" jsf:id="nbMsgInst">#{socialBean.nbrMsgInstance(connecte)}</span>
+                                            <span class="nav-users-heading" id="spamPrenom">#{connecte.prenom}</span>
+                                            <span class="nav-users-heading hidden" id="spamLoginConnect">#{connecte.login}</span>
+<!--                                            <span class="text-muted">#connecte.fonction.code}</span>-->
+                                            <f:ajax listener="#{socialBean.passUserChat(connecte)}" onevent="editUser" render="EnteteForm userDesti listMsgChat nbMsgInst"/>
+                                        </h:commandLink>
+
+                                    </li>
+                                </ui:repeat>
+
+
+                            </ul>
+                        </div>
+
+                        <div class="block-section">
+                            <h4 class="inner-sidebar-header">
+                                <a href="javascript:void(0)" class="btn btn-effect-ripple btn-xs btn-default pull-right"><i class="fa fa-cog"></i></a>
+                                déconnectés
+                            </h4>
+                            <ul class="nav-users nav-users-offline" jsf:id="ulNonConnect">
+                                <ui:repeat value="#{connexionBean.listNonConnectes}" var="deconnect">
+                                    <li id="btnDeconnect">
+                                        <h:commandLink>
+                                            <img src="#{request.contextPath}/resources/img/placeholders/avatars/avatar7.jpg" alt="image" class="nav-users-avatar"/>
+                                           <span class="label label-success nav-users-indicator">#{socialBean.nbrMsgInstance(connecte)}</span>
+                                            <span class="nav-users-heading">#{deconnect.prenom}</span>
+                                            <span class="nav-users-heading hidden" id="spamLoginDeconnect">#{deconnect.login}</span>
+<!--                                            <span class="text-muted">#deconnect.fonction.code}</span>-->
+                                            <f:ajax listener="#{socialBean.passUserChat(deconnect)}" onevent="editUser" render="EnteteForm userDesti listMsgChat"/>
+                                        </h:commandLink>
+                                    </li>
+                                </ui:repeat>
+
+                            </ul>
+                        </div>
+                    </div>
+                </h:form>
+                <!-- END Collapsible People List -->
+            </div>
+            <!-- END Inner Sidebar -->
+
+            <!-- Social Net Header -->
+            <!-- For an image header add the class 'content-header-media' and an image as in the following example -->
+            <div class="content-header content-header-media">
+                <div class="header-section">
+                    <div class="row">
+                        <div class="col-sm-7 col-md-8 col-lg-9 content-float-hor push-bit-top-bottom clearfix">
+                            <img src="#{request.contextPath}/resources/img/placeholders/avatars/avatar9.jpg" alt="User Image" class="img-circle img-thumbnail img-thumbnail-avatar pull-left"/>
+                            <h1>#{socialBean.selectedUtilisateur.nom}  #{socialBean.selectedUtilisateur.prenom}</h1>
+<!--                            <h2 class="text-light-op"> #socialBean.selectedUtilisateur.fonction.libelle}</h2>-->
+                        </div>
+                        <h:form id="divButton">
+                            <div class="col-sm-5 col-md-4 col-lg-3 text-right push-bit-top-bottom">
+                                <div class="row">
+                                    <div class="col-xs-6 col-sm-12">
+                                        <a href="/AnacAppStore/social/index.xhtml?id=#{connexionBean.currentUser.login}" class="btn btn-block btn-effect-ripple btn-default"><i class="fa fa-home"></i> Acceuil</a>
+                                    </div>
+                                    <div class="col-xs-6 col-sm-12">
+                                        <h:commandLink title="Paramettres Utilisateur" class="btn btn-block btn-effect-ripple btn-default" onclick="$('#modal-User').modal('show')">
+                                            <i class="ace-icon fa fa-pencil bigger-130"></i>
+                                            Paramettres Utilisateur
+                                            <f:ajax  render=":UserDialogForm" listener="#{socialBean.passUser(connexionBean.currentUser)}" onevent="callPublicationForm"/>
+                                        </h:commandLink>
+                                    </div>
+                                    <div class="col-xs-6 col-sm-12">
+                                        <h:commandLink title="Nouvelle Publication" class="btn btn-block btn-effect-ripple btn-default" onclick="$('#modal-compose').modal('show')">
+                                            <i class="ace-icon fa fa-pencil bigger-130"></i>
+                                            Nouvelle Publication
+                                            <f:ajax  render=":publicationDialogForm" onevent="callPublicationForm"/>
+                                        </h:commandLink>
+                                    </div>
+                                    <div class="col-xs-6 col-sm-12" jsf:rendered="#{connexionBean.currentUser.admin}">
+                                        <h:commandLink title="Vider" class="btn btn-block btn-effect-ripple btn-default">
+                                            <i class="ace-icon fa fa-database bigger-130"></i>
+                                            Vider la Messagerie
+                                            <f:ajax  render=":publicationDialogForm" listener="#{socialBean.deleteChat()}" onevent="callPublicationForm"/>
+                                        </h:commandLink>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </h:form>
+                    </div>
+                </div>
+                <!-- For best results use an image with a resolution of 2560x260 pixels (you could use a blurred image for smaller file size) -->
+                <img src="#{request.contextPath}/resources/img/placeholders/layout/socialnet_header.jpg" alt="Header Image" class="animation-pulseSlow"/>
+            </div>
+            <!-- END Social Net Header -->
+
+            <!-- Chat Widget -->
+            <!-- You can remove .chatui-window & .chatui-window-close class for a static chat widget -->
+            <div class="widget chatui chatui-window chatui-window-close remove-radius-bottom" >
+                <div class="widget-content widget-content-mini themed-background">
+                    <a href="javascript:void(0)" class="chatui-action-open text-dark-op pull-right"><i class="fa fa-arrow-up"></i></a>
+                    <a href="javascript:void(0)" class="chatui-action-close text-dark-op pull-right"><i class="fa fa-times"></i></a>
+                    <a href="javascript:void(0)" class="text-dark-op pull-right"><i class="fa fa-cog"></i></a>
+                      <a href="javascript:void(0)" id="camera" class="text-dark-op pull-right"><i class="fa fa-camera"></i></a>
+                    <a href="javascript:void(0)" class="text-light" ><img src="#{request.contextPath}/resources/img/placeholders/avatars/avatar13.jpg" alt="Avatar" class="img-circle chatui-talk-msg-avatar" style="height: 25px;"/><strong jsf:id="EnteteForm">#{socialBean.userchating.prenom} (#{socialBean.userchating.fonction.code})</strong></a>
+                    <input type="text" jsf:id="userDesti" jsf:value="#{socialBean.userchating.login}"  class="form-control hidden " />
+                </div>
+                <div class="widget-content widget-content-mini chatui-talk" jsf:id="listMsgChat">
+                    <ul id="ulChat">
+                        <ui:repeat value="#{socialBean.listMessageInTwo}" var="mess">
+                            <li class="text-center"><small>#{connexionBean.convertDateHeure(mess.dateCreation)}</small></li>
+                            <li class="chatui-talk-msg animation-expandUp" jsf:rendered="#{mess.recepteur==connexionBean.currentUser}">
+                                #{mess.libelle}
+                            </li>
+                            <li class="chatui-talk-msg chatui-talk-msg-right animation-expandUp themed-background text-light" jsf:rendered="#{mess.expediteur==connexionBean.currentUser}">
+                                #{mess.libelle}
+                            </li>
+                        </ui:repeat>
+                        <!--                        <li class="text-center"><small>2 min ago</small></li>
+                                                <li class="chatui-talk-msg animation-expandUp">
+                                                    <img src="#{request.contextPath}/resources/img/placeholders/avatars/avatar13.jpg" alt="Avatar" class="img-circle chatui-talk-msg-avatar"/> Hey admin?
+                                                </li>
+                                                <li class="chatui-talk-msg animation-expandUp">
+                                                    <img src="#{request.contextPath}/resources/img/placeholders/avatars/avatar13.jpg" alt="Avatar" class="img-circle chatui-talk-msg-avatar"/> How are you?
+                                                </li>
+                                                <li class="text-center"><small>just now</small></li>
+                                                <li class="chatui-talk-msg chatui-talk-msg-right animation-expandUp themed-background text-light">
+                                                    <img src="#{request.contextPath}/resources/img/placeholders/avatars/avatar9.jpg" alt="Avatar" class="img-circle chatui-talk-msg-avatar"/> I'm fine, thanks! And you?
+                                                </li>-->
+                    </ul>
+                </div>
+                <div class="widget-content widget-content-full chatui-form remove-radius-bottom">
+                    <!--<form  class="remove-padding" jsf:id="SendChatForm">-->
+                    <h:form  class="form-horizontal remove-margin" id="SendChatForm" prependId="false" onsubmit="return false">
+                        <div class="input-group">
+                            <input type="text" id="ChatText" jsf:id="ChatTextJsf" name="example-input2-group2" jsf:value="#{socialBean.msg}"  class="form-control" placeholder="Message....."/>
+                            <span class="input-group-btn">
+                                <h:commandLink type="button" class="btn btn-effect-ripple btn-primary" id="buttonSend" style="overflow: hidden; position: relative;" onclick="sendMessage()">
+                                    Envoyer
+                                    <f:ajax listener="#{socialBean.sendMessage(even)}" execute="@form" render="SendChatForm"  onevent="SendMsessageChat"/>
+                                </h:commandLink>
+                            </span>
+                        </div>
+
+                    </h:form>
+
+                </div>
+            </div>
+            <!-- END Chat Widget -->
+
+            <!-- Social Net Content -->
+            <div class="row" jsf:id="waitforme">
+                <h:form id="msgForm" prependId="false">
+                    <h:messages id="msg" style="display: none;" errorClass="erreurmessage" infoClass="succesmessage" showDetail="true"/>
+                    <p:messages  autoUpdate="true" showDetail="true"/>
+                </h:form>
+                <!-- Latest News -->
+                <div class="col-lg-12">
+                    <!-- New Photos -->
+                    <ui:repeat value="#{socialBean.listPublication}" var="pub"> 
+                     <div class="widget">
+                        <div class="widget-content widget-content-mini themed-background-dark text-light-op">
+                            <span class="pull-right text-muted">#{connexionBean.convertDateHeure(pub.dateCreation)}</span>
+                            Publiée par <a href="javascript:void(0)" class="text-light"> #{pub.userEmetteur.name}</a>
+                        </div>
+                        <div class="widget-content">
+                            <h3>#{pub.titre}</h3>
+                            <p>#{pub.contenu}</p>
+                           
+                        </div>
+                        <div class="widget-content themed-background-muted">
+                            <ul class="media-list push">
+                                <ui:repeat value="#{socialBean.findListCommentForPub(pub)}" var="comm">
+                                            <li class="media">
+                                                <a href="javascript:void(0)" class="pull-left">
+                                                    <img src="#{request.contextPath}/resources/img/placeholders/avatars/avatar9.jpg" alt="Avatar" class="img-circle"/>
+                                                </a>
+                                                <div class="media-body">
+                                                    <a href="javascript:void(0)"><strong>#{comm.userEmetteur.name}</strong></a>
+                                                    <span class="text-muted"><small><em>#{connexionBean.convertDateHeure(comm.dateCreation)}</em></small></span>
+                                                    <p>#{comm.commentaire}</p>
+                                                </div>
+                                            </li>
+                                </ui:repeat>
+                            </ul>
+                             <h:form>
+                                <h:inputTextarea id="commentaireOwn" rows="2" value="#{socialBean.newCommentaire.commentaire}" class="form-control" ph:data-placeholder="Ecrivez votre commentaire..."  />
+                              <button class="btn btn-sm btn-primary" type="submit" jsf:id="submit_CommentaireOwn" jsf:action="#{socialBean.doCommentaire(event,pub)}">
+                                <f:ajax execute="@form" render=":msgForm:msg @form :waitforme :EnteteForm" onevent="editUser"/>
+                                <i class="ace-icon fa fa-check"></i>
+                              Publier
+                            </button>
+                            </h:form>
+                        </div>
+                    </div>
+                    </ui:repeat>
+                    <!-- END New Photos -->
+
+                    <!-- Story -->
+                    
+                    <ui:repeat value="#{socialBean.listPublicationSend}" var="pub"> 
+                     <div class="widget">
+                        <div class="widget-content widget-content-mini themed-background-dark text-light-op">
+                            <span class="pull-right text-muted">#{connexionBean.convertDateHeure(pub.dateCreation)}</span>
+                           Publiée par <a href="javascript:void(0)" class="text-light"> vous</a>
+                        </div>
+                        <div class="widget-content">
+                            <h3>#{pub.titre}</h3>
+                            <p>#{pub.contenu}</p>
+                           
+                        </div>
+                        <div class="widget-content themed-background-muted">
+                             <ul class="media-list push">
+                                <ui:repeat value="#{socialBean.findListCommentForPub(pub)}" var="comm">
+                                            <li class="media">
+                                                <a href="javascript:void(0)" class="pull-left">
+                                                    <img src="#{request.contextPath}/resources/img/placeholders/avatars/avatar9.jpg" alt="Avatar" class="img-circle"/>
+                                                </a>
+                                                <div class="media-body">
+                                                    <a href="javascript:void(0)"><strong>#{comm.userEmetteur.name}</strong></a>
+                                                    <span class="text-muted"><small><em>#{connexionBean.convertDateHeure(comm.dateCreation)}</em></small></span>
+                                                    <p>#{comm.commentaire}</p>
+                                                </div>
+                                            </li>
+                                </ui:repeat>
+                            </ul>
+                            <h:form>
+                                <h:inputTextarea id="commentaireOwn" rows="2" value="#{socialBean.newCommentaire.commentaire}" class="form-control" ph:data-placeholder="Ecrivez votre commentaire..."  />
+                              <button class="btn btn-sm btn-primary" type="submit" jsf:id="submit_CommentaireOwn" jsf:action="#{socialBean.doCommentaire(event,pub)}">
+                                <f:ajax execute="@form" render=":msgForm:msg @form :waitforme :EnteteForm" onevent="editUser"/>
+                                <i class="ace-icon fa fa-check"></i>
+                              Publier
+                            </button>
+                            </h:form>
+                        </div>
+                    </div>
+                    </ui:repeat>
+                    
+                    <!-- END Story -->
+
+                    <!-- Map Checkin -->
+                    
+                    <!-- END Map Checkin -->
+                </div>
+                <!-- END Latest News -->
+
+                <!-- Extra Widgets -->
+                <!--                            <div class="col-lg-5">
+                                                 Birthday Widget 
+                                                <div class="widget">
+                                                    <div class="widget-content widget-content-mini border-bottom">
+                                                        <span class="pull-right text-muted">2 People</span>
+                                                        Birthday this week
+                                                    </div>
+                                                    <div class="widget-content widget-content-full">
+                                                        <table class="table table-borderless table-striped table-vcenter">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td class="text-center" style="width: 100px;">
+                                                                        <img src="#{request.contextPath}/resources/img/placeholders/avatars/avatar14.jpg" alt="User Image" class="img-circle"/>
+                                                                    </td>
+                                                                    <td>
+                                                                        <a href="javascript:void(0)">Dylan Cruz</a><br/>
+                                                                        <a href="javascript:void(0)" class="text-muted"><small>29 years old on Friday</small></a>
+                                                                    </td>
+                                                                    <td class="text-center" style="width: 80px;">
+                                                                        <a href="javascript:void(0)" class="btn btn-effect-ripple btn-xs btn-primary" data-toggle="tooltip" title="Send a gift"><i class="fa fa-gift"></i></a>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="text-center" style="width: 100px;">
+                                                                        <img src="#{request.contextPath}/resources/img/placeholders/avatars/avatar15.jpg" alt="User Image" class="img-circle"/>
+                                                                    </td>
+                                                                    <td>
+                                                                        <a href="javascript:void(0)">Phillip Peters</a><br/>
+                                                                        <a href="javascript:void(0)" class="text-muted"><small>34 years old tomorrow</small></a>
+                                                                    </td>
+                                                                    <td class="text-center" style="width: 80px;">
+                                                                        <a href="javascript:void(0)" class="btn btn-effect-ripple btn-xs btn-primary" data-toggle="tooltip" title="Send a gift"><i class="fa fa-gift"></i></a>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                                 END Birthday Widget 
+                
+                                                 People Widget 
+                                                <div class="widget">
+                                                    <div class="widget-content widget-content-mini border-bottom">
+                                                        <span class="pull-right text-muted">5 People</span>
+                                                        People you may know
+                                                    </div>
+                                                    <div class="widget-content widget-content-full">
+                                                        <table class="table table-borderless table-striped table-vcenter">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td class="text-center" style="width: 100px;">
+                                                                        <img src="#{request.contextPath}/resources/img/placeholders/avatars/avatar13.jpg" alt="User Image" class="img-circle"/>
+                                                                    </td>
+                                                                    <td>
+                                                                        <a href="javascript:void(0)">Sarah Hart</a><br/>
+                                                                        <a href="javascript:void(0)" class="text-muted"><small>5 common friends</small></a>
+                                                                    </td>
+                                                                    <td class="text-center" style="width: 80px;">
+                                                                        <a href="javascript:void(0)" class="btn btn-effect-ripple btn-xs btn-primary" data-toggle="tooltip" title="Friend Request"><i class="fa fa-plus"></i></a>
+                                                                        <a href="javascript:void(0)" class="btn btn-effect-ripple btn-xs btn-danger" data-toggle="tooltip" title="Follow"><i class="fa fa-share"></i></a>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="text-center">
+                                                                        <img src="#{request.contextPath}/resources/img/placeholders/avatars/avatar5.jpg" alt="User Image" class="img-circle"/>
+                                                                    </td>
+                                                                    <td>
+                                                                        <a href="javascript:void(0)">Mark Aguilar</a><br/>
+                                                                        <a href="javascript:void(0)" class="text-muted"><small>2 common friends</small></a>
+                                                                    </td>
+                                                                    <td class="text-center">
+                                                                        <a href="javascript:void(0)" class="btn btn-effect-ripple btn-xs btn-primary" data-toggle="tooltip" title="Friend Request"><i class="fa fa-plus"></i></a>
+                                                                        <a href="javascript:void(0)" class="btn btn-effect-ripple btn-xs btn-danger" data-toggle="tooltip" title="Follow"><i class="fa fa-share"></i></a>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="text-center">
+                                                                        <img src="#{request.contextPath}/resources/img/placeholders/avatars/avatar12.jpg" alt="User Image" class="img-circle"/>
+                                                                    </td>
+                                                                    <td>
+                                                                        <a href="javascript:void(0)">Karen Jackson</a><br/>
+                                                                        <a href="javascript:void(0)" class="text-muted"><small>3 common friends</small></a>
+                                                                    </td>
+                                                                    <td class="text-center">
+                                                                        <a href="javascript:void(0)" class="btn btn-effect-ripple btn-xs btn-primary" data-toggle="tooltip" title="Friend Request"><i class="fa fa-plus"></i></a>
+                                                                        <a href="javascript:void(0)" class="btn btn-effect-ripple btn-xs btn-danger" data-toggle="tooltip" title="Follow"><i class="fa fa-share"></i></a>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="text-center">
+                                                                        <img src="#{request.contextPath}/resources/img/placeholders/avatars/avatar1.jpg" alt="User Image" class="img-circle"/>
+                                                                    </td>
+                                                                    <td>
+                                                                        <a href="javascript:void(0)">Russell Larson</a><br/>
+                                                                        <a href="javascript:void(0)" class="text-muted"><small>5 common friends</small></a>
+                                                                    </td>
+                                                                    <td class="text-center">
+                                                                        <a href="javascript:void(0)" class="btn btn-effect-ripple btn-xs btn-primary" data-toggle="tooltip" title="Friend Request"><i class="fa fa-plus"></i></a>
+                                                                        <a href="javascript:void(0)" class="btn btn-effect-ripple btn-xs btn-danger" data-toggle="tooltip" title="Follow"><i class="fa fa-share"></i></a>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="text-center">
+                                                                        <img src="#{request.contextPath}/resources/img/placeholders/avatars/avatar15.jpg" alt="User Image" class="img-circle"/>
+                                                                    </td>
+                                                                    <td>
+                                                                        <a href="javascript:void(0)">Howard Adams</a><br/>
+                                                                        <a href="javascript:void(0)" class="text-muted"><small>5 common friends</small></a>
+                                                                    </td>
+                                                                    <td class="text-center">
+                                                                        <a href="javascript:void(0)" class="btn btn-effect-ripple btn-xs btn-primary" data-toggle="tooltip" title="Friend Request"><i class="fa fa-plus"></i></a>
+                                                                        <a href="javascript:void(0)" class="btn btn-effect-ripple btn-xs btn-danger" data-toggle="tooltip" title="Follow"><i class="fa fa-share"></i></a>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                                 END People Widget 
+                
+                                                 Twitter Widget 
+                                                <div class="widget">
+                                                    <div class="widget-content widget-content-mini border-bottom">
+                                                        <a href="javascript:void(0)" class="pull-right text-muted"><i class="fa fa-refresh"></i></a>
+                                                        Twitter
+                                                    </div>
+                                                    <div class="widget-content">
+                                                        <ul class="media-list">
+                                                            <li class="media">
+                                                                <a href="javascript:void(0)" class="pull-left">
+                                                                    <img src="#{request.contextPath}/resources/img/placeholders/avatars/avatar2.jpg" alt="Avatar" class="img-circle"/>
+                                                                </a>
+                                                                <div class="media-body">
+                                                                    <span class="text-muted pull-right"><small><em>30 min ago</em></small></span>
+                                                                    <a href="javascript:void(0)"><strong>Howard Adams</strong></a>
+                                                                    <p>In hac <a href="javascript:void(0)">habitasse</a> platea dictumst. Proin ac nibh rutrum lectus rhoncus eleifend. <a href="javascript:void(0)" class="text-danger"><strong>#dev</strong></a></p>
+                                                                </div>
+                                                            </li>
+                                                            <li class="media">
+                                                                <a href="javascript:void(0)" class="pull-left">
+                                                                    <img src="#{request.contextPath}/resources/img/placeholders/avatars/avatar9.jpg" alt="Avatar" class="img-circle"/>
+                                                                </a>
+                                                                <div class="media-body">
+                                                                    <span class="text-muted pull-right"><small><em>3 hours ago</em></small></span>
+                                                                    <a href="javascript:void(0)"><strong>Jeremy Doe</strong></a>
+                                                                    <p>Sed porttitor pretium venenatis. Suspendisse potenti. Aliquam quis ligula elit. Aliquam at orci ac neque semper dictum.</p>
+                                                                </div>
+                                                            </li>
+                                                            <li class="media">
+                                                                <a href="javascript:void(0)" class="pull-left">
+                                                                    <img src="#{request.contextPath}/resources/img/placeholders/avatars/avatar1.jpg" alt="Avatar" class="img-circle"/>
+                                                                </a>
+                                                                <div class="media-body">
+                                                                    <span class="text-muted pull-right"><small><em>yesterday</em></small></span>
+                                                                    <a href="javascript:void(0)"><strong>Russell Larson</strong></a>
+                                                                    <p>In hac habitasse platea dictumst. Proin ac nibh rutrum <a href="javascript:void(0)">lectus</a> rhoncus eleifend <a href="javascript:void(0)" class="text-danger"><strong>#design</strong></a></p>
+                                                                </div>
+                                                            </li>
+                                                            <li class="media">
+                                                                <a href="javascript:void(0)" class="pull-left">
+                                                                    <img src="#{request.contextPath}/resources/img/placeholders/avatars/avatar12.jpg" alt="Avatar" class="img-circle"/>
+                                                                </a>
+                                                                <div class="media-body">
+                                                                    <span class="text-muted pull-right"><small><em>2 days ago</em></small></span>
+                                                                    <a href="javascript:void(0)"><strong>Nancy Kruz</strong></a>
+                                                                    <p>Donec lacinia venenatis metus at bibendum? In hac habitasse platea dictumst. Proin ac nibh rutrum lectus rhoncus eleifend.</p>
+                                                                </div>
+                                                            </li>
+                                                            <li class="media">
+                                                                <a href="javascript:void(0)" class="pull-left">
+                                                                    <img src="#{request.contextPath}/resources/img/placeholders/avatars/avatar13.jpg" alt="Avatar" class="img-circle"/>
+                                                                </a>
+                                                                <div class="media-body">
+                                                                    <span class="text-muted pull-right"><small><em>3 days ago</em></small></span>
+                                                                    <a href="javascript:void(0)"><strong>Madison Carr</strong></a>
+                                                                    <p>In hac habitasse platea dictumst. Proin ac nibh rutrum lectus rhoncus eleifend.</p>
+                                                                </div>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                 END Twitter Widget 
+                
+                                                 Account Widget 
+                                                <div class="widget">
+                                                    <div class="widget-content widget-content-mini border-bottom">
+                                                        <a href="page_ready_pricing_tables.html" class="pull-right text-muted">Pro Plan</a>
+                                                        Account Status
+                                                    </div>
+                                                    <div class="widget-content widget-content-full-top-bottom">
+                                                         Mini Widgets 
+                                                        <div class="row border-bottom">
+                                                            <div class="col-xs-6 push-inner-top-bottom border-right">
+                                                                <a href="javascript:void(0)" class="widget text-center remove-margin-bottom">
+                                                                    <div class="widget-content themed-background text-center">
+                                                                        <div class="widget-icon push">
+                                                                            <i class="fa fa-folder text-light-op"></i>
+                                                                        </div>
+                                                                        <div>
+                                                                            <strong class="text-light">100GB</strong>
+                                                                        </div>
+                                                                    </div>
+                                                                </a>
+                                                            </div>
+                                                            <div class="col-xs-6 push-inner-top-bottom">
+                                                                <a href="javascript:void(0)" class="widget text-center remove-margin-bottom">
+                                                                    <div class="widget-content themed-background-info text-center">
+                                                                        <div class="widget-icon push">
+                                                                            <i class="fa fa-database text-light-op"></i>
+                                                                        </div>
+                                                                        <div>
+                                                                            <strong class="text-light">3 Databases</strong>
+                                                                        </div>
+                                                                    </div>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-xs-6 push-inner-top-bottom border-right">
+                                                                <a href="javascript:void(0)" class="widget text-center remove-margin-bottom">
+                                                                    <div class="widget-content themed-background-success text-center">
+                                                                        <div class="widget-icon push">
+                                                                            <i class="fa fa-envelope text-light-op"></i>
+                                                                        </div>
+                                                                        <div>
+                                                                            <strong class="text-light">2 Emails</strong>
+                                                                        </div>
+                                                                    </div>
+                                                                </a>
+                                                            </div>
+                                                            <div class="col-xs-6 push-inner-top-bottom">
+                                                                <a href="javascript:void(0)" class="widget text-center remove-margin-bottom">
+                                                                    <div class="widget-content themed-background-danger text-center">
+                                                                        <div class="widget-icon push">
+                                                                            <i class="fa fa-support text-light-op"></i>
+                                                                        </div>
+                                                                        <div>
+                                                                            <strong class="text-light"><i class="fa fa-check"></i> Support</strong>
+                                                                        </div>
+                                                                    </div>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                         END Mini Widgets 
+                                                    </div>
+                                                </div>
+                                                 END Account Widget 
+                                            </div>-->
+                <!-- END Extra Widgets -->
+            </div>
+            <!-- END Social Net Content -->
+        </div>
+    </ui:composition>
+</html>

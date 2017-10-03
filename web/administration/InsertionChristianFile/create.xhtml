@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ph="http://xmlns.jcp.org/jsf/passthrough">
+
+    <ui:composition>
+        <!-- Forms Components Header -->
+        <div class="content-header">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="header-section">
+                        <h1 style="font-style:italic;font-family:Century">#{bundle.InsertChristianFile}</h1>
+                    </div>
+                </div>
+                <div class="col-sm-6 hidden-xs">
+                    <div class="header-section">
+                        <ul class="breadcrumb breadcrumb-top">
+                            <li>#{bundle.menuAccueil}</li>
+                            <li> #{bundle.menuAdministration}</li>
+                            <li>#{bundle.InsertChristianFile}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END Forms Components Header -->
+
+        <!-- Form Components Row -->
+        <div class="row" jsf:id="waitforme">
+            <h:form id="msgForm" prependId="false">
+                <h:messages id="msg" style="display: none;" errorClass="erreurmessage" infoClass="succesmessage" showDetail="true"/>
+                <p:messages  autoUpdate="true" showDetail="true"/>
+            </h:form>
+            <div class="col-md-12">
+                <!-- Horizontal Form Block -->
+                <div class="block">
+                    <!-- Horizontal Form Title -->
+                    <div class="block-title">
+                        <div class="block-options pull-right">
+                            <!--<a href="javascript:void(0)" class="btn btn-effect-ripple btn-default toggle-bordered enable-tooltip" data-toggle="button" title="Toggles .form-bordered class">#{bundle.Style}</a>-->
+                            <!--<a href="javascript:void(0)" class="btn btn-effect-ripple btn-default toggle-bordered enable-tooltip" data-toggle="button" title="#{bundle.Style}">#{bundle.Style}</a>-->
+                        </div>
+                       
+                    </div>
+                    <!-- END Horizontal Form Title -->
+
+                    <!-- Horizontal Form Content -->
+                    <form jsf:id="SaveDemandeForm" jsf:prependId="false" jsf:class="form-horizontal form-bordered" enctype="multipart/form-data">
+
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label class="col-md-3 control-label" for="demande">#{bundle.CategorieChristianFile}</label>
+                                <div class="col-md-9">
+                                    <h:selectOneMenu id="example-chosen"  class="select-chosen" ph:data-placeholder="#{bundle.Demande}" value="#{categorieChristianFileBean.selectedCategorieChristianFile}" style="width: 41em;" >
+                                        <f:selectItem itemValue="" itemLabel="---Categorie---"/>
+                                        <f:selectItems value="#{categorieChristianFileBean.listeCategorieChristianFiles}"  var="liste" itemValue="#{liste}" itemLabel="#{liste.libelle}"/>
+                                        <f:converter converterId="categorieChristianFileConverter"/>
+                                        <f:ajax execute="@this"    onevent="saveDemande" />
+                                    </h:selectOneMenu>
+                                </div>
+                            </div>
+                           
+                            <div class="form-group col-md-6">
+                                <label class="col-md-3 control-label">#{bundle.file}</label>
+                                <input type="file" jsf:value="#{categorieChristianFileBean.fileAdd}" />
+                            </div>
+                        </div>
+
+
+                        <div class="form-group form-actions">
+                            <center>
+                                <div class="col-md-3">
+                                    <button type="submit"  class="btn btn-effect-ripple btn-primary" jsf:id="submit_new" jsf:action="#{categorieChristianFileBean.doCreateDocument(event)}">
+                                        #{bundle.Save}
+                                        <f:ajax execute="@form" render=":msgForm:msg @form " onevent="saveDemande"/>
+                                    </button>
+                                </div>
+                            </center>
+                            <!--                            <div class="col-md-3 pull-right">
+                                                            <a href="/AnacAppStore/print/printDemande.xhtml" target="_blank" class="btn btn-effect-ripple btn-primary"><i class="fa fa-print"></i> #{bundle.apperçu}</a>
+                                                        </div>-->
+                        </div>
+                    </form>
+                    <!-- END Horizontal Form Content -->                    
+                </div>
+                <!-- END Horizontal Form Block -->
+            </div>
+
+
+        </div>
+        <br/><br/>
+
+        <!-- END Form Components Row -->
+    </ui:composition>
+</html>

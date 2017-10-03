@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ph="http://xmlns.jcp.org/jsf/passthrough">
+
+    <ui:composition>
+         <div class="content-header">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="header-section">
+                        <h1 style="font-style:italic;font-family:Century">#{bundle.meditation}</h1>
+                    </div>
+                </div>
+                <div class="col-sm-6 hidden-xs">
+                    <div class="header-section">
+                        <ul class="breadcrumb breadcrumb-top">
+                            <li>#{bundle.menuAccueil}</li>
+                            
+                            <li>#{bundle.meditation}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Forms Components Header -->
+        <div id="page-content" class="inner-sidebar-left" style="min-height: 55em;">
+            <h:form id="formMeditation">
+                        <!-- Inner Sidebar -->
+                        <div id="page-content-sidebar" >
+                            <!-- Collapsible Options -->
+                            <a href="javascript:void(0)" class="btn btn-block btn-default visible-xs" data-toggle="collapse" data-target="#media-options">Media Box</a>
+                            <div id="media-options" class="collapse navbar-collapse remove-padding">
+                                <!-- Filter -->
+                                <div class="block-section">
+                                    <center>
+                                    <h4 class="inner-sidebar-header">
+                                      Catégoies
+                                    </h4>
+                                    </center>
+                                    <!-- Filter by Type links -->
+                                    <!-- Custom files functionality is initialized in js/pages/appMedia.js -->
+                                    <!-- Add the category value you want each link in .media-filter to filter out in its data-category attribute. Add the value 'all' to show all items -->
+                                    <ul class="nav nav-pills nav-stacked nav-icons media-filter">
+                                        <li class="active">
+                                            <a href="javascript:void(0)" data-category="all">
+                                                <i class="fa fa-fw fa-folder text-primary icon-push"></i> <strong>Toutes</strong>
+                                            </a>
+                                        </li>
+                                        <ui:repeat value="#{categorieChristianFileBean.listeCategorieChristianFiles}" var="file">
+                                        <li>
+                                            <h:commandLink>
+                                                <i class="fa fa-fw fa-check text-danger icon-push"></i> <strong>#{file.libelle}</strong>
+                                                <f:ajax   listener="#{categorieChristianFileBean.selectedCat(file)}" onevent="select" render=":formMeditation:panAllFil"/>
+                                            </h:commandLink>
+                                        </li>
+                                        </ui:repeat>
+                                        
+                                    </ul>
+                                    <!-- END Filter by Type links -->
+                                </div>
+                                <!-- END Filter -->
+
+                                <!-- Upload New File -->
+                                
+                                <!-- END Upload New File -->
+                            </div>
+                            <!-- END Collapsible Options -->
+                        </div>
+                        <!-- END Inner Sidebar -->
+
+                        <!-- Media Box Content -->
+                        <!-- Add the category value for each item in its data-category attribute (for the filter functionality to work) -->
+                        <div  jsf:id="panAllFil">
+                           
+                           
+                             <ui:repeat value="#{categorieChristianFileBean.allFileSelectedCat}" var="file">
+                            <div class="col-sm-4 col-lg-3">
+                                <div class="media-items animation-fadeInQuick2" data-category="video">
+                                    <div class="media-items-options text-right">
+                                        <a href="javascript:void(0)" class="btn btn-xs btn-success"><i class="fa fa-pencil"></i></a>
+                                        <a href="javascript:void(0)" class="btn btn-xs btn-danger"><i class="fa fa-times"></i></a>
+                                    </div>
+                                    <div class="media-items-content">
+                                        <i class="fa fa-file-video-o fa-5x text-danger"></i>
+                                    </div>
+                                 
+                                    <h4>
+                                        <strong>#{file.submittedFileName}</strong><br/>
+                                        <small>#{connexionBean.convertDate(file.dateCreation, 'dd-MM-yyyy')}, #{file.taille}MB</small>
+                                   
+                                    </h4>
+                                    
+                                </div>
+                            </div>
+                             </ui:repeat>
+                      
+                        </div>
+                        <!-- END Media Box Content -->
+            </h:form>
+                    </div>
+    </ui:composition>
+</html>

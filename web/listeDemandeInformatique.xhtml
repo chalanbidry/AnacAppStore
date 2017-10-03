@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <ui:composition>
+      
+        <!-- Checkout Modal -->
+        <form jsf:id="listeDemandeForm" jsf:prependId="false" class="center-table"> 
+            <div jsf:id="ajaxT1">
+                <table jsf:id="DataTableID1"  class="table table-striped table-bordered table-vcenter">
+                    <thead>
+                        <tr style="">
+                            <!--<th class="text-center" style="width: 50px;">ID</th>-->
+                         <th style="width: 50px; font-size: 13px;">#{bundle.utilisateur}</th>
+                            <th style="width: 75px; font-size: 13px;">#{bundle.nom}</th>
+                            <th style="width: 75px; font-size: 13px;">#{bundle.prenom}</th>
+                            <th style="width: 75px; font-size: 13px;">#{bundle.demande}</th>
+                            
+                            <th style="width: 75px; font-size: 13px;"><i class="fa fa-flash"></i></th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+<!--                        <ui:repeat value="#{progressionDossierBean.listeDossierVidesPeriode}" var="item" varStatus="status">
+                            <tr>
+                                 <ui:repeat value="" var="item" varStatus="status">
+                            <tr>
+                                <td>
+                                
+
+                                </td>
+                                <td>
+                                   
+                                </td>
+                                <td> 
+
+
+                                </td>
+                                <td> 
+
+                                  
+
+                                </td>
+                              
+                                <td class="text-center">
+                                    <div class="btn-group">
+                                        <a href="javascript:void(0)" data-toggle="dropdown" class="btn  dropdown-toggle btn-success">Actions <span class="caret"></span></a>
+                                        <ul class="dropdown-menu text-left">
+
+                                            <li>
+                                                <h:commandLink  class="btn btn-effect-ripple " onclick="$('#detailsDossierDialog').modal('show')">
+                                                    <i class="hi hi-align-justify pull-right">&nbsp;</i>
+                                                    #{bundle.action}
+                                                    <f:ajax listener="#{progressionDossierBean.passItem(item.dossier)}" render=":test:detailsDossierDialogForm" onevent="showDetail"/>
+                                                </h:commandLink>
+                                            </li>
+
+
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                        </ui:repeat>-->
+                    </tbody>
+                </table>
+            </div>
+        </form>
+        <!-- END Checkout Modal -->
+    </ui:composition>
+</html>

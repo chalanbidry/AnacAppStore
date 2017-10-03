@@ -1,0 +1,234 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition>
+        <!-- Datatables Block -->
+        <!-- Datatables is initialized in js/pages/uiTables.js -->
+        <div jsf:id="detailsCourrierAr" class="modal" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <form jsf:id="detailsCourrierArDialogForm" jsf:prependId="false">
+                        <div class="modal-header" style="border-bottom:1px solid #ffcccc;">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="blue bigger" style="color: #ff6666;">#{bundle.detailCourrier} </h4>
+                        </div>
+                        <div class="row tabbable">
+
+                            <div class="col-sm-2 " >
+
+                                <ul class="nav nav-tabs tabs-left" id="myTab3" style="width: 10em;">
+                                    <li class="active">
+                                        <a data-toggle="tab" href="#info">
+                                            <i class="pink ace-icon fa fa-tachometer bigger-110" style="color: #ff6666;"></i>
+                                            #{bundle.Courrier}
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a data-toggle="tab" href="#traceCourrier">
+                                            <i class="blue ace-icon fa fa-user bigger-110" style="color:#3399ff;"></i>
+                                            #{bundle.Evenement}
+                                        </a>
+                                    </li>
+
+
+                                </ul>
+                                <!--                                <div style=" width: 10em; border-right: 1px solid #ddd; margin-top: -2px;"></div>-->
+                            </div>
+                            <div class="col-sm-10">
+                                <div class="tab-content" style=" margin-left: -1em;">
+                                    <div id="info" class="tab-pane active">
+                                        <div class="row">
+                                            <div class="col-sm-12" style="border: 0px solid black">
+                                                <div class="" >
+                                                    <div class="widget-body">
+
+                                                        <div class="" >
+
+                                                            <table class="table table-striped table-bordered table-vcenter">
+
+
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td style="font-weight:bold;" >Exercice</td>
+                                                                        <td>#{courrierBean.selectedCourrier.exercice.libelle}</td>
+                                                                    </tr>
+
+                                                                    <tr>
+                                                                        <th style="font-weight:bold;">Expediteur</th>
+                                                                        <th>#{courrierBean.selectedCourrier.expediteur}</th>
+                                                                    </tr>
+
+
+
+                                                                    <tr>
+                                                                        <td style="font-weight:bold;" >Catégorie de courrier</td>
+                                                                        <td>#{courrierBean.selectedCourrier.typeCourrier.categorieCourrier.label}</td>
+                                                                    </tr>
+
+                                                                    <tr>
+                                                                        <td style="font-weight:bold;">Type de courrier</td>
+                                                                        <td>#{courrierBean.selectedCourrier.typeCourrier.libelle}</td>
+                                                                    </tr>
+
+                                                                    <tr>
+                                                                        <td style="font-weight:bold;" >Objet</td>
+                                                                        <td>#{courrierBean.selectedCourrier.objet}</td>
+                                                                    </tr>
+
+
+
+                                                                    
+                                                                    <tr>
+                                                                        <td style="font-weight:bold;">Position actuelle</td>
+                                                                        <td jsf:rendered="#{!courrierBean.findIfCourrierAlredyTritByDG(courrierBean.selectedCourrier)}">#{courrierBean.findReferenceFromPgCour(courrierBean.selectedCourrier).userReceive.fonction.code}</td>
+                                                                        <td jsf:rendered="#{courrierBean.findIfCourrierAlredyTritByDG(courrierBean.selectedCourrier)}">
+                                                                            <ui:repeat value="#{courrierBean.findListPCFromLastReceive(courrierBean.selectedCourrier)}" var="pc">
+                                                                                #{pc.userReceive.fonction.code}&nbsp;&nbsp;
+                                                                            </ui:repeat>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td style="font-weight:bold;">Date de correspondance</td>
+                                                                        <td>#{connexionBean.convertDate(courrierBean.selectedCourrier.dateCorrespondance,"dd-MM-yyyy")}</td>
+                                                                    </tr>
+
+                                                                    <tr>
+                                                                        <td style="font-weight:bold;">Date de création</td>
+                                                                        <td>#{connexionBean.convertDate(courrierBean.selectedCourrier.dateCreation,"dd-MM-yyyy")}</td>
+                                                                    </tr>
+
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+
+                                    </div><!--home-->
+
+                                    <div id="traceCourrier" class="tab-pane" >                                          
+                                        <div class="col-sm-12">
+
+                                            <div id="nestable1" class="dd">
+                                                <ol class="dd-list" jsf:id="olListEven" >
+                                                    <ui:repeat value="#{courrierBean.getPgsForTypeUser(courrierBean.selectedCourrier,'SA')}" var="item">
+                                                        <li class="dd-item">
+                                                            <div class="dd-handle">
+                                                                <i class="fa fa-user"></i>&nbsp;(#{item.userSend.fonction.code}):&nbsp; <strong>#{item.evenement.libelle}</strong> 
+                                                                <a class="pull-right">#{connexionBean.convertDateHeure(item.dateCreation)}</a>
+                                                            </div>
+                                                            <ol class="dd-list" jsf:rendered="#{item.userReceive!=item.userSend}">
+                                                                <ui:repeat value="#{courrierBean.getPgsForTypeUser(courrierBean.selectedCourrier,'DG')}" var="item1">
+                                                                    <li class="dd-item">
+                                                                        <div class="dd-handle">
+                                                                            <i class="fa fa-user"></i>&nbsp;(#{item1.userSend.fonction.code}):&nbsp; <strong >#{item1.evenement.libelle} &nbsp; <a class="text-info" jsf:rendered="#{item1.userReceive!=item1.userSend}"><i class="fa fa-user"></i>&nbsp; #{item1.userReceive.fonction.code}</a></strong> 
+                                                                            <a class="pull-right">#{connexionBean.convertDateHeure(item1.dateCreation)}</a>
+                                                                        </div>
+                                                                        <ol class="dd-list" jsf:rendered="#{item1.userReceive!=item1.userSend}">
+                                                                            <ui:repeat value="#{courrierBean.getPgsForUserSend(courrierBean.selectedCourrier,item1.userReceive)}" var="item2">
+                                                                                <li class="dd-item">
+                                                                                    <div class="dd-handle">
+                                                                                        <i class="fa fa-user"></i> &nbsp;(#{item2.userSend.fonction.code}):&nbsp; <strong>#{item2.evenement.libelle} <h:panelGroup rendered="#{item2.userSend != item2.userReceive}"> &nbsp; <a class="text-warning" ><i class="fa fa-user"></i>&nbsp; #{item2.userReceive.fonction.code}</a></h:panelGroup></strong> 
+                                                                                        <a class="pull-right">#{connexionBean.convertDateHeure(item2.dateCreation)}</a>
+                                                                                    </div>
+                                                                                    <ol class="dd-list" jsf:rendered="#{item2.userReceive!=item2.userSend}">
+                                                                                        <ui:repeat value="#{courrierBean.getPgsForUserSend(courrierBean.selectedCourrier,item2.userReceive)}" var="item3">
+                                                                                            <li class="dd-item">
+                                                                                                <div class="dd-handle">
+                                                                                                    <i class="fa fa-user"></i> &nbsp;(#{item3.userSend.fonction.code}):&nbsp; <strong>#{item3.evenement.libelle} <h:panelGroup rendered="#{item3.userSend != item3.userReceive}"> &nbsp; <a class="text-danger" ><i class="fa fa-user"></i>&nbsp; #{item3.userReceive.fonction.code}</a></h:panelGroup></strong> 
+                                                                                                    <a class="pull-right">#{connexionBean.convertDateHeure(item3.dateCreation)}</a>
+                                                                                                </div>
+                                                                                                <ol class="dd-list" jsf:rendered="#{item3.userReceive!=item3.userSend}">
+                                                                                                    <ui:repeat value="#{courrierBean.getPgsForUserSend(courrierBean.selectedCourrier,item3.userReceive)}" var="item4">
+                                                                                                        <li class="dd-item">
+                                                                                                            <div class="dd-handle">
+                                                                                                                <i class="fa fa-user"></i>&nbsp;(#{item4.userSend.fonction.code}): &nbsp; <strong>#{item4.evenement.libelle}<h:panelGroup rendered="#{item4.userReceive!=item4.userSend}"> ... &nbsp; <a class="text-success" ><i class="fa fa-user"></i>&nbsp; #{item4.userReceive.fonction.code}</a></h:panelGroup></strong> 
+                                                                                                                <a class="pull-right">#{connexionBean.convertDateHeure(item4.dateCreation)}</a>
+                                                                                                            </div>
+                                                                                                            <ol class="dd-list" jsf:rendered="#{item4.userReceive!=item4.userSend}">
+                                                                                                                <ui:repeat value="#{courrierBean.getPgsForUserSend(courrierBean.selectedCourrier,item4.userReceive)}" var="item5">
+                                                                                                                    <li class="dd-item">
+                                                                                                                        <div class="dd-handle">
+                                                                                                                            <i class="fa fa-user"></i>&nbsp;(#{item5.userSend.fonction.code}): &nbsp; <strong>#{item5.evenement.libelle}</strong> 
+                                                                                                                            <a class="pull-right">#{connexionBean.convertDateHeure(item5.dateCreation)}</a>
+                                                                                                                        </div>
+                                                                                                                        <ol class="dd-list" jsf:rendered="#{item5.userReceive!=item5.userSend}">
+
+                                                                                                                        </ol>
+                                                                                                                    </li>
+
+                                                                                                                </ui:repeat> 
+                                                                                                            </ol>
+                                                                                                        </li>
+
+                                                                                                    </ui:repeat> 
+                                                                                                </ol>
+                                                                                            </li>
+
+                                                                                        </ui:repeat> 
+                                                                                    </ol>
+                                                                                </li>
+
+                                                                            </ui:repeat> 
+                                                                        </ol>
+                                                                    </li>
+
+                                                                </ui:repeat>                          
+                                                            </ol>
+                                                        </li>
+
+                                                    </ui:repeat>
+
+                                                </ol>
+                                            </div>
+                                            <h4 class="sub-header hidden"><i class="fa fa-arrow-circle-o-right"></i> Serialised List Output</h4>
+                                            <code id="nestable1-output" class="hidden"></code>
+                                        </div>
+
+                                    </div>
+
+
+
+
+                                </div>
+                                #{courrierBean.reNullCourrier()}
+                            </div><!-- /.col -->
+
+
+                        </div><!-- /.row -->
+                        <div class="modal-footer">
+
+
+                            <button class="btn btn-default btn-lg active" style="line-height: 1.5; font-size: 12px; padding: 5px 10px;" data-dismiss="modal" >
+                                <i class="ace-icon fa fa-times"></i>
+                                #{bundle.Close}
+                            </button>
+
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- END Datatables Block -->
+
+        <script>
+//            $(function () {
+//                $('#functions-datatable').dataTable({
+//                    columnDefs: [{orderable: false, targets: [4]}],
+//                    pageLength: 10,
+//                    lengthMenu: [[5, 10, 20], [5, 10, 20]]
+//                });
+//            });
+        </script>
+    </ui:composition>
+</html>

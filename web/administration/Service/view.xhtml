@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition>
+        <!-- Checkout Modal -->
+        <div id="viewDialog" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" style="width:65em; height:9em;">
+                <div class="modal-content">
+                    <form  jsf:id="viewDialogForm" jsf:class="push">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h3 class="modal-title"><strong>#{bundle.View}</strong></h3>
+                        </div>
+                        <div class="modal-body" style="width:65em; height:9em;">
+                            <div class=" row form-group">
+                                <label class="col-md-2 control-label" >#{bundle.Code}</label>
+                                <div class="col-md-4">
+                                    <!--<input type="email" id="example-hf-email" name="example-hf-email" class="form-control"/>-->
+                                    #{serviceBean.selectedService.code}
+                                    <!--<span class="help-block">Please enter your email</span>-->
+                                </div>
+
+                                <label class="col-md-2 control-label" >#{bundle.Libelle}</label>
+                                <div class="col-md-4">
+                                    #{serviceBean.selectedService.libelle}
+                                    <!--<span class="help-block">Please enter your password</span>-->
+                                </div>
+
+                            </div>
+                            <div class="row" style="height: 15px;">
+
+                            </div>
+
+                            <div class=" row form-group">
+                               
+                                <label class="col-md-2 control-label" >#{bundle.departement}</label>
+                                <div class="col-md-4">
+                                    #{serviceBean.selectedService.departement.libelle} 
+                                    <!--<span class="help-block">Please enter your password</span>-->
+                                </div>  
+                            </div>
+
+                        </div>
+
+                        <div class="modal-footer">
+                            <button class="btn btn-sm btn-default active" data-dismiss="modal">
+                                <i class="ace-icon fa fa-times"></i>
+                                #{bundle.Close}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- END Checkout Modal -->
+    </ui:composition>
+</html>

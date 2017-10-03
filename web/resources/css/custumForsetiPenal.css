@@ -1,0 +1,141 @@
+/*
+ *  Document   : custumForsetiPenal.css
+ *  Author     : Armel AGUE
+ *  Description: The custom version of ForsetiPenal css
+ *
+/*
+=================================================================
+
+=================================================================
+*/
+
+.forsetiPenal-themed-background {
+    background-color: #5ccdde !important;
+}
+
+.navbar-form-custom-forseti-penal {
+    margin: 0;
+    padding: 5px 8px;
+    width: 140px;
+}
+
+.coin {
+    background-color:#DE4B39;
+    border:1px solid #9FC6FF;
+    padding:5px;
+    /*arrondir les coins en haut à gauche et en bas à droite*/
+    -moz-border-radius:10px 0;
+    -webkit-border-radius:10px 0;
+    border-radius:10px 0;
+}
+
+/**
+ * Etiquette des audiences dans le calendrier.
+ **/
+.fc-day-grid-event > .fc-content {
+    white-space: normal;
+}
+.fc-event {
+    border-radius: 6px;
+    border-width: 4px;
+    margin: 2px;
+    padding: 6px;  
+    cursor: pointer;
+} 
+.label-audience-PUBLIQUE:hover {
+    border-color: #DE4B39;
+}  
+.label-audience-HUISCLOS {
+    background-color: #E59729;
+    border-color: #E59729;
+}
+.label-audience-HUISCLOS:hover {
+    border-color: #FFB752;
+}
+.label-audience-REFERE {
+    background-color: #7461AA;
+    border-color: #7461AA;
+}
+.label-audience-REFERE:hover {
+    border-color: #9585BF;
+}
+.label-audience-SOLENNELLE {
+    background-color: #629B58;
+    border-color: #629B58;
+}
+.label-audience-SOLENNELLE:hover {
+    border-color: #87B87F;
+}
+.label-audience-NONE {
+    background-color: #CCC;
+    border-color: #CCC;
+}
+.label-audience-NONE:hover {
+    border-color: #EEE;
+}
+.label-audience-new {
+    background-color: #FD0;
+    color: #666;
+}
+.label-audience-new:hover {
+    color: #333;
+}
+
+.alert-success-forseti-penal {
+    background-color: #DE815C;
+}
+
+.msg-body{display:block;line-height:20px;white-space:normal;vertical-align:middle;margin-left:50px}
+
+/*#nav {
+    width: 12em;
+    height: 10em;
+    line-height: 2em;
+    border: 1px solid #ccc;
+    padding: 0;
+    margin: 0;
+    overflow: scroll;
+    overflow-x: hidden;
+}*/
+
+#myDIV {
+    width:150px;
+    height:200px;
+    overflow-y:hidden;
+}
+
+/*li {
+    border-top: 1px solid #ccc;
+}*/
+
+ul ul {
+    text-indent: 1em;
+}
+
+ul ul ul {
+    text-indent: 2em;
+}
+
+td.details-control {
+    background: url('../resources/details_open.png') no-repeat center center;
+    cursor: pointer;
+}
+tr.shown td.details-control {
+    background: url('../resources/details_close.png') no-repeat center center;
+}
+
+.calendar-events-button {
+    border-radius: 3px!important;
+    box-shadow: 2px 0 rgba(0, 0, 0, 0.15) inset!important;
+    box-shadow: 2px 0 rgba(0, 0, 0, 0.15) inset!important;
+    font-weight: 600;
+    margin-bottom: 6px!important;
+    opacity: 0.8;
+    padding: 10px 12px;
+    height: 50px;
+    width: 150px
+}
+
+.ui-autocomplete-loading {
+    background: white url('http://jqueryui.com/demos/autocomplete/images/ui-anim_basic_16x16.gif') right center no-repeat;
+}

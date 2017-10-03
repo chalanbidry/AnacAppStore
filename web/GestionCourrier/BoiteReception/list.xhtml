@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <!-- Datatables Block -->
+        <!-- Datatables is initialized in js/pages/uiTables.js -->
+        <div class="content-header">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="header-section">
+                        <h1 style="font-style:italic;font-family:Century">#{bundle.BoiteReception}</h1>
+                    </div>
+                </div>
+                <div class="col-sm-6 hidden-xs">
+                    <div class="header-section">
+                        <ul class="breadcrumb breadcrumb-top">
+
+                            <li>#{bundle.BoiteReception}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" jsf:id="waitforme">
+            <h:form id="msgForm" prependId="false">
+                <h:messages id="msg" style="display: none;" errorClass="erreurmessage" infoClass="succesmessage" showDetail="true"/>
+                <p:messages  autoUpdate="true" showDetail="true"/>
+            </h:form>
+            <div>
+                <form jsf:id="listeCourrierForm" jsf:prependId="false" class="center-table"> 
+                    <h:panelGroup rendered="#{connexionBean.currentUser.fonction.code=='SP'}">
+                    <ui:include src="listForSP.xhtml"/>
+                    </h:panelGroup>
+                      <h:panelGroup rendered="#{connexionBean.currentUser.fonction.code!='SP' and connexionBean.currentUser.fonction.code!='DG' and connexionBean.currentUser.fonction.code!='SA'}">
+                          <ui:include src="listForAllUser.xhtml"/>
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{connexionBean.currentUser.fonction.code=='DG'}">
+                        <ui:include src="listForDG.xhtml"/>
+                    </h:panelGroup>
+                      <h:panelGroup rendered="#{connexionBean.currentUser.fonction.code=='SA'}">
+                          <ui:include src="listForSA.xhtml"/>
+                    </h:panelGroup>
+                </form>
+            </div>
+
+            <ui:include src="ContenuCourrier.xhtml"/>
+            <ui:include src="listDoc.xhtml"/>
+        </div>
+        <!-- END Datatables Block -->
+    </ui:composition>
+</html>

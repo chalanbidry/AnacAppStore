@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition>
+        <!-- Datatables Block -->
+        <!-- Datatables is initialized in js/pages/uiTables.js -->
+        
+        <div class="content-header">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="header-section">
+                        <h1 style="font-style:italic;font-family:Century">#{bundle.ContenuCourrier}</h1>
+                    </div>
+                </div>
+                <div class="col-sm-6 hidden-xs">
+                    <div class="header-section">
+                        <ul class="breadcrumb breadcrumb-top">
+                         
+                            <li>#{bundle.menuContenuCourrier}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+         <div class="col-md-1"></div>
+        <div class="block col-md-10">
+       
+               
+                   
+                    <div id="message-view" class="block-section ">
+                        <!-- Title -->
+                        <div class="block-title clearfix">
+                            <div class="block-options pull-right">
+                                <a href="javascript:void(0)" class="btn btn-effect-ripple btn-warning" data-toggle="tooltip" title="Star"><i class="fa fa-star"></i></a>
+                                <a href="javascript:void(0)" class="btn btn-effect-ripple btn-danger" data-toggle="tooltip" title="Delete"><i class="fa fa-times"></i></a>
+                            </div>
+                            <div class="block-options pull-left">
+                                <a href="javascript:void(0)" class="btn btn-effect-ripple btn-default" id="message-view-back"><i class="fa fa-chevron-left"></i> Boîte de réception</a>
+                            </div>
+                        </div>
+                        <!-- END Title -->
+
+                        <!-- Header -->
+                         <form jsf:id="ContenuForm" jsf:prependId="false" class="center-table"> 
+                        <h3><strong>Project updates </strong> <small><em>1 week ago</em></small></h3>
+                        <p><a href="javascript:void(0)"><strong>John Doe</strong></a> <strong>&lt;john.doe@example.com&gt;</strong> to <a href="javascript:void(0)"><strong>Admin</strong></a> <strong>&lt;admin@example.com&gt;</strong></p>
+                        <!-- END Header -->
+
+                        <!-- Message Body -->
+                        <hr/>
+                        <p>Hi,</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ultrices, justo vel imperdiet gravida, urna ligula hendrerit nibh, ac cursus nibh sapien in purus. Mauris tincidunt tincidunt turpis in porta. Integer fermentum tincidunt auctor. Vestibulum ullamcorper, odio sed rhoncus imperdiet, enim elit sollicitudin orci, eget dictum leo mi nec lectus. Nam commodo turpis id lectus scelerisque vulputate. Integer sed dolor erat. Fusce erat ipsum, varius vel euismod sed, tristique et lectus? Etiam egestas fringilla enim, id convallis lectus laoreet at. Fusce purus nisi, gravida sed consectetur ut, interdum quis nisi. Quisque egestas nisl id lectus facilisis scelerisque? Proin rhoncus dui at ligula vestibulum ut facilisis ante sodales! Suspendisse potenti. Aliquam tincidunt sollicitudin sem nec ultrices. Sed at mi velit. Ut egestas tempor est, in cursus enim venenatis eget! Nulla quis ligula ipsum. Donec vitae ultrices dolor?</p>
+                        <p>Best Regards,</p>
+                        <p>John</p>
+                        <hr/>
+                        <!-- END Message Body -->
+
+                        <!-- Attachments Row -->
+<!--                        <div class="row block-section">
+                            <div class="col-xs-6 col-sm-3 col-lg-2 text-center">
+                                <a href="img/placeholders/photos/photo2.jpg" data-toggle="lightbox-image">
+                                    <img src="img/placeholders/photos/photo2.jpg" alt="photo" class="img-responsive push-bit"/>
+                                </a>
+                                <span class="text-muted">IMG0001.JPG</span>
+                            </div>
+                            <div class="col-xs-6 col-sm-3 col-lg-2 text-center">
+                                <a href="img/placeholders/photos/photo16.jpg" data-toggle="lightbox-image">
+                                    <img src="img/placeholders/photos/photo16.jpg" alt="photo" class="img-responsive push-bit"/>
+                                </a>
+                                <span class="text-muted">IMG0002.JPG</span>
+                            </div>
+                            <div class="col-xs-6 col-sm-3 col-lg-2 text-center">
+                                <a href="img/placeholders/photos/photo9.jpg" data-toggle="lightbox-image">
+                                    <img src="img/placeholders/photos/photo9.jpg" alt="photo" class="img-responsive push-bit"/>
+                                </a>
+                                <span class="text-muted">IMG0003.JPG</span>
+                            </div>
+                            <div class="col-xs-6 col-sm-3 col-lg-2 text-center">
+                                <a href="img/placeholders/photos/photo15.jpg" data-toggle="lightbox-image">
+                                    <img src="img/placeholders/photos/photo15.jpg" alt="photo" class="img-responsive push-bit"/>
+                                </a>
+                                <span class="text-muted">IMG0004.JPG</span>
+                            </div>
+                        </div>-->
+                        <!-- END Attachments Row -->
+
+                        <!-- Quick Reply Form -->
+                       
+                        <!-- END Quick Reply Form -->
+                        </form>
+                    </div>
+                   
+                
+            
+        </div>
+          <div class="col-md-1"></div>
+        <!-- END Datatables Block -->
+    </ui:composition>
+</html>

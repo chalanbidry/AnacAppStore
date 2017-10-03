@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ph="http://xmlns.jcp.org/jsf/passthrough">
+
+    <ui:composition>
+        <!-- Forms Components Header -->
+        <div class="content-header">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="header-section">
+                        <h1 style="font-style:italic;font-family:Century">#{bundle.liaisonUserAppli}</h1>
+                    </div>
+                </div>
+                <div class="col-sm-6 hidden-xs">
+                    <div class="header-section">
+                        <ul class="breadcrumb breadcrumb-top">
+                            <li>#{bundle.menuAccueil}</li>
+                            <li> #{bundle.menuAdministration}</li>
+                            <li>#{bundle.menuAdministrationlierUtilisateurAppli}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END Forms Components Header -->
+
+        <!-- Form Components Row -->
+        <div class="row" jsf:id="waitformeLiaisonUserAppli">
+            <h:form id="msgForm" prependId="false">
+                <h:messages id="msg" style="display: none;" errorClass="erreurmessage" infoClass="succesmessage" showDetail="true"/>
+                <p:messages  autoUpdate="true" showDetail="true"/>
+            </h:form>
+            <div class="col-md-6">
+                <!-- Horizontal Form Block -->
+                <div class="block">
+                    <!-- Horizontal Form Title -->
+                    <div class="block-title">
+                        <div class="block-options pull-right">
+                            <!--<a href="javascript:void(0)" class="btn btn-effect-ripple btn-default toggle-bordered enable-tooltip" data-toggle="button" title="Toggles .form-bordered class">#{bundle.Style}</a>-->
+                            <!--<a href="javascript:void(0)" class="btn btn-effect-ripple btn-default toggle-bordered enable-tooltip" data-toggle="button" title="#{bundle.Style}">#{bundle.Style}</a>-->
+                        </div>
+                        <h2 style="font-family:Arial; text-transform: none">#{bundle.liaisonUserAppli}</h2>
+                    </div>
+                    <!-- END Horizontal Form Title -->
+
+                    <!-- Horizontal Form Content -->
+                    <form jsf:id="createUtilisateurForm" jsf:prependId="false" jsf:class="form-horizontal form-bordered">
+                        
+                        
+                         <div class="form-group">
+                             <label class="col-md-3 control-label" for="code">#{bundle.utilisateur}</label>
+                            <div class="col-md-9">
+                                <h:selectOneMenu id="example-chosen3"  class="select-chosen" ph:data-placeholder="#{bundle.utilisateur}" value="#{utilisateurBean.selectedUtilisateur}" style="width: 41em;" >
+                                    <f:selectItem itemValue="#{p}" itemLabel=""/>
+                                    <f:selectItems value="#{utilisateurBean.listeUtilisateurs}"  var="liste" itemValue="#{liste}" itemLabel="#{liste.name} &nbsp; (#{liste.fonction.code})"/>
+                                    <f:converter converterId="utilisateurConverter"/>
+                                    <f:ajax execute="@this" listener="#{utilisateurBean.allAppliNotUser()}"  render="allAppliNotIn listeUtilisateurLieForm"  onevent="chooseDepAndCheck"/>
+                                </h:selectOneMenu>
+                            </div>
+                        </div>
+                        
+                        
+                         <div class="form-group">
+                             <label class="col-md-3 control-label" for="code">#{bundle.NameAppli}</label>
+                            <div class="col-md-9" jsf:id="allAppliNotIn" >
+                                <h:selectOneMenu id="example-chosen2"  class="select-chosen" ph:data-placeholder="#{bundle.NameAppli}" value="#{utilisateurBean.selectedApplication}" style="width: 41em;" >
+                                    <f:selectItem itemValue="#{p}" itemLabel=""/>
+                                    <f:selectItems value="#{utilisateurBean.listAppliNotUserIn}"  var="liste" itemValue="#{liste}" itemLabel="#{liste.appliName}"/>
+                                    <f:converter converterId="applicationConverter"/>
+                                </h:selectOneMenu>
+                            </div>
+                        </div>
+                         
+                        
+                        
+                        
+                        <div class="form-group form-actions">
+                            <div class="col-md-9 col-md-offset-3">
+                                <button type="submit" class="btn btn-effect-ripple btn-primary" jsf:id="submit_new" jsf:action="#{utilisateurBean.doLiaisonAppli(event)}">
+                                    #{bundle.Save}
+                                    <f:ajax execute="@form" render=":msgForm:msg @form :listeUtilisateurLieForm" onevent="saveLiaison"/>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                    <!-- END Horizontal Form Content -->                    
+                </div>
+                <!-- END Horizontal Form Block -->
+            </div>
+            <div class="col-md-6">
+                <ui:include src="list.xhtml"/>
+            </div>
+        </div>
+        <!-- END Form Components Row -->
+    </ui:composition>
+</html>

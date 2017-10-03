@@ -1,0 +1,138 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition>
+        <div class="content-header">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="header-section">
+                        <h1>Tableau de bord </h1>
+                    </div>
+                </div>
+                <div class="col-sm-6 hidden-xs">
+                    <div class="header-section">
+                        <ul class="breadcrumb breadcrumb-top">
+                            <li>#{connexionBean.currentUser.fonction.libelle}</li>
+                            <li>Accueil</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div jsf:id="dsboardCSC" class="row">
+            <h:form id="msgFormCSFC" prependId="false">
+                <h:messages id="msgCSFC" style="display: none;" errorClass="erreurmessage" infoClass="succesmessage" showDetail="true"/>
+                <p:messages  autoUpdate="true" showDetail="true"/>
+            </h:form>
+            <div jsf:id="dsboard1CSC" class="col-md-12" style="border: 1px solid #dae0e8;border-bottom-right-radius: 10px;border-bottom-left-radius: 10px;  padding-top: 10px; margin-bottom: 10px;">
+
+
+                <div class="col-sm-6 col-lg-3">
+                    <div  class="widget">
+                        <div class="widget-content text-right clearfix">
+                            <div class="widget-icon themed-background-social pull-left">
+                                <i class="gi gi-cardio text-light-op"></i>
+                            </div>
+                            <h2 class="widget-heading h3 themed-color-social"><strong>+#{demandeBean.listeDemandesByUser.size()}</strong></h2>
+                            <span class="text-muted"><strong style="font-size: 12px">#{bundle.NbDemandeFaite}</strong></span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-sm-6 col-lg-3">
+                    <div  class="widget">
+                        <div class="widget-content text-right clearfix">
+                            <div class="widget-icon themed-background-social pull-left">
+                                <i class="gi gi-cardio text-light-op"></i>
+                            </div>
+                            <h2 class="widget-heading h3 themed-color-social"><strong>+#{demandeBean.findListSendCSFC().size()}</strong></h2>
+                            <span class="text-muted"><strong style="font-size: 12px">#{bundle.NbDemandeOfAuto}</strong></span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-sm-6 col-lg-3">
+                    <div  class="widget">
+                        <div class="widget-content text-right clearfix">
+                            <div class="widget-icon themed-background-social pull-left">
+                                <i class="gi gi-cardio text-light-op"></i>
+                            </div>
+                            <h2 class="widget-heading h3 themed-color-social"><strong>+#{demandeBean.listeDemandesInDirection.size()}</strong></h2>
+                            <span class="text-muted"><strong style="font-size: 12px">#{bundle.NbDemandeFaiteByService}</strong></span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-sm-6 col-lg-3">
+                    <div  class="widget">
+                        <div class="widget-content text-right clearfix">
+                            <div class="widget-icon themed-background-social pull-left">
+                                <i class="gi gi-cardio text-light-op"></i>
+                            </div>
+                            <h2 class="widget-heading h3 themed-color-social"><strong>+#{demandeBean.findListBonSendCSFC().size()}</strong></h2>
+                            <span class="text-muted"><strong style="font-size: 12px">Bon de Commande autorisé</strong></span>
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div>
+        </div>
+        <br/><br/>
+        
+        
+        <div class="panel-group" id="accordion">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
+                            #{bundle.DemandeInDirection}</a>
+                    </h4>
+                </div>
+                <div id="collapse1" class="panel-collapse collapse in">
+                    <div class="panel-body">
+                        <ui:include src="listDemandeTraiterCSC.xhtml"/>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">
+                            #{bundle.DemandeWaitAuto}</a>
+                    </h4>
+                </div>
+                <div id="collapse2" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <ui:include src="listDemandeWaitAutorisationCSC.xhtml"/>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">
+                            #{bundle.BonAuto}</a>
+                    </h4>
+                </div>
+                <div id="collapse3" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <ui:include src="listBonAutoriseByDG.xhtml"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </ui:composition>
+</html>

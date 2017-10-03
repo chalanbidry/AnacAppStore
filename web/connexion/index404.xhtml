@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    
+    <h:head>
+        <meta charset="utf-8"/>
+
+        <title>#{bundle.AppName}</title>
+
+        <meta name="description" content="AppUI is a Web App Bootstrap Admin Template created by pixelcave and published on Themeforest"/>
+        <meta name="author" content="pixelcave"/>
+        <meta name="robots" content="noindex, nofollow"/>
+
+        <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1.0"/>
+        <link rel="shortcut icon" href="#{request.contextPath}/resources/images/img_initiale.png"/>
+        <!-- Icons -->
+        <!-- The following icons can be replaced with your own, they are used by desktop and mobile browsers -->
+<!--        <link rel="shortcut icon" href="#{request.contextPath}/resources/img/favicon.png"/>
+        <link rel="apple-touch-icon" href="#{request.contextPath}/resources/img/icon57.png" sizes="57x57"/>
+        <link rel="apple-touch-icon" href="#{request.contextPath}/resources/img/icon72.png" sizes="72x72"/>
+        <link rel="apple-touch-icon" href="#{request.contextPath}/resources/img/icon76.png" sizes="76x76"/>
+        <link rel="apple-touch-icon" href="#{request.contextPath}/resources/img/icon114.png" sizes="114x114"/>
+        <link rel="apple-touch-icon" href="#{request.contextPath}/resources/img/icon120.png" sizes="120x120"/>
+        <link rel="apple-touch-icon" href="#{request.contextPath}/resources/img/icon144.png" sizes="144x144"/>
+        <link rel="apple-touch-icon" href="#{request.contextPath}/resources/img/icon152.png" sizes="152x152"/>
+        <link rel="apple-touch-icon" href="#{request.contextPath}/resources/img/icon180.png" sizes="180x180"/>-->
+        <!-- END Icons -->
+
+        <!-- Stylesheets -->
+        <!-- Bootstrap is included in its original form, unaltered -->
+        <link rel="stylesheet" href="#{request.contextPath}/resources/css/bootstrap.min.css"/>
+
+        <!-- Related styles of various icon packs and plugins -->
+        <link rel="stylesheet" href="#{request.contextPath}/resources/css/plugins.css"/>
+
+        <!-- The main stylesheet of this template. All Bootstrap overwrites are defined in here -->
+        <link rel="stylesheet" href="#{request.contextPath}/resources/css/main.css"/>
+
+        <!-- Include a specific file here from css/themes/ folder to alter the default theme of the template -->
+
+        <!-- The themes stylesheet of this template (for using specific theme color in individual elements - must included last) -->
+        <link rel="stylesheet" href="#{request.contextPath}/resources/css/themes.css"/>
+        <!-- END Stylesheets -->
+
+        <!-- Modernizr (browser feature detection library) -->
+        <script src="#{request.contextPath}/resources/js/vendor/modernizr-2.8.3.min.js"></script>
+    </h:head>
+    
+    <ui:define name="title">
+        <div class="breadcrumbs" id="breadcrumbs">
+            <script type="text/javascript">
+                try {
+                    ace.settings.check('breadcrumbs', 'fixed')
+                } catch (e) {
+                }
+            </script>
+            <ul class="breadcrumb">
+                <li>
+                    <i class="ace-icon fa fa-home home-icon"></i>
+                    <a href="#">#{bundle.Dashboard}</a>
+                </li>
+                <li>
+                    <!--a href="#">More Pages</a-->
+                    #{bundle.menuAdministration}
+                </li>
+                <li class="active">#{bundle.menuAdministrationFonction}</li>
+            </ul><!-- /.breadcrumb -->
+        </div>
+    </ui:define>
+
+    <h:body id="content">
+        <ui:include src="404.xhtml"/>
+    </h:body>
+
+    <ui:define name="script">
+
+    </ui:define>
+
+</html>
+

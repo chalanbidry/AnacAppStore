@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <div class="content-header">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="header-section">
+                        <h1>Tableau de bord </h1>
+                    </div>
+                </div>
+                <div class="col-sm-6 hidden-xs">
+                    <div class="header-section">
+                        <ul class="breadcrumb breadcrumb-top">
+                            <li>#{connexionBean.currentUser.fonction.libelle}</li>
+                            <li>Accueil</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div jsf:id="dsboardUserCourSA" class="row">
+            <h:form id="msgFormCourrierSA" prependId="false">
+                <h:messages id="msgCourrierSA" style="display: none;" errorClass="erreurmessage" infoClass="succesmessage" showDetail="true"/>
+                <p:messages  autoUpdate="true" showDetail="true"/>
+            </h:form>
+            <h:form id="DBCourrierSA" prependId="false">
+                        <div jsf:id="dsboard1UserCourSA" class="col-md-12" style="border: 1px solid #dae0e8;border-bottom-right-radius: 10px;border-bottom-left-radius: 10px;  padding-top: 10px; margin-bottom: 10px;">
+            
+                            <div class="col-sm-6 col-lg-4">
+                             <h:commandLink class="widget">
+                                    <div class="widget-content widget-content-mini text-right clearfix">
+                                        <div class="widget-icon pull-left themed-background">
+                                            <i class="fa fa-file-pdf-o text-light-op"></i>
+                                        </div>
+                                        <h2 class="widget-heading h3 ">
+                                            <strong>+ <span data-toggle="counter" data-to="#{courrierBean.findListAttenteArchive().size()}"></span></strong>
+                                        </h2>
+                                        <span class="text-muted">#{bundle.CourrierAtenteArchive}</span>
+                                    </div>
+                                  <f:ajax  render=":divTitleListCourrier :listeCourrierForm" listener="#{courrierBean.findListAfterSelcted(bundle.archivage)}" onevent="caracteristiqueSelected"/>
+                             </h:commandLink>
+                            </div>
+                            
+                            
+                            
+            
+                        </div>
+            </h:form>
+            
+        </div>
+        <br/><br/>
+
+        <div class="row">
+            <!--            <ui:include src="listDemandeTraiter.xhtml"/>-->
+        </div>
+
+    </ui:composition>
+</html>

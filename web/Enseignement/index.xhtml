@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <ui:composition template="./../template/base.xhtml">
+        <ui:define name="selectedMenu">
+        
+            <ui:param name="EnseignementClass" value="active"/> 
+        </ui:define>
+        <ui:define name="css">
+
+        </ui:define>
+        <ui:define name="content">
+             
+               <ui:include src="content.xhtml"/>
+             
+  
+        </ui:define>
+        <ui:define name="script">
+            <!-- ckeditor.js, load it only in the page you would like to use CKEditor (it's a heavy plugin to include it with the others!) -->
+            <script src="#{request.contextPath}/resources/js/plugins/ckeditor/ckeditor.js"></script> 
+            <!-- Load and execute javascript code used only in this page -->
+            <script src="#{request.contextPath}/resources/js/pages/formsComponents.js"></script> 
+            <script src="#{request.contextPath}/resources/js/pages/appMedia.js"></script>
+          
+       
+            <script>$(function(){ AppMedia.init(); });</script>
+            <!-- Load and execute javascript code used only in this page -->
+            <!--<script src="#{request.contextPath}/resources/js/pages/custumForsetiPenal.js"></script>--> 
+            <!-- jQuery, Bootstrap, jQuery plugins and Custom JS code -->
+
+            <!-- Load and execute javascript code used only in this page -->
+            <script>
+                
+                $(function () {
+                    FormsComponents.init();
+                });
+                $(function () {
+                    UiTables.init('#DataTableID', 6);
+                });
+                $(function () {
+                    UiProgress.init();
+                });
+
+                function global() {
+                    initialiserChosenSelect();
+                }
+
+                function startWaitMe(element) {
+                    $('#formMeditation').waitMe({
+                        effect: 'timer',
+                        text: 'Patientez un peu svp...',
+                        bg: 'rgba(255,255,255,0.7)',
+                        color: '#000',
+                        sizeW: '',
+                        sizeH: '',
+                        source: ''
+                    });
+                }
+
+                function stopWaitMe(element) {
+                    $('#formMeditation').waitMe('hide');
+                }
+
+                function select(data) {
+                    if (data.status === "begin") {
+                        
+                        startWaitMe("#formMeditation");
+                    }
+                    if (data.status === "complete") {
+                        stopWaitMe("#formMeditation");
+                    }
+                    if (data.status === "success") {
+                        
+                    }
+                }
+                
+                function editdemande(data) {
+
+                    if (data.status === "success") {
+                        initialiserChosenSelect();
+                        UiTables.init('#DataTableID', 2);
+                    }
+                }
+                 function deletedemande(data) {
+
+                    if (data.status === "success") {
+                        initialiserChosenSelect();
+                        UiTables.init('#DataTableID', 2);
+                    }
+                }
+                
+                  function afficheDetail(data) {
+                    if (data.status === "begin") {
+                         startWaitMe('#block');
+                    }
+                    if (data.status === "complete") {
+                        stopWaitMe('#block');
+                    }
+                    if (data.status === "success") {
+                     UiTables.init('#table-demande-evenement', 2);
+                     UiTables.init('#table2-Bon-evenement', 2);
+                     }
+                }
+                
+                function retourEnvoi(data) {
+                    if (data.status === "begin") {
+                         startWaitMe('#waitforme');
+                    }
+                    if (data.status === "complete") {
+                        stopWaitMe('#waitforme');
+                    }
+                    if (data.status === "success") {
+                     UiTables.init('#DataTableID', 6);
+                     }
+                }
+                
+                
+            </script>
+        </ui:define>
+    </ui:composition>
+</html>

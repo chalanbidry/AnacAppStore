@@ -1,0 +1,240 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition>
+        <!-- Datatables Block -->
+        <form jsf:id="listeCourrierAttenteTraittementForm" jsf:prependId="false" class="center-table"> 
+            <br/><br/>
+            <div class="block-title">
+
+                <center>
+                    <h2 jsf:id="titre" class="themed-background text-light" style="font-family:Arial; text-transform: none">Liste des courriers en attentes de traitement à la (#{courrierBean.selectedDirection.code})</h2>
+                </center>
+            </div>
+            <div class="block overflow-hidden"   jsf:rendered="#{courrierBean.listPageEnvoiActive and !courrierBean.listDocActive}">
+                <!-- Block Tabs Title -->
+
+                <div id="message-list">
+                    <div class="block-title clearfix">
+                        <div class="block-options pull-right">
+                            <a href="javascript:void(0)" class="btn btn-effect-ripple btn-default"><i class="fa fa-arrow-left"></i> Prev</a>
+                            <a href="javascript:void(0)" class="btn btn-effect-ripple btn-default">Next <i class="fa fa-arrow-right"></i></a>
+                        </div>
+                        <ul class="nav nav-tabs" data-toggle="tabs">
+
+                            <li class="active">
+                                <a href="#block-tabs-entrant" data-toggle="tooltip" title="Courriers sortants">
+                                    <i class="gi gi-folder_open"></i>
+                                    &nbsp;&nbsp;
+                                    Régistre des courriers en attentes de traitement
+                                </a>
+                            </li>
+
+                            <li><a href="#block-tabs-settings" data-toggle="tooltip" title="Settings"><i class="gi gi-settings"></i></a></li>
+                        </ul>
+
+                    </div>
+                    <!-- END Block Tabs Title -->
+
+                    <!-- Tabs Content -->
+                    <div class="block-content-full tab-content table-responsive" style="min-height: 33em; background-color: #ebeef2;">
+
+                        <div class="tab-pane active" id="block-tabs-entrant">
+                            <table jsf:id="boiteReceptionEntrant" class="table table-borderless table-striped table-vcenter remove-margin">
+
+                                <tbody>
+                                    <!-- Use the first row as a prototype for your column widths -->
+                                    <!--{courrierBean.findReception(connexionBean.currentUser)-->
+                                    <ui:repeat value="#{courrierBean.findListCourrierNotArchive(courrierBean.selectedDirection)}" var="cour">
+
+                                        <tr class="themed-background-success text-light" style="border-bottom: 1px solid lightgray;" jsf:rendered="#{courrierBean.findIfAlredyTermine(cour.courrier)}">
+                                            <td>
+                                                <span class="badge badge-success" ><i class="gi gi-folder_open bg-success"></i></span>
+
+                                            </td>
+                                            <td class="text-center">
+                                                <strong>De :</strong>&nbsp;&nbsp;#{cour.courrier.expediteur}
+                                            </td>
+                                            <td >
+                                                <h5><a href="javascript:void(0)" class="text-light"><strong>Objet:</strong> </a><span class="text-light">&nbsp;&nbsp;&nbsp; #{cour.courrier.objet}</span></h5> 
+                                            </td>
+
+
+                                            <td class="hidden-xs text-right text-light" ><em>#{connexionBean.convertDateHeure(cour.courrier.dateCreation)}</em></td>
+
+                                            <td class="text-center">
+                                                <div class="btn-group">
+                                                    <a href="javascript:void(0)" data-toggle="dropdown" class="btn btn-default dropdown-toggle" aria-expanded="false">Action <span class="caret"></span></a>
+                                                    <ul class="dropdown-menu  text-left">
+
+                                                        <li>
+                                                            <h:commandLink title="Archiver"  onclick="$('#confirmArchiveDialog').modal('show')">
+                                                                Archiver
+                                                                <f:ajax listener="#{courrierBean.passItem(cour)}" render=":confirmArchiveDialogForm" onevent="showDetailCouArr"/>
+                                                            </h:commandLink>
+                                                        </li>
+                                                        <li>
+
+                                                            <h:commandLink title="détail"  onclick="$('#detailsCourrierAr').modal('show')">
+                                                                Consulter les détails
+                                                                <f:ajax listener="#{courrierBean.passItem(cour)}" render=":detailsCourrierArDialogForm :detailsCourrierArDialogForm:olListEven" onevent="showDetailCouArr"/>
+                                                            </h:commandLink>
+                                                        </li>
+
+                                                    </ul>
+                                                </div>
+
+
+
+
+                                            </td>
+                                        </tr>
+
+
+                                        <tr style="border-bottom: 1px solid lightgray;" jsf:rendered="#{!courrierBean.findIfAlredyTermine(cour.courrier) and courrierBean.findIfCourIsWithDelai(cour.courrier) and !courrierBean.delaiPasse}">
+                                            <td>
+                                                <span class="badge badge-success" jsf:rendered="#{!courrierBean.findIfCourIsWithDelai(cour.courrier)}"><i class="gi gi-folder_open bg-success"></i></span>
+                                                <span class="badge badge-success"><i class="fa fa-clock-o"></i>&nbsp;  #{courrierBean.getPgFromDelai(cour.courrier)} </span>
+
+                                            </td>
+                                            <td class="text-center">
+                                                <strong>De :</strong>&nbsp;&nbsp;#{cour.courrier.expediteur}
+                                            </td>
+                                            <td >
+                                                <h5><a href="javascript:void(0)" class="text-dark"><strong>Objet:</strong> </a><span class="text-muted">&nbsp;&nbsp;&nbsp;#{cour.courrier.objet}</span></h5> 
+                                            </td>
+
+
+                                            <td class="hidden-xs text-right text-muted" ><em>#{connexionBean.convertDateHeure(cour.courrier.dateCreation)}</em></td>
+
+                                            <td class="text-center">
+                                                <div class="btn-group">
+                                                    <a href="javascript:void(0)" data-toggle="dropdown" class="btn btn-default dropdown-toggle" aria-expanded="false">Action <span class="caret"></span></a>
+                                                    <ul class="dropdown-menu  text-left">
+
+                                                        <li>
+
+                                                        </li>
+                                                        <li>
+
+                                                            <h:commandLink title="détail"  onclick="$('#detailsCourrierAr').modal('show')">
+                                                                Consulter les détails
+                                                                <f:ajax listener="#{courrierBean.passItem(cour)}" render=":detailsCourrierArDialogForm :detailsCourrierArDialogForm:olListEven" onevent="showDetailCouArr"/>
+                                                            </h:commandLink>
+                                                        </li>
+
+                                                    </ul>
+                                                </div>
+
+
+
+
+                                            </td>
+                                        </tr>
+
+
+                                        <tr  class="text-light themed-background-danger" style="border-bottom: 1px solid lightgray;" jsf:rendered="#{!courrierBean.findIfAlredyTermine(cour.courrier) and courrierBean.findIfCourIsWithDelai(cour.courrier) and courrierBean.delaiPasse}">
+                                            <td>
+                                                <span class="badge badge-success" jsf:rendered="#{!courrierBean.findIfCourIsWithDelai(cour.courrier)}"><i class="gi gi-folder_open bg-success"></i></span>
+                                                <span class="badge badge-success"><i class="fa fa-clock-o"></i>&nbsp;  #{courrierBean.getPgFromDelai(cour.courrier)} </span>
+
+                                            </td>
+                                            <td class="text-center">
+                                                <strong>De :</strong>&nbsp;&nbsp;#{cour.courrier.expediteur}
+                                            </td>
+                                            <td >
+                                                <h5><a href="javascript:void(0)" ><strong>Objet:</strong> </a><span class="text-muted">&nbsp;&nbsp;&nbsp;#{cour.courrier.objet}</span></h5> 
+                                            </td>
+
+
+                                            <td class="hidden-xs text-right " ><em>#{connexionBean.convertDateHeure(cour.courrier.dateCreation)}</em></td>
+
+                                            <td class="text-center">
+                                                <div class="btn-group">
+                                                    <a href="javascript:void(0)" data-toggle="dropdown" class="btn btn-default dropdown-toggle" aria-expanded="false">Action <span class="caret"></span></a>
+                                                    <ul class="dropdown-menu  text-left">
+
+                                                        <li>
+
+                                                        </li>
+                                                        <li>
+
+                                                            <h:commandLink title="détail"  onclick="$('#detailsCourrierAr').modal('show')">
+                                                                Consulter les détails
+                                                                <f:ajax listener="#{courrierBean.passItem(cour)}" render=":detailsCourrierArDialogForm :detailsCourrierArDialogForm:olListEven" onevent="showDetailCouArr"/>
+                                                            </h:commandLink>
+                                                        </li>
+
+                                                    </ul>
+                                                </div>
+
+
+
+
+                                            </td>
+                                        </tr>
+
+
+                                        <tr style="border-bottom: 1px solid lightgray;" jsf:rendered="#{!courrierBean.findIfAlredyTermine(cour.courrier) and !courrierBean.findIfCourIsWithDelai(cour.courrier)}">
+                                            <td>
+                                                <span class="badge badge-success" ><i class="gi gi-folder_open bg-success"></i></span>
+
+                                            </td>
+                                            <td class="text-center">
+                                                <strong>De :</strong>&nbsp;&nbsp;#{cour.courrier.expediteur}
+                                            </td>
+                                            <td >
+                                                <h5><a href="javascript:void(0)" class="text-dark"><strong>Objet:</strong> </a><span class="text-muted">&nbsp;&nbsp;&nbsp;#{cour.courrier.objet}</span></h5> 
+                                            </td>
+
+
+                                            <td class="hidden-xs text-right text-muted" ><em>#{connexionBean.convertDateHeure(cour.courrier.dateCreation)}</em></td>
+
+                                            <td class="text-center">
+                                                <div class="btn-group">
+                                                    <a href="javascript:void(0)" data-toggle="dropdown" class="btn btn-default dropdown-toggle" aria-expanded="false">Action <span class="caret"></span></a>
+                                                    <ul class="dropdown-menu  text-left">
+
+                                                        <li>
+
+                                                        </li>
+                                                        <li>
+
+                                                            <h:commandLink title="détail"  onclick="$('#detailsCourrierAr').modal('show')">
+                                                                Consulter les détails
+                                                                <f:ajax listener="#{courrierBean.passItem(cour)}" render=":detailsCourrierArDialogForm :detailsCourrierArDialogForm:olListEven" onevent="showDetailCouArr"/>
+                                                            </h:commandLink>
+                                                        </li>
+
+                                                    </ul>
+                                                </div>
+
+
+
+
+                                            </td>
+                                        </tr>
+
+                                    </ui:repeat>
+
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="tab-pane" id="block-tabs-settings">Settings..</div>
+                    </div>
+                </div>
+
+                <!-- END Tabs Content -->
+            </div>
+        </form>
+
+        <!-- END Datatables Block -->
+    </ui:composition>
+</html>

@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <ui:composition template="./../../../template/base.xhtml">
+        <ui:define name="selectedMenu">
+            <ui:param name="menuAdministrationClass" value="active"/>
+            <ui:param name="CategorieChristianFileClass" value="active"/> 
+        </ui:define>
+        <ui:define name="css">
+
+        </ui:define>
+        <ui:define name="content">
+            <ui:include src="create.xhtml"/>
+            <ui:include src="edit.xhtml"/>
+            <ui:include src="view.xhtml"/>
+            <ui:include src="delete.xhtml"/>
+        </ui:define>
+        <ui:define name="script">
+            <!-- ckeditor.js, load it only in the page you would like to use CKEditor (it's a heavy plugin to include it with the others!) -->
+            <script src="#{request.contextPath}/resources/js/plugins/ckeditor/ckeditor.js"></script> 
+            <!-- Load and execute javascript code used only in this page -->
+            <script src="#{request.contextPath}/resources/js/pages/formsComponents.js"></script> 
+            <!-- Load and execute javascript code used only in this page -->
+            <!--<script src="#{request.contextPath}/resources/js/pages/custumForsetiPenal.js"></script>--> 
+            <!-- jQuery, Bootstrap, jQuery plugins and Custom JS code -->
+
+            <!-- Load and execute javascript code used only in this page -->
+            <script>
+                $(function () {
+                    FormsComponents.init();
+                });
+                $(function () {
+                    UiTables.init('#DataTableID', 2);
+                });
+                $(function () {
+                    UiProgress.init();
+                });
+
+                function global() {
+                    initialiserChosenSelect();
+                }
+
+                function startWaitMe(element) {
+                    $('#waitforme').waitMe({
+                        effect: 'timer',
+                        text: 'Patientez un peu svp...',
+                        bg: 'rgba(255,255,255,0.7)',
+                        color: '#000',
+                        sizeW: '',
+                        sizeH: '',
+                        source: ''
+                    });
+                }
+
+                function stopWaitMe(element) {
+                    $('#waitforme').waitMe('hide');
+                }
+
+                function saveFonction(data) {
+                    if (data.status === "begin") {
+                        startWaitMe("#submit_new");
+                    }
+                    if (data.status === "complete") {
+                        stopWaitMe("#submit_new");
+                    }
+                    if (data.status === "success") {
+                        initialiserChosenSelect();
+                         UiTables.init('#DataTableID', 2);
+                    }
+                }
+                
+                
+                function changeDep(data) {
+                    if (data.status === "begin") {
+                        startWaitMe("#submit_new");
+                    }
+                    if (data.status === "complete") {
+                        stopWaitMe("#submit_new");
+                    }
+                    if (data.status === "success") {
+                        initialiserChosenSelect();
+//                        UiTables.init('#DataTableID', 3);
+                    }
+                }
+                
+                function editFonction(data) {
+
+                    if (data.status === "success") {
+                        initialiserChosenSelect();
+                        UiTables.init('#DataTableID', 2);
+                    }
+                }
+                 function deleteFonction(data) {
+
+                    if (data.status === "success") {
+                        initialiserChosenSelect();
+                        UiTables.init('#DataTableID', 2);
+                    }
+                }
+                
+                
+                
+                
+            </script>
+        </ui:define>
+    </ui:composition>
+</html>

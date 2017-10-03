@@ -1,0 +1,156 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition>
+        <!-- Datatables Block -->
+        <form jsf:id="listeDocForm" jsf:prependId="false" class="center-table"> 
+
+
+
+            <div class="block" style="box-shadow: 1px 1px 1px 1px lightgray;" jsf:id="divListDoc" jsf:rendered="#{courrierBean.listDocActive}">
+                <div>
+
+                    <div id="message-list">
+                        <!-- Title -->
+                        <div class="block-title clearfix">
+                            <div class="block-options pull-right">
+                                <a href="javascript:void(0)" class="btn btn-effect-ripple btn-default"><i class="fa fa-arrow-left"></i> Prev</a>
+                                <a href="javascript:void(0)" class="btn btn-effect-ripple btn-default">Next <i class="fa fa-arrow-right"></i></a>
+                            </div>
+
+                            <div class="block-options pull-left">
+                                <div class="block-options pull-left">
+                                    <h:panelGroup rendered="#{courrierBean.listPageEnvoiActive}">
+                                    <a href="/AnacAppStore/GestionCourrier/BoiteReception/index.xhtml"  class="btn btn-effect-ripple btn-default">
+                                        <i class="fa fa-chevron-left"></i>                                
+                                        #{bundle.BoiteReception}
+                                    </a>
+                                      </h:panelGroup>
+                                    <h:commandLink class="btn btn-effect-ripple btn-default" title="Contenu" rendered="#{!courrierBean.listPageEnvoiActive}">
+                                        <i class="fa fa-chevron-left"></i> 
+                                        Contenu du courrier
+                                        <f:ajax listener="#{courrierBean.passCourrierView(courrierBean.selectedProgressionCourrier)}" render=":msgForm:msg @form :listeCourrierForm :ContenuForm " onevent="viewCourrier"/>
+                                    </h:commandLink>
+                                        
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- END Title -->
+
+                        <!-- Messages -->
+                        <div class="block-content-full">
+
+                            <table jsf:id="DataTableDoc" class="table table-striped table-bordered table-vcenter">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center" style="width: 75px;">#{bundle.fileName}</th>
+                                        <th class="text-center" style="width: 50px;">#{bundle.date}</th>
+                                        <th class="text-center" style="width: 50px;">#{bundle.description}</th>
+                                        <th class="text-center" style="width: 75px;">#{bundle.typeDoc}</th>
+                                        <th class="text-center" style="width: 75px;">#{bundle.taille}</th>
+
+                                        <th class="text-center" style="width: 75px;"><i class="fa fa-flash"></i></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <ui:repeat value="#{courrierBean.findListDocx()}" var="item" varStatus="status">
+
+                                        <tr>
+                                            <td class="text-center"><strong>#{item.fileName}</strong></td>
+                                            <td class="text-center"><strong>#{connexionBean.convertDateHeure(item.dateCreation)}</strong></td>
+                                            <td class="text-center"><strong>#{item.description}</strong></td>
+                                            <td class="text-center"><strong>#{item.typeDocument.libelle}</strong></td>
+                                            <td class="text-center"><strong>#{item.taille} Ko</strong></td>
+
+                                            <td class="center"  >
+                                                <div style="line-height: 4em; ">
+                                                    <div class="btn-group">
+                                                        <button data-toggle="dropdown" class="btn btn-success  dropdown-toggle">
+                                                            Actions
+                                                            <i class="ace-icon fa fa-angle-down icon-on-right"></i>
+                                                        </button>
+                                                        <ul class="dropdown-menu dropdown-success">
+
+
+                                                            <li>
+
+                                                                <h:commandLink class="open-details btn-preview" id="viewDoc" >
+                                                                    <i class="ace-icon fa fa-search bigger-130">&nbsp;</i><h:outputText value=" #{bundle.ViewDoc} "/>
+                                                                    <f:ajax  render=":preview" onevent="ajaxOnEventOuvrir" listener="#{gedBean.ouvrirUnDocument(item)}"/>
+                                                                </h:commandLink>
+
+                                                            </li>
+                                                            <li>
+
+                                                                <!--                                                            <h:commandLink class="open-details btn-preview" >
+                                                                                                                                <i class="ace-icon fa fa-search bigger-130">&nbsp;</i><h:outputText value="Telecharger"/>
+                                                                                                                                <f:ajax  render=":preview" onevent="ajaxOnEventOuvrir" listener=""/>
+                                                                                                                            </h:commandLink>-->
+                                                                <h:commandLink title="Télécharger" action="#{gedBean.telechargerDocumentReyno(item)}">
+                                                                    <i class="dropdown-info fa fa-download"/>
+                                                                    Télécharger
+                                                                </h:commandLink>
+
+                                                            </li>
+                                                        </ul>
+                                                    </div>                                         
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </ui:repeat>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <hr/>
+
+        <div class="row" id="page-preview" >
+            <!--APERCU-->
+
+            <div class="col-xs-12">
+                <div class="widget-box widget-color-blue2">
+                    <div class="widget-header">
+                        <h4 class="widget-title lighter smaller">Aperçu du document</h4>
+                        <div class="widget-toolbar no-border">
+                            <div>
+                                <button class="btn btn-effect-ripple btn-danger" id="btn-back" >
+                                    <i class="ace-icon fa fa-times-circle"></i>
+                                    #{bundle.Close}
+                                </button>
+                            </div> 
+                            <h:form id="btn-actionForm"  prependId="false">
+                                <div class="pull-right">
+                                    <button type="submit"  class="btn btn-effect-ripple  btn-success" jsf:id="submit_newDowload" jsf:action="#{gedBean.telechargerDocument(gedBean.documentCourant)}">
+                                        <i class="dropdown-info fa fa-download"/>                                           
+                                        Télécharger
+                                    </button>
+
+
+                                </div>
+                            </h:form>
+                        </div>
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-main padding-8">
+                            <object jsf:id="preview" type="#{gedBean.mineType}" data="data:#{gedBean.mineType};base64,#{gedBean.content}" style="min-height: 500px; width: 100%" ></object>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- END Datatables Block -->
+    </ui:composition>
+</html>

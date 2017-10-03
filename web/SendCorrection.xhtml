@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+    <ui:composition >
+        <div jsf:id="sendCorrectionDialog" class="modal fade draggable" data-backdrop="static" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form jsf:id="sendCorrectionDialogForm" jsf:prependId="false" >
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="blue bigger">#{bundle.SendMessage}</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="center">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <label class="control-label" for="observationExp">#{bundle.ContenuMsg}</label>  
+                                    </div>
+                                    <div class="col-sm-9" style="">
+                                        <h:inputTextarea id="NatureTravaux"  value="#{demandeBean.messageCorrection}" rows="5" class="form-control" />
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-effect-ripple btn-success active" jsf:action="#{demandeBean.doSendCorrec(event)}" type="submite" style="line-height: 1.5; font-size: 12px; padding: 5px 10px;" data-dismiss="modal">
+                                <i class="fa fa-paper-plane pull-left"></i>
+                                #{bundle.Send}
+                                <f:ajax execute="@form"  render=":msgFormChefDir:msgChefDir :dsboardChefDir :listedemandeFormChefDir :listedemandeWaitAutoFormChefDir" onevent="retourAuto"/>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </ui:composition>
+</html>
+

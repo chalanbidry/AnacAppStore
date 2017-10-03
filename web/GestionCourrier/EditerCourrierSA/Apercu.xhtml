@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+
+    <body>
+
+
+        <ui:composition>
+            <!-- Step Info -->
+            <div style="padding:3px; padding-left:18px; border-left:4px solid #d0d0d0; margin-left:20px; font-style:italic;">
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-xs-12">
+                            <ul class="nav nav-pills nav-justified clickable-steps">
+                                <li><a href="javascript:void(0)" ><i class="gi gi-folder_open"></i> <strong>&nbsp;&nbsp;&nbsp;&nbsp;Informtions du Courrier</strong></a></li>
+                                <li class="active"><a href="javascript:void(0)" ><i class="fa fa-list "></i> <strong>&nbsp;&nbsp;Aperçu</strong></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- END Step Info -->
+                <div class="form-group" jsf:id="appercuStep">
+
+                    <div jsf:id="enteteWrite">
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-1"></div>
+                        <div  class="col-md-10"  style="box-shadow: 2px 2px 2px 2px #d0d0d0;" >
+                            <ui:include src="enteteApercuCourrier.xhtml"/>   
+
+                            <fieldset jsf:id="ApercuCourrier" class="col-sm-12" style="border: 1px solid #dae0e8;border-bottom-right-radius: 10px;border-bottom-left-radius: 10px; padding-top: 0px; width: 100%; ">
+                                <legend style="border: 1px solid lightgray; padding-top: 3px;padding-bottom:2px"><center> Contenu du Courrier</center></legend>
+                                <br/>
+                                <div class="row" > 
+                                    <!--name="textarea-ckeditor"-->
+                                   
+                                    <object data="#{request.contextPath}/resources/tamponFileConcaten/#{courrierBean.fileAdd.submittedFileName}" type="application/pdf" title="cv" width="799" height="875"></object>
+                                  
+                                </div>
+                                <br/>
+                            </fieldset>
+
+<br/>
+                        </div>
+                        <div class="col-md-1 bg-gray" ></div>
+
+
+                    </div>
+
+
+
+                    <hr/>
+
+
+                </div>
+                <div class="col-lg-offset-6  col-sm-12 center_content">
+                    <button type="submit"  class="btn btn-effect-ripple btn-primary" jsf:id="submit_new" jsf:rendered="#{connexionBean.currentUser.fonction.code != 'SC'}" jsf:action="#{courrierBean.doCreateCourrierArrive(event)}">
+                        #{bundle.Save}
+                        <f:ajax execute="@form" render=":msgForm:msg @form createDemandeForm" onevent="ajaxOnEventNouveauCourrier"/>
+                    </button>
+                    <button type="submit"  class="btn btn-effect-ripple btn-primary" jsf:id="submit_newSC" jsf:rendered="#{connexionBean.currentUser.fonction.code == 'SC' }" jsf:action="#{courrierBean.doCreateCourrierArrive(event)}">
+                        #{bundle.Send}
+                        <f:ajax execute="@form" render=":msgForm:msg @form createDemandeForm" onevent="ajaxOnEventNouveauCourrier"/>
+                    </button>
+                    <!--<input type="button" value="Imprimer" onclick="window.print()"/>-->
+
+                </div>
+                <!-- Form Buttons -->
+                <div class="form-group form-actions">
+                    <div class="col-md-8 col-md-offset-4">
+                        <button type="reset" class="btn btn-effect-ripple btn-danger" id="back1">Précedent</button>    
+                    </div>
+                </div>
+                <!-- END Form Buttons -->
+            </div>
+        </ui:composition>
+    </body>
+</html>

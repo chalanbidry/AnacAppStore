@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ph="http://xmlns.jcp.org/jsf/passthrough">
+    <ui:composition >
+        <div jsf:id="confirmReferenceDialog" class="modal fade draggable" data-backdrop="static" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form jsf:id="confirmReferenceDialogForm" jsf:prependId="false" >
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="blue bigger">#{bundle.Confirmation}</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="center">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h4 style="font-family:Arial; text-transform: none; font-size: 18px">
+                                            <ul class="reference">
+                                                <li>
+                                                    N°_#{courrierBean.findNumCourr(courrierBean.selectedProgressionCourrier)}_
+                                                </li>
+                                                /
+                                                <li>
+                                                    ANAC
+                                                </li>
+                                                /
+                                                <li>
+
+                                                    MIT
+                                                </li>/
+
+                                                <ui:repeat value="#{courrierBean.listCourrier_Dir}" var="dir" varStatus="status">
+                                                    <li> 
+
+                                                        <div class="push-bit">
+                                                            <img src="#{request.contextPath}/resources/AllVisa/#{dir.userVisa.fonction.code}.gif"  alt="dd" style="width: 2em; height: 2em; margin-right: -2em;" jsf:rendered="#{dir.viser}"/><br/>
+                                                            <small> #{dir.userVisa.fonction.departementDirec.code}</small>
+                                                        </div>
+                                                    </li><label jsf:rendered="#{((status.index)+1)!= courrierBean.listCourrier_Dir.size()}">-</label>
+
+                                                </ui:repeat>
+                                                /
+                                                <ui:repeat value="#{courrierBean.listCourrier_ChefSer}" var="ser" varStatus="status">
+                                                    <li>
+
+                                                        <div class="push-bit">
+                                                            <img src="#{request.contextPath}/resources/AllVisa/#{ser.userVisa.fonction.code}.gif"  alt="dd"  style="width: 2em; height: 2em; margin-right: -2em;" jsf:rendered="#{ser.viser}"/><br/>
+                                                            <small>  #{ser.userVisa.fonction.service.code}</small>
+                                                        </div>
+
+                                                    </li><label jsf:rendered="#{((status.index)+1)!= courrierBean.listCourrier_ChefSer.size()}">-</label>
+                                                </ui:repeat>
+                                                /
+                                                <li jsf:rendered="#{courrierBean.listCourrier_ChefDiv.size() != 0}">
+                                                    <ui:repeat value="#{courrierBean.listCourrier_ChefDiv}" var="divi">
+                                                        <div class="push-bit">
+                                                            <img src="#{request.contextPath}/resources/AllVisa/#{divi.userVisa.fonction.code}.gif" alt="dd" style="width: 2em; height: 2em; margin-right: -2em;" jsf:rendered="#{divi.viser}"/><br/>
+                                                            <small>  #{divi.userVisa.fonction.division.code}</small>
+                                                        </div>
+                                                    </ui:repeat>
+
+                                                </li>
+
+
+
+                                                /<li>
+
+                                                    SA
+
+                                                </li>
+                                            </ul>
+                                        </h4>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-effect-ripple btn-danger active" jsf:action="#{courrierBean.saveNum()}" type="submite" style="line-height: 1.5; font-size: 12px; padding: 5px 10px;">
+                                #{bundle.Confirm}
+                                <!--                                <f:ajax execute="@form"  render=":msgForm:msg :listedemandeSendToDAFForm :divTitleDemandeSendToDAF " onevent="sendDG"/>-->
+                            </button>
+                           
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </ui:composition>
+</html>
+

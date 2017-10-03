@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ph="http://xmlns.jcp.org/jsf/passthrough">
+
+    <ui:composition>
+        <div jsf:id="modal-compose" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" style="width:600px;height:25em;">
+                <form  jsf:id="publicationDialogForm" jsf:class="push" >
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h3 class="modal-title"><strong>#{bundle.newPublication}</strong></h3>
+                        </div>
+                        <div class="modal-body" style="width:600px;height:25em;">
+
+                            <div class="form-group">
+                                <div class="col-xs-12">
+                                    <h:selectManyMenu id="example-chosen2"  class="select-chosen" ph:data-placeholder="#{bundle.destinataires}" value="#{socialBean.listUserSelectForPublication}" style="width: 41em;" >
+                                    <f:selectItem itemValue="" itemLabel=""/>
+                                    <f:selectItems value="#{socialBean.listeUtilisateurs}"  var="liste" itemValue="#{liste}" itemLabel="#{liste.name} (#{liste.fonction.libelle})"/>
+                                      <f:passThroughAttribute name="multiple" value="" />
+                                    <f:converter converterId="utilisateurConverter"/>
+                                    </h:selectManyMenu>
+                                </div>
+                            </div>
+                            <br/><br/>
+                            <div class="form-group">
+                                <div class="col-xs-12">
+                                    <input id="Titre" type="text" name="Titre" rows="7" class="form-control" jsf:value="#{socialBean.newPublication.titre}" placeholder="Titre de la publication"/>
+                                </div>
+                            </div>
+                            <br/><br/>
+                            <div class="form-group">
+                                <div class="col-xs-12">
+                                      <h:inputTextarea id="fcompose-message" rows="7" value="#{socialBean.newPublication.contenu}" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                          <div class="modal-footer">
+                              <button class="btn btn-sm btn-primary" type="submit" jsf:id="submit_publication" data-dismiss="modal" jsf:action="#{socialBean.doPublication(event)}">
+                                <f:ajax execute="@form" render=":msgForm:msg @form :waitforme :EnteteForm" onevent="editUser"/>
+                                <i class="ace-icon fa fa-check"></i>
+                                #{bundle.Edit}
+                            </button>
+                            <button class="btn btn-default btn-lg active" style="line-height: 1.5; font-size: 12px; padding: 5px 10px;" data-dismiss="modal" >
+                                <i class="ace-icon fa fa-times"></i>
+                                #{bundle.Close}
+                            </button>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </ui:composition>
+</html>

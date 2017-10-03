@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ph="http://xmlns.jcp.org/jsf/passthrough">
+
+    <ui:composition>
+        <div jsf:id="VideoChatModal"  class="modal fade"  data-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" style="width:330px;height:21em;">
+                <form  jsf:id="VideoChatModalForm" jsf:class="push" >
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h3 class="modal-title"><strong>vidéo conférence</strong></h3>
+                        </div>
+                        <div class="modal-body" style="width:330px;height:63em;">
+
+                            <div>
+                                <video id="live" width="295" height="240" autoplay="autoplay"
+                                       style="display: inline;"></video>
+                               
+                            </div>
+                            <div style="width: 0; height: 0;">
+                                <canvas width="320" id="canvas" height="240"></canvas>
+                            </div>
+
+                            <div>
+                                <img id="target" style="display: inline;" />
+                            </div>
+                          
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-default btn-lg active" style="line-height: 1.5; font-size: 12px; padding: 5px 10px;" data-dismiss="modal" >
+                                <i class="ace-icon fa fa-times"></i>
+                                #{bundle.Close}
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </ui:composition>
+
+</html>

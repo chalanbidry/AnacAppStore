@@ -1,0 +1,171 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+
+    <body>
+
+        <ui:composition>
+            <!-- Step Info -->
+            <div style="padding:3px; padding-left:18px; border-left:4px solid #d0d0d0; margin-left:20px; font-style:italic;">
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-xs-12">
+                            <ul class="nav nav-pills nav-justified clickable-steps">
+                                <li><a href="javascript:void(0)" ><i class="gi gi-folder_open"></i> <strong>&nbsp;&nbsp;&nbsp;&nbsp;Informtions du Courrier</strong></a></li>
+                                <li class="active"><a href="javascript:void(0)" ><i class="fa fa-list "></i> <strong>&nbsp;&nbsp;Aperçu</strong></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- END Step Info -->
+                <div class="form-group" jsf:id="appercuStep">
+
+                    <div jsf:id="enteteWrite">
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-1"></div>
+                        <div  class="col-md-10" id="divPrint" style="box-shadow: 2px 2px 2px 2px #d0d0d0;" >
+                            <div class="row">
+                                <div jsf:id="tabIntioAndDate">
+                                    <img src="#{request.contextPath}/resources/images/enteAnac.jpg"  alt="entete" style="width: 63.3em; height: 8em;"/>
+                                    <table border="0" cellpadding="0" cellspacing="0" style="width:945px">
+                                        <tbody>
+                                            <tr>
+                                                <td>#{courrierBean.findInitiauxApercu()}</td>
+                                                <td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; COTONOU, LE #{connexionBean.convertDate(courrierBean.newCourrier.dateCourrier, 'dd-MM-yyyy')}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <p>&nbsp;</p>
+
+                                <table border="0" cellpadding="0" cellspacing="0" style="width:945px" jsf:id="tabRef">
+                                    <tbody>
+                                        <tr>
+                                            <td style="height:94px; width:349px" jsf:rendered="#{!connexionBean.currentUser.dg}">
+                                                <p>#{courrierBean.findReference()}</p>
+                                            </td>
+                                            <td style="height:94px; width:349px">
+                                                <p>&nbsp;</p>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <strong jsf:id="titreObAndTire"><label style="font-family: Chaparral Pro Light; font-size: 26px;" jsf:rendered="#{courrierBean.newCourrier.withObjet and courrierBean.newCourrier.withTitre}">&nbsp; #{courrierBean.newCourrier.typeCourrier.libelle}</label></strong>
+                                <p>&nbsp;</p>
+
+                                <div jsf:id="divIfObjet">
+                                    <table border="0" cellpadding="0" cellspacing="0" style="width:888px;" jsf:id="tabDesti" jsf:rendered="#{courrierBean.newCourrier.withObjet}">
+                                        <tbody>
+                                            <tr>
+                                                <td style="height:107px; width:600px;">
+                                                    <p>&nbsp;</p>
+                                                </td>
+                                                <td style="height:107px;">
+                                                    <table style="margin-top: -5px;">
+                                                        <tr>
+                                                            <td style="width: 21em;">LE DIRECTEUR GENERAL</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="width: 5em;">&nbsp; &nbsp; &nbsp; &nbsp;A </td>
+                                                        </tr>
+                                                        <tr jsf:rendered="#{courrierBean.listDestinataire.size() == 1}">
+                                                            <td>MONSIEUR</td>
+                                                        </tr>
+                                                        <tr jsf:rendered="#{courrierBean.listDestinataire.size() > 1}">
+                                                            <td>MESSIEURS</td>
+                                                        </tr>
+                                                        <ui:repeat value="#{courrierBean.listDestinataire}" var="desti">
+                                                            <tr>
+                                                                <td style="width: 5em;"><strong> - &nbsp; #{desti}</strong></td>
+                                                            </tr>
+                                                        </ui:repeat>
+                                                        <tr jsf:rendered="#{courrierBean.newCourrier.withTelDesti}">
+                                                            <td style="width: 5em;"><u>tel</u>: #{courrierBean.newCourrier.teldestinataire}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="width: 5em;"><u>COTONOU</u></td>
+                                                        </tr>
+                                                    </table>
+                                                      <!--<p> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="font-size:14px"> &nbsp; &nbsp;LE DIRECTEUR GENERAL &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; A &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;<strong>&nbsp;Mr/Mm &nbsp; </strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Tel:#{courrierBean.newCourrier.teldestinataire} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<u>COTONOU</u></span></p>-->
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+
+                                    <table border="0" cellpadding="0" cellspacing="0" style="width:945px" jsf:id="tabObjet" jsf:rendered="#{courrierBean.newCourrier.withObjet}">
+                                        <tbody>
+                                            <tr>
+                                                <td style="height:94px; width:349px">
+                                                    <p style="font-family: Times New Roman; font-size: 21px;"><strong><u>Objet</u>:</strong> #{courrierBean.newCourrier.objet}</p>
+                                                </td>
+                                                <td style="height:94px; width:349px">
+                                                    <p>&nbsp;</p>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group row" jsf:id="DivTitre">
+
+                                <div class="col-sm-12" jsf:rendered="#{courrierBean.newCourrier.withTitre and !courrierBean.newCourrier.withObjet}">
+
+                                    <center> <strong><label style="font-family: Chaparral Pro Light; font-size: 26px;"><u>#{courrierBean.newCourrier.typeCourrier.libelle}</u></label></strong></center>
+                                </div>
+
+                            </div>
+                            <div id="contenuWrite">
+
+                            </div>
+                            <div class="row" jsf:id="signataires">
+
+                                <ui:repeat value="#{courrierBean.listSignataire}" var="list">
+                                    <div style="height: 5em; " class="col-sm-6 col-lg-3 pull-right">
+
+                                        <center><label style="margin-top:3em;"><u>#{courrierBean.findUserByonction(list).prenom} #{courrierBean.findUserByonction(list).nom}</u></label></center>
+                                    </div>
+                                </ui:repeat>
+
+
+                            </div>
+                        </div>
+                        <div class="col-md-1 bg-gray" ></div>
+
+
+                    </div>
+
+
+
+                    <hr/>
+
+
+                </div>
+                <div class="col-lg-offset-6  col-sm-12 center_content">
+                    <button type="submit"  class="btn btn-effect-ripple btn-primary"  onclick="document.getElementById('editorValue').value = CKEDITOR.instances.editor1.getData();" jsf:id="submit_new" jsf:action="#{courrierBean.doCreate(event)}">
+                        #{bundle.Save}
+                        <f:ajax execute="@form" render=":msgFormCourrier:msgCourrier @form ckEditorForm" onevent="ajaxOnEventOuvrir"/>
+                    </button>
+                    <!--<input type="button" value="Imprimer" onclick="window.print()"/>-->
+
+                </div>
+                <!-- Form Buttons -->
+                <div class="form-group form-actions">
+                    <div class="col-md-8 col-md-offset-4">
+                        <button type="reset" class="btn btn-effect-ripple btn-danger" id="back1">Précedent</button>    
+                    </div>
+                </div>
+                <!-- END Form Buttons -->
+            </div>
+        </ui:composition>
+    </body>
+</html>

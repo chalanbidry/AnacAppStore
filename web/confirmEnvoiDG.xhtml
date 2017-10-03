@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+    <ui:composition >
+        <div jsf:id="confirmEnvoiDGDialog" class="modal fade draggable" data-backdrop="static" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form jsf:id="confirmEnvoiDGDialogForm" jsf:prependId="false" >
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="blue bigger">#{bundle.Autorisation}</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="center">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h4 style="font-family:Arial; text-transform: none; font-size: 18px">
+                                            Confirmez l'Envoi au DG, de la demande #{demandeBean.selectedProgressionDemande.demande.code} envoyée par #{demandeBean.selectedProgressionDemande.userSend.name} le / la #{demandeBean.selectedProgressionDemande.userSend.fonction.code} 
+                                        </h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-effect-ripple btn-danger active" jsf:action="#{demandeBean.doEnvoiDG(event)}" type="submite" style="line-height: 1.5; font-size: 12px; padding: 5px 10px;">
+                                #{bundle.Confirm}
+<!--                                <f:ajax execute="@form"  render=":msgForm:msg :listedemandeSendToDAFForm :divTitleDemandeSendToDAF " onevent="sendDG"/>-->
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </ui:composition>
+</html>
+

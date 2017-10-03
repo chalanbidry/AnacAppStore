@@ -1,0 +1,865 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <!--<body>-->
+    <ui:composition template="./template/base.xhtml">
+
+
+        <ui:define name="css">
+
+            <!--Detail-->
+            <link rel="stylesheet" href="resources/css/bootstrap.vertical-tabs.css"/>
+            <link rel="stylesheet" href="resources/css/bootstrap.vertical-tabs.min.css"/>
+<!--            <link rel="stylesheet" href="#{request.contextPath}/resources/css/bootstrap.vertical-tabs.min.css" />
+            <link rel="stylesheet" href="#{request.contextPath}/resources/css/bootstrap.vertical-tabs" />-->
+
+            <style>
+                #menu ul{
+                    list-style: none;
+                }
+                #menu li{
+                    display: inline;
+                }
+                .p1{
+                    display: inline;
+                }
+                .repeat{
+                    display: initial;
+                }
+
+                .sm{
+                    display: initial;
+                }
+                .reference{padding:8px 15px;margin-bottom:20px;list-style:none;border-radius:4px}
+                .reference>li{display:inline-block}
+
+            </style>
+        </ui:define>
+
+        <ui:define name="content">
+            <h:panelGroup rendered="#{connexionBean.currentAppli.appliName=='PrestAnac'}" >
+                <h:panelGroup rendered="#{connexionBean.currentUser.admin}">
+                    <ui:include src="dashboardAdmin.xhtml"/>    
+                </h:panelGroup>
+                <h:panelGroup rendered="#{!connexionBean.currentUser.admin and !connexionBean.currentUser.chefService and connexionBean.currentUser.fonction.code != 'DG' and !connexionBean.currentUser.directeur}">
+                    <ui:include src="dashboardUser.xhtml"/>    
+                </h:panelGroup>
+
+                <h:panelGroup rendered="#{!connexionBean.currentUser.admin and connexionBean.currentUser.chefService and connexionBean.currentUser.fonction.code !='DAF' and connexionBean.currentUser.fonction.code != 'CSFC'}">
+                    <ui:include src="dashboardChefDirection.xhtml"/>    
+                </h:panelGroup>
+
+                <h:panelGroup rendered="#{connexionBean.currentUser.fonction.code == 'DAF'}">
+                    <ui:include src="dashboardDAF.xhtml"/>    
+                </h:panelGroup>
+                <h:panelGroup rendered="#{connexionBean.currentUser.fonction.code == 'DG'}">
+                    <ui:include src="dashboardDG.xhtml"/>    
+                </h:panelGroup>
+                <h:panelGroup rendered="#{connexionBean.currentUser.fonction.code == 'CSFC'}">
+                    <ui:include src="dashboardCSComptable.xhtml"/>    
+                </h:panelGroup>
+                <ui:include src="listDoc.xhtml"/>
+                <ui:include src="detail.xhtml"/>
+                <ui:include src="confirmAutorisation.xhtml"/>
+                <ui:include src="confirmEnvoiDG.xhtml"/>
+                <ui:include src="confirmAutorisationByDG.xhtml"/>
+                <ui:include src="listBonCommandeByService.xhtml"/>
+                <ui:include src="SendCorrection.xhtml"/>
+            </h:panelGroup>
+            <h:panelGroup rendered="#{connexionBean.currentAppli.appliName=='IGecour'}" >
+                <h:panelGroup rendered="#{connexionBean.currentUser.fonction.code != 'SA' and connexionBean.currentUser.fonction.code != 'SP' and connexionBean.currentUser.fonction.code != 'SC' and connexionBean.currentUser.fonction.code != 'SD'}">
+                    <ui:include src="dashboardGestionCourrier/dashboardUserCourrier.xhtml"/> 
+                </h:panelGroup>
+                <h:panelGroup rendered="#{connexionBean.currentUser.fonction.code == 'SA'}">
+                    <ui:include src="dashboardGestionCourrier/dashboardSA.xhtml"/>
+                </h:panelGroup>
+                <h:panelGroup rendered="#{connexionBean.currentUser.fonction.code == 'SC'}">
+                    <ui:include src="dashboardGestionCourrier/dashboardSC.xhtml"/>
+                </h:panelGroup>
+                <h:panelGroup rendered="#{connexionBean.currentUser.secretaireDeDirection || connexionBean.currentUser.fonction.code == 'SD'}">
+                    <ui:include src="dashboardGestionCourrier/dashboardSD.xhtml"/>
+                </h:panelGroup>
+                <h:panelGroup rendered="#{connexionBean.currentUser.fonction.code == 'SP'}">
+                    <ui:include src="dashboardGestionCourrier/dashboardSP.xhtml"/>
+                </h:panelGroup>
+            
+                <ui:include src="GestionCourrier/detail.xhtml"/>
+                <ui:include src="GestionCourrier/detailCA.xhtml"/>
+                 <h:panelGroup rendered="#{connexionBean.currentUser.fonction.code != 'SC' and connexionBean.currentUser.fonction.code != 'SD'}">
+                <div class="row">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-10">
+                        <ui:include src="dashboardGestionCourrier/listeCourrierOfSelected.xhtml"/>
+                    </div>
+                    <div class="col-md-1"></div>
+                </div>
+                 </h:panelGroup>
+                <h:panelGroup rendered="#{connexionBean.currentUser.secretaireDeDirection || connexionBean.currentUser.fonction.code == 'SD'}">
+                    <ui:include src="dashboardGestionCourrier/listForSD.xhtml"/>
+                    <ui:include src="dashboardGestionCourrier/ConfirmArchivage.xhtml"/>
+                </h:panelGroup>
+            </h:panelGroup>
+        </ui:define>
+
+        <ui:define name="script">
+            <!-- ckeditor.js, load it only in the page you would like to use CKEditor (it's a heavy plugin to include it with the others!) -->
+<!--            <script src="#{request.contextPath}/resources/js/ckeditor/ckeditor.js"></script> -->
+            <!-- Load and execute javascript code used only in this page -->
+            <script src="#{request.contextPath}/resources/js/pages/formsComponents.js"></script>
+            <script src="#{request.contextPath}/resources/js/pages/uiTables.js"></script>
+            <script src="#{request.contextPath}/resources/js/plugins/ckeditor/ckeditor.js"></script>
+            <script src="#{request.contextPath}/resources/js/pages/compCharts.js"></script>
+            <script src="#{request.contextPath}/resources/js/pages/appEmail.js"></script>
+             <script src="#{request.contextPath}/resources/js/ace-elements.min.js"></script>
+
+
+
+
+
+
+            <script>
+                $(function () {
+//                    UiTables.init('#DataTableID2', 4);
+//                    UiTables.init('#DataTableID1', 4);
+//                     UiTables.init('#DataTableElectroID2', 4);
+//                    UiTables.init('#DataTableElectroID1', 4);
+
+                    UiTables.init('#DataTableID', 6);
+                    UiTables.init('#DataTableIDAdmin', 6);
+                    UiTables.init('#DataTableID1ChefDir', 6);
+                    UiTables.init('#DataTableIDWaitAutoChefDir', 6);
+                    UiTables.init('#DataTableID1SendToDAF', 6);
+                    UiTables.init('#DataTableID1DG', 6);
+                    UiTables.init('#DataTableID1CSC', 6);
+                    UiTables.init('#DataTableIDWaitAutoCSC', 6);
+                    UiTables.init('#DataTableIDListBonComande', 6);
+                    UiTables.init('#DataTableIDBonComandeDG', 6);
+                    UiTables.init('#DataTableIDBonAutoByDG', 6);
+                    UiTables.init('#DataTableDoc', 5);
+                    UiTables.init('#DataTableCourrier', 5);
+                });
+
+
+                $(function () {
+                    UiProgress.init();
+                });
+                $(function () {
+                    AppEmail.init();
+                });
+
+                jQuery(function ($) {
+                    initialiserParDefaut();
+                });
+
+                function startWaitMe(element) {
+                    $('#tableaurender').waitMe({
+                        effect: 'timer',
+                        text: 'Patientez un peu...',
+                        bg: 'rgba(255,255,255,0.7)',
+                        color: '#000',
+                        sizeW: '',
+                        sizeH: '',
+                        source: ''
+                    });
+                }
+
+                function stopWaitMe(element) {
+                    $('#tableaurender').waitMe('hide');
+                }
+                function startWaitMe(element) {
+                    $('#DataTableSubtitut').waitMe({
+                        effect: 'timer',
+                        text: 'Patientez un peu...',
+                        bg: 'rgba(255,255,255,0.7)',
+                        color: '#000',
+                        sizeW: '',
+                        sizeH: '',
+                        source: ''
+                    });
+                }
+                function stopWaitMe(element) {
+                    $('#DataTableSubtitut').waitMe('hide');
+                }
+
+                function ajaxOnEventAffectFolder(data) {
+                    if (data.status === "begin") {
+                        startWaitMe('#listeSubstitutsPoidsForm');
+                    }
+                    if (data.status === "complete") {
+                        stopWaitMe('#listeSubstitutsPoidsForm');
+                    }
+                    if (data.status === "success") {
+                        try {
+                            $('#listeDossiersAaffecterForm').modal('hide');
+                            // initialiserChosenSelect();
+                        } catch (err) {
+                        }
+                    }
+                }
+
+                function ajaxOnEventAffectFolderSBT(data) {
+                    if (data.status === "begin") {
+                        startWaitMe('#dsboard1');
+                    }
+                    if (data.status === "complete") {
+                        stopWaitMe('#listeSubstitutsPoidsForm');
+                    }
+                    if (data.status === "success") {
+                        try {
+                            $('#listeDossiersAffecterSBTForm').modal('hide');
+                            //initialiserChosenSelect();
+                        } catch (err) {
+                        }
+                    }
+                }
+
+                function selectSubstitut(data) {
+                    if (data.status === "begin") {
+//                        alert("b");
+                    }
+                    if (data.status === "complete") {
+//                        alert("c");
+                    }
+                    if (data.status === "success") {
+                        UiTables.init('#generaltable', 5);
+
+
+                    }
+                }
+
+                function selectSubstitutSBT(data) {
+                    if (data.status === "begin") {
+//                        alert("b");
+                    }
+                    if (data.status === "complete") {
+//                        alert("c");
+                    }
+                    if (data.status === "success") {
+
+                        UiTables.init('#generaltableSBT', 5);
+                    }
+                }
+
+                jQuery(function ($) {
+                    initialiserParDefaut();
+                });
+
+                function afficheListeDemande(data) {
+                    if (data.status === "begin") {
+
+                        startWaitMe('#listedemandeForm');
+                    }
+                    if (data.status === "complete") {
+                        //alert("complete"); 
+                        stopWaitMe('#listedemandeForm');
+                    }
+                    if (data.status === "success") {
+
+                        UiTables.init('#DataTableID', 6);
+//                        initialiserParDefaut();
+                        // alert("succes");  
+                    }
+                }
+
+                function startWaitMe(element) {
+                    $('#first').waitMe({
+                        effect: 'timer',
+                        text: 'Patientez un peu...',
+                        bg: 'rgba(255,255,255,0.7)',
+                        color: '#000',
+                        sizeW: '',
+                        sizeH: '',
+                        source: ''
+                    });
+                }
+
+                function startWaitMe(element) {
+                    $('#ajaxRole').waitMe({
+                        effect: 'timer',
+                        text: 'Patientez un peu...',
+                        bg: 'rgba(255,255,255,0.7)',
+                        color: '#000',
+                        sizeW: '',
+                        sizeH: '',
+                        source: ''
+                    });
+                }
+                function stopWaitMe(element) {
+                    $('#first').waitMe('hide');
+                }
+                function stopWaitMe(element) {
+                    $('#ajaxRole').waitMe('hide');
+                }
+
+                function confirm() {
+
+                }
+
+                function retourConfirm(data) {
+                    if (data.status === "begin") {
+
+                    }
+                    if (data.status === "complete") {
+
+                    }
+                    if (data.status === "success")
+                    {
+//                        UiTables.init('#tableAppelsPG', 5);
+                    }
+
+
+                }
+
+                function renvoi(data) {
+                    if (data.status === "begin") {
+
+                    }
+                    if (data.status === "complete") {
+
+                    }
+                    if (data.status === "success")
+                    {
+                        try {
+
+                        } catch (err) {
+
+                        }
+                    }
+                }
+
+                function retourRenvoi(data) {
+                    if (data.status === "begin") {
+
+                    }
+                    if (data.status === "complete") {
+
+                    }
+                    if (data.status === "success")
+                    {
+//                        UiTables.init('#DataTableIDDossiersSendToCab', 6);
+                    }
+
+
+                }
+                function startWaitMe1(element) {
+                    $('#EnsembleTable').waitMe({
+                        effect: 'timer',
+                        text: 'Patientez un peu...',
+                        bg: 'rgba(255,255,255,0.7)',
+                        color: '#000',
+                        sizeW: '',
+                        sizeH: '',
+                        source: ''
+                    });
+                    $('#TableDossierScelle').waitMe({
+                        effect: 'timer',
+                        text: 'Patientez un peu...',
+                        bg: 'rgba(255,255,255,0.7)',
+                        color: '#000',
+                        sizeW: '',
+                        sizeH: '',
+                        source: ''
+                    });
+                    $('#TableAppel').waitMe({
+                        effect: 'timer',
+                        text: 'Patientez un peu...',
+                        bg: 'rgba(255,255,255,0.7)',
+                        color: '#000',
+                        sizeW: '',
+                        sizeH: '',
+                        source: ''
+                    });
+                    //                    alert('----------ds wait fin-------------');
+                }
+
+                function stopWaitMe1(element) {
+                    $('#EnsembleTable').waitMe('hide');
+                    $('#TableDossierScelle').waitMe('hide');
+                    $('#TableAppel').waitMe('hide');
+                }
+                function afficheSuccesGreffe(data) {
+                    if (data.status === "begin") {
+                        startWaitMe1("#EnsembleTable");
+                        startWaitMe1("#TableDossierScelle");
+                        startWaitMe1("#TableAppel");
+                    }
+                    if (data.status === "complete") {
+                        stopWaitMe1("#EnsembleTable");
+                        stopWaitMe1("#TableDossierScelle");
+                        stopWaitMe1("#TableAppel");
+                    }
+                    if (data.status === "success")
+                    {
+                        initialiserChosenSelect();
+                    }
+
+                }
+
+                function selectDossier(data) {
+                    if (data.status === "begin") {
+//                        alert("b");
+                    }
+                    if (data.status === "complete") {
+//                        alert("c");
+                    }
+                    if (data.status === "success") {
+                        UiTables.init('#listFD3', 2);
+                    }
+                }
+                function affichePV(data) {
+                    if (data.status === "begin") {
+                        // alert("commence");
+                        startWaitMe('#liepvDossier');
+                    }
+                    if (data.status === "complete") {
+                        //alert("complete"); 
+                        stopWaitMe('#liepvDossier');
+                    }
+                    if (data.status === "success") {
+
+                        UiTables.init('#listFD3', 2);
+                        initialiserParDefaut();
+                        // alert("succes");  
+                    }
+                }
+                function afficheSuccesRI(data) {
+                    if (data.status === "begin") {
+                        startWaitMe('#block');
+                    }
+                    if (data.status === "complete") {
+                        stopWaitMe('#block');
+                    }
+                    if (data.status === "success") {
+                        UiTables.init('#listeNotificationCabinet', 6);
+                    }
+                }
+
+
+                function afficheDetail(data) {
+                    if (data.status === "begin") {
+                        startWaitMe('#block');
+                    }
+                    if (data.status === "complete") {
+                        stopWaitMe('#block');
+                    }
+                    if (data.status === "success") {
+                        UiTables.init('#table-demande-evenement', 2);
+                        UiTables.init('#table2-Bon-evenement', 2);
+                    }
+                }
+
+                function showDetail(data) {
+                    if (data.status === "begin") {
+                        startWaitMe("#waitforme");
+                    }
+                    if (data.status === "complete") {
+                        stopWaitMe("#waitforme");
+                    }
+                    if (data.status === "success") {
+                        UiTables.init('#table-courrier-evenement', 3);
+                    }
+                }
+
+                function afficheConfirmation(data) {
+                    if (data.status === "begin") {
+                        startWaitMe('#block');
+                    }
+                    if (data.status === "complete") {
+                        stopWaitMe('#block');
+                    }
+                    if (data.status === "success") {
+//                     UiTables.init('#table-demande-evenement', 2);
+                    }
+                }
+
+                function startWaitMeTest1(element) {
+                    $('#divListDemande').waitMe({
+                        effect: 'timer',
+                        text: 'Patientez un peu...',
+                        bg: 'rgba(255,255,255,0.7)',
+                        color: '#000',
+                        sizeW: '',
+                        sizeH: '',
+                        source: ''
+                    });
+                }
+
+                function stopWaitMeTest1(element) {
+                    $('#divListDemande').waitMe('hide');
+                }
+
+                function afficheListeAllDemandeInDir(data) {
+                    if (data.status === "begin") {
+
+                        startWaitMeTest1('#divListDemande');
+                    }
+                    if (data.status === "complete") {
+                        //alert("complete"); 
+                        stopWaitMeTest1('#divListDemande');
+                    }
+                    if (data.status === "success") {
+
+                        UiTables.init('#DataTableID1ChefDir', 6);
+//                        initialiserParDefaut();
+                        // alert("succes");  
+                    }
+                }
+
+
+
+
+                function afficheListeAllDemandeInDirCSFC(data) {
+                    if (data.status === "begin") {
+
+                        startWaitMeTest1('#divListDemandeCSC');
+                    }
+                    if (data.status === "complete") {
+                        //alert("complete"); 
+                        stopWaitMeTest1('#divListDemandeCSC');
+                    }
+                    if (data.status === "success") {
+
+                        UiTables.init('#DataTableID1CSC', 6);
+//                        initialiserParDefaut();
+                        // alert("succes");  
+                    }
+                }
+
+
+                function retourAuto(data) {
+                    if (data.status === "begin") {
+
+                        startWaitMeTest1('#dsboardChefDir');
+                    }
+                    if (data.status === "complete") {
+                        //alert("complete"); 
+                        stopWaitMeTest1('#dsboardChefDir');
+                    }
+                    if (data.status === "success") {
+
+                        UiTables.init('#DataTableID1ChefDir', 6);
+                        UiTables.init('#DataTableIDWaitAutoChefDir', 6);
+//                        initialiserParDefaut();
+                        // alert("succes");  
+                    }
+                }
+
+
+
+                function retourAutoDG(data) {
+                    if (data.status === "begin") {
+
+                        startWaitMe('#dsboardDG');
+                    }
+                    if (data.status === "complete") {
+                        //alert("complete"); 
+                        stopWaitMe('#dsboardDG');
+                    }
+                    if (data.status === "success") {
+
+                        UiTables.init('#listedemandeFormDG', 6);
+                        UiTables.init('#listeBonCommandeFormDG', 6);
+//                        initialiserParDefaut();
+                    }
+                }
+
+
+                function startWaitMeDAF(element) {
+                    $('#dasboardDAF').waitMe({
+                        effect: 'timer',
+                        text: 'Patientez un peu...',
+                        bg: 'rgba(255,255,255,0.7)',
+                        color: '#000',
+                        sizeW: '',
+                        sizeH: '',
+                        source: ''
+                    });
+                }
+
+                function stopWaitMeDAF(element) {
+                    $('#dasboardDAF').waitMe('hide');
+                }
+                
+                function startWaitMeSimple(element) {
+                    $(element).waitMe({
+                        effect: 'timer',
+                        text: 'Patientez un peu...',
+                        bg: 'rgba(255,255,255,0.7)',
+                        color: '#000',
+                        sizeW: '',
+                        sizeH: '',
+                        source: ''
+                    });
+                }
+
+                function stopWaitMeSimple(element) {
+                    $(element).waitMe('hide');
+                }
+                
+
+                function serviceSelected(data) {
+                    if (data.status === "begin") {
+
+                        startWaitMeDAF('#listedemandeSendToDAFForm');
+                    }
+                    if (data.status === "complete") {
+                        //alert("complete"); 
+                        stopWaitMeDAF('#listedemandeSendToDAFForm');
+                    }
+                    if (data.status === "success") {
+
+                        UiTables.init('#DataTableID1SendToDAF', 6);
+
+                    }
+                }
+
+
+                function caracteristiqueSelected(data) {
+                    if (data.status === "begin") {
+
+                        startWaitMeDAF('#listeCourrierForm');
+                    }
+                    if (data.status === "complete") {
+                        //alert("complete"); 
+                        stopWaitMeDAF('#listeCourrierForm');
+                    }
+                    if (data.status === "success") {
+
+                        UiTables.init('#DataTableCourrier', 5);
+
+                    }
+                }
+                
+                
+                
+                function SelectedDepartementSD(data) {
+                    if (data.status === "begin") {
+
+                        startWaitMeSimple('#listeCourrierAttenteTraittementForm');
+                    }
+                    if (data.status === "complete") {
+                        //alert("complete"); 
+                        stopWaitMeSimple('#listeCourrierAttenteTraittementForm');
+                    }
+                    if (data.status === "success") {
+
+                        UiTables.init('#DataTableCourrier', 5);
+
+                    }
+                }
+                
+
+                function listBonCommande(data) {
+                    if (data.status === "begin") {
+
+                        startWaitMeDAF('#listedemandeSendToDAFForm');
+                    }
+                    if (data.status === "complete") {
+                        //alert("complete"); 
+                        stopWaitMeDAF('#listedemandeSendToDAFForm');
+                    }
+                    if (data.status === "success") {
+                        UiTables.init('#DataTableIDListBonComande', 6);
+                    }
+                }
+
+                function listBonCommandeDG(data) {
+                    if (data.status === "begin") {
+
+                        startWaitMeDAF('#accordion');
+                    }
+                    if (data.status === "complete") {
+                        //alert("complete"); 
+                        stopWaitMeDAF('#accordion');
+                    }
+                    if (data.status === "success") {
+                        UiTables.init('#DataTableIDBonComandeDG', 6);
+                    }
+                }
+
+
+
+                function sendDG(data) {
+                    if (data.status === "begin") {
+
+                        startWaitMeDAF('#dasboardDAF');
+                    }
+                    if (data.status === "complete") {
+                        //alert("complete"); 
+                        stopWaitMeDAF('#dasboardDAF');
+                    }
+                    if (data.status === "success") {
+
+                        UiTables.init('#DataTableID1SendToDAF', 6);
+
+                    }
+                }
+
+                function sendConfirm() {
+
+                }
+
+//                $(function () {
+//                    CompCharts.init();
+//                });
+
+                function startWaitMeDocx(element) {
+                    $('#listedemandeSendToDAFForm').waitMe({
+                        effect: 'timer',
+                        text: 'Patientez un peu...',
+                        bg: 'rgba(255,255,255,0.7)',
+                        color: '#000',
+                        sizeW: '',
+                        sizeH: '',
+                        source: ''
+                    });
+                }
+
+                function stopWaitMeDocx(element) {
+                    $('#listedemandeSendToDAFForm').waitMe('hide');
+                }
+
+                function afficheListeAlldocx(data) {
+                    if (data.status === "begin") {
+
+                        startWaitMeDocx('#listeDocFormCSC');
+                    }
+                    if (data.status === "complete") {
+                        //alert("complete"); 
+                        stopWaitMeDocx('#listeDocFormCSC');
+                    }
+                    if (data.status === "success") {
+
+                        UiTables.init('#DataTableDoc', 5);
+                        $('#divListDocForJS').removeClass('hidden');
+                    }
+                }
+                $('#page-preview').addClass('hide');
+                $('#btn-back').click(function () {
+                    $('#page-preview').addClass('hide');
+                });
+                $('#viewDoc').click(function () {
+
+                    $('#page-preview').removeClass('hide');
+                });
+
+                function ajaxOnEventOuvrir(data) {
+                    if (data.status === "begin") {
+                        startWaitMe();
+                    }
+                    if (data.status === "complete") {
+                        stopWaitMe();
+                    }
+                    if (data.status === "success") {
+                        try {
+                        } catch (err) {
+                        }
+                    }
+                }
+
+                function passContenu() {
+                    alert(CKEDITOR.instances.editor1.getData());
+                    $('#contenuTampon').val(CKEDITOR.instances.editor1.getData());
+                    var hu = document.getElementById("contenuTampon").value;
+                    alert(hu);
+                }
+
+                function showDetail(data) {
+                    if (data.status === "begin") {
+                        startWaitMe("#waitforme");
+                    }
+                    if (data.status === "complete") {
+                        stopWaitMe("#waitforme");
+                    }
+                    if (data.status === "success") {
+                        UiTables.init('#table-courrier-evenement', 3);
+
+
+                    }
+                }
+
+
+                function viewCourrier(data) {
+                    if (data.status === "begin") {
+                        startWaitMe("#boiteReception");
+                    }
+                    if (data.status === "complete") {
+                        stopWaitMe("#boiteReception");
+                    }
+                    if (data.status === "success") {
+                        initialiserChosenSelect();
+                        tohtml();
+                        UiTables.init('#DataTableDoc', 5);
+                        $('#page-preview').addClass('hide');
+                    }
+                }
+                
+                
+                function showDetailCouArr(data) {
+                    if (data.status === "begin") {
+                        startWaitMeSimple("#waitforme");
+                        
+                    }
+                    if (data.status === "complete") {
+                        stopWaitMeSimple("#waitforme");
+                    }
+                    if (data.status === "success") {
+                          try {
+                        CompNestable.init(); 
+
+
+                        } catch (err) {
+                        }
+                     
+                  
+                    }
+                }
+
+            </script>
+
+
+
+
+
+            <!--js de detail-->
+            <!-- <script type="text/javascript">
+                 //<![CDATA[
+                 var signe = -1;
+                 var clignotementFading = function () {
+                     var obj = document.getElementById('visDoc');
+                     if (obj.style.opacity >= 0.96) {
+                         signe = -1;
+                     }
+                     if (obj.style.opacity <= 0.04) {
+                         signe = 1;
+                     }
+ 
+                     obj.style.opacity = (obj.style.opacity * 1) + (signe * 0.04);
+                 };
+ 
+                 // mise en place de l appel de la fonction toutes les 0.085 secondes 
+                 // Pour arrêter le clignotement : clearInterval(periode); 
+                 periode = setInterval(clignotementFading, 85);
+                 //]]>
+             </script>-->
+
+
+            <!--            <script language="javascript">
+                            window.onload = auto_refresh;
+            
+                            function auto_refresh()
+                            {
+                                new Ajax.Updater('listedemandeWaitAutoFormChefDir', 'listDemandeWaitAutorisation.xhtml', {parameters: 'mode=auto_refresh', evalScripts: true, asynchronous: true});
+            
+                                setTimeout("auto_refresh()", 5000);
+                                return true;
+                            }
+                        </script>-->
+
+        </ui:define>
+    </ui:composition>
+    <!--</body>-->
+</html>

@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ph="http://xmlns.jcp.org/jsf/passthrough">
+    <ui:composition >
+        <div jsf:id="myModalCorrection" class="modal fade draggable" data-backdrop="static" tabindex="-1">
+
+            <div class="modal-dialog">
+                <div class="modal-content" style="margin-left: -23em;  width:90em;">
+                    <form  jsf:id="CorrectionForm" jsf:class="push" jsf:prependId="false">
+                        <div class="modal-header" style="width: 90em; ">
+                            <button type="button" class="close" data-dismiss="modal">×</button>
+                            <h3>Correction du courrier</h3>
+                        </div>
+
+                        <div class="modal-body" style=" width:90em;  ">
+                            <div class="row" id="page-preview" >
+                                <!--APERCU-->
+
+                                <div class="col-xs-12">
+                                    <div class="widget-box widget-color-blue2">
+
+                                        <div class="widget-body">
+                                            <div class="widget-main padding-8">
+                                                <h:inputTextarea class="ckeditor" cols="500" id="editor2" rows="500" />
+                                                <h:inputTextarea  class="hidden" value="#{courrierBean.selectedCourrier.contenu}" id="editorValue2" onchange="tohtml();"/> 
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit"  class="btn btn-effect-ripple btn-primary"  onclick="document.getElementById('editorValue2').value = CKEDITOR.instances.editor2.getData();" jsf:id="submit_new" jsf:action="#{courrierBean.doEdit(event,courrierBean.selectedProgressionCourrier)}">
+                                #{bundle.Save}
+                                <!--<f:ajax execute="@form" render=":msgFormCourrier:msgCourrier @form ckEditorForm" onevent="ajaxOnEventOuvrir"/>-->
+                            </button>
+                            <a href="#" class="btn btn-default" data-dismiss="modal">Fermer</a>
+
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </ui:composition>
+    <script src="#{request.contextPath}/resources/js/plugins/ckeditor/ckeditor.js"></script> 
+</html>
+

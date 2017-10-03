@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ph="http://xmlns.jcp.org/jsf/passthrough">
+
+    <ui:composition>
+        <!-- Forms Components Header -->
+        <div class="content-header">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="header-section">
+                        <h1 style="font-style:italic;font-family:Century">#{bundle.RegistredemandeTermine}</h1>
+                    </div>
+                </div>
+                <div class="col-sm-6 hidden-xs">
+                    <div class="header-section">
+                        <ul class="breadcrumb breadcrumb-top">
+                            <li>#{bundle.menuAccueil}</li>
+                            <li> #{bundle.menuAdministration}</li>
+                            <li>#{bundle.RegistredemandeTermine}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END Forms Components Header -->
+
+        <!-- Form Components Row -->
+        <div class="row" jsf:id="waitforme">
+            <h:form id="msgForm" prependId="false">
+                <h:messages id="msg" style="display: none;" errorClass="erreurmessage" infoClass="succesmessage" showDetail="true"/>
+                <p:messages  autoUpdate="true" showDetail="true"/>
+            </h:form>
+            <div class="col-md-12">
+                <!-- Horizontal Form Block -->
+                <div class="block">
+                    <!-- Horizontal Form Title -->
+                    <div class="block-title">
+                        <div class="block-options pull-right">
+                            <!--<a href="javascript:void(0)" class="btn btn-effect-ripple btn-default toggle-bordered enable-tooltip" data-toggle="button" title="Toggles .form-bordered class">#{bundle.Style}</a>-->
+                            <!--<a href="javascript:void(0)" class="btn btn-effect-ripple btn-default toggle-bordered enable-tooltip" data-toggle="button" title="#{bundle.Style}">#{bundle.Style}</a>-->
+                        </div>
+                        <h2 style="font-family:Arial; text-transform: none">#{bundle.Demande}</h2>
+                    </div>
+                    <!-- END Horizontal Form Title -->
+
+                    <!-- Horizontal Form Content -->
+                    <ui:include src="listDemandeTraiterCSC.xhtml"/>
+                    <!-- END Horizontal Form Content -->                    
+                </div>
+                <!-- END Horizontal Form Block -->
+            </div>
+
+            <div class="col-md-12">
+                <!-- Horizontal Form Block -->
+                <div class="block" >
+                    <!-- Horizontal Form Title -->
+                    <div class="block-title" jsf:id="divDocx">
+                        <div class="block-options pull-right">
+                            <!--<a href="javascript:void(0)" class="btn btn-effect-ripple btn-default toggle-bordered enable-tooltip" data-toggle="button" title="Toggles .form-bordered class">#{bundle.Style}</a>-->
+                            <!--<a href="javascript:void(0)" class="btn btn-effect-ripple btn-default toggle-bordered enable-tooltip" data-toggle="button" title="#{bundle.Style}">#{bundle.Style}</a>-->
+                        </div>
+                        <h2 style="font-family:Arial; text-transform: none;" >Liste des documents</h2> 
+                        <center> <h2 style="font-family:Arial; text-transform: none;" class="text-danger" jsf:id="titleDoc" >#{bundle.Demande} :&nbsp;&nbsp; #{demandeBean.selectedDemande.code}</h2></center>
+                    </div>
+                    <!-- END Horizontal Form Title -->
+
+                    <!-- Horizontal Form Content -->
+                    <ui:include src="listDoc.xhtml"/>
+                    <!-- END Horizontal Form Content -->                    
+                </div>
+                <!-- END Horizontal Form Block -->
+            </div>
+
+
+            <div class="row" id="page-preview" >
+                <!--APERCU-->
+
+                <div class="col-xs-12">
+                    <div class="widget-box widget-color-blue2">
+                        <div class="widget-header">
+                            <h4 class="widget-title lighter smaller">Aperçu du document</h4>
+                            <div class="widget-toolbar no-border">
+                                <div>
+                                    <button class="btn btn-effect-ripple btn-danger" id="btn-back" >
+                                        <i class="ace-icon fa fa-times-circle"></i>
+                                        #{bundle.Close}
+                                    </button>
+                                </div> 
+                                <h:form id="btn-actionForm"  prependId="false">
+                                    <div class="pull-right">
+                                        <button type="submit"  class="btn btn-effect-ripple  btn-success" jsf:id="submit_newDowload" jsf:action="#{gedBean.telechargerDocument(gedBean.documentCourant)}">
+                                            <i class="dropdown-info fa fa-download"/>                                           
+                                         Télécharger
+                                        </button>
+                                
+
+                                    </div>
+                                </h:form>
+                            </div>
+                        </div>
+                        <div class="widget-body">
+                            <div class="widget-main padding-8">
+                                <object jsf:id="preview" type="#{gedBean.mineType}" data="data:#{gedBean.mineType};base64,#{gedBean.content}" style="min-height: 500px; width: 100%" ></object>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- END Form Components Row -->
+    </ui:composition>
+</html>

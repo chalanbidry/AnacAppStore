@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition>
+        <!-- Datatables Block -->
+        <!-- Datatables is initialized in js/pages/uiTables.js -->
+        <div class="block full" style="">
+            <div class="block-title">
+                <h2 style="font-family:Arial; text-transform: none">#{bundle.ServicesList}</h2>
+            </div>
+
+
+
+
+            <div class="table-responsive">
+                <!--<table id="example-datatable" class="table table-striped table-bordered table-vcenter">-->
+                <form jsf:id="listeFonctionForm" jsf:prependId="false" class="center-table"> 
+                    <table jsf:id="DataTableID" class="table table-striped table-bordered table-vcenter">
+                        <thead>
+                            <tr>
+                                <!--<th class="text-center" style="width: 50px;">ID</th>-->
+                                <th style="width: 80px; font-size: 13px;">#{bundle.Code}</th>
+                                <th style="width: 180px; font-size: 13px;">#{bundle.Libelle}</th>
+                                <th style="width: 180px; font-size: 13px;">#{bundle.departement}</th>
+                                <!--<th style="width: 120px;">Status</th>-->
+                                <th class="text-center" style="width: 75px;"><i class="fa fa-flash"></i></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <ui:repeat value="#{serviceBean.listeServices}" var="item" varStatus="status">
+                                <tr class="table-bordered">
+                                    <td>#{item.code}</td>
+                                    <td>#{item.libelle}</td>
+                                    <td>#{item.departement.code}</td>
+                                    
+                                    <td class="text-center">
+                                        <h:commandLink title="détail" class="btn btn-effect-ripple btn-xs btn-success" onclick="$('#viewDialog').modal('show')">
+                                            <i class="ace-icon fa fa-search-plus bigger-130"></i>
+                                            <f:ajax listener="#{serviceBean.passItem(item)}" render=":viewDialogForm"/>
+                                        </h:commandLink>
+                                        <h:commandLink title="modifier" class="btn btn-effect-ripple btn-xs btn-warning" onclick="$('#editDialog').modal('show')">
+                                            <i class="ace-icon fa fa-pencil bigger-130"></i>
+                                            <f:ajax listener="#{serviceBean.passItem(item)}" render=":editDialogForm" onevent="initialiser"/>
+                                        </h:commandLink>
+                                        <h:commandLink title="supprimer" class="btn btn-effect-ripple btn-xs btn-danger" onclick="$('#deleteDialog').modal('show')">
+                                            <i class="ace-icon fa fa-trash-o bigger-130"></i>
+                                            <f:ajax listener="#{serviceBean.passItem(item)}" render=":deleteDialogForm"/>
+                                        </h:commandLink> 
+                                    </td>
+                                </tr>
+                            </ui:repeat>
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </ui:composition>
+</html>

@@ -1,0 +1,105 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ph="http://xmlns.jcp.org/jsf/passthrough">
+
+    <body>
+        <ui:composition>
+            <div style="padding:3px; padding-left:18px; border-left:4px solid #d0d0d0; margin-left:20px; font-style:italic;">
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-xs-12">
+                            <ul class="nav nav-pills nav-justified clickable-steps">
+                                <li class="active"><a href="javascript:void(0)" ><i class="gi gi-folder_open"></i> <strong>&nbsp;&nbsp;&nbsp;&nbsp;#{bundle.CommandeBon}</strong></a></li>
+                                <li><a href="javascript:void(0)" ><i class="fa fa-list "></i> <strong>&nbsp;&nbsp;#{bundle.Element}</strong></a></li>
+                                <li><a href="javascript:void(0)" ><i class="fa fa-check"></i> <strong>&nbsp;&nbsp;Confirmation</strong></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label class="col-md-3 control-label" for="demande">#{bundle.Demande}</label>
+                        <div class="col-md-9">
+                            <h:selectOneMenu id="example-chosen"  class="select-chosen" ph:data-placeholder="#{bundle.Demande}" value="#{demandeBean.selectedDemande}" style="width: 41em;" >
+                                <f:selectItem itemValue="" itemLabel="---Demande---"/>
+                                <f:selectItems value="#{demandeBean.findListSendCSFC()}"  var="liste" itemValue="#{liste.demande}" itemLabel="#{liste.demande.code}"/>
+                                <f:converter converterId="demandeConverter"/>
+                                <f:ajax execute="@this"  render=":listeEnteteForm :exo forunissuer"  onevent="selectDemande" listener="#{demandeBean.passDemande()}" />
+                            </h:selectOneMenu>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label class="col-md-3 control-label" for="exo">#{bundle.exercice}</label>
+                        <div class="col-md-9" jsf:id="exo">
+                            <h:selectOneMenu id="example-chosen2"  class="select-chosen" ph:data-placeholder="#{bundle.exercice}" value="#{demandeBean.newBonDeCommande.exercice}" style="width: 41em;" >
+                                <f:selectItem itemValue="" itemLabel="---Exercice---"/>
+                                <f:selectItems value="#{demandeBean.listExercice}" var="exo" itemValue="#{exo}"   itemLabel="#{exo.libelle}"/>
+                                <f:converter converterId="exerciceConverter"/>
+                            </h:selectOneMenu>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <div class="col-sm-3">
+                            <label class="control-label" for="observationExp">#{bundle.objet}</label>  
+                        </div>  
+                        <div class="col-sm-9" style="">
+                            <h:inputTextarea id="observationExp"  value="#{demandeBean.newBonDeCommande.objet}" rows="3" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <div class="col-sm-3">
+                            <label class="control-label" for="observationExp">#{bundle.ligneBudgetaire}</label>  
+                        </div>  
+                        <div class="col-sm-9" style="">
+                            <h:selectOneMenu id="example-chosen6"  class="select-chosen" ph:data-placeholder="#{bundle.ligne}" value="#{demandeBean.selectedLigneBudgetaire}" style="width: 41em;" >
+                                <f:selectItem itemValue="" itemLabel="--Sélectionnez--"/>
+                                <f:selectItems value="#{demandeBean.listeLigneBudgetaire}"  var="liste" itemValue="#{liste}" itemLabel="#{liste.ligne}"/>
+                                <f:converter converterId="ligneBudgetaireConverter"/>
+                                <f:ajax  execute="@this" listener="#{demandeBean.passLigneBc()}" onevent="selectDemande" render=":listeEnteteForm :exo forunissuer"/>
+                            </h:selectOneMenu>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label class="col-md-3 control-label" for="prestataire">#{bundle.fournisseur}</label>
+                        <div class="col-md-9" jsf:id="forunissuer">
+                            <h:selectOneMenu id="example-chosen3"  class="select-chosen" ph:data-placeholder="#{bundle.fournisseur}"  style="width: 41em;" >
+                                <f:selectItem itemValue="" itemLabel="--Fournisseur--"/>
+                                <f:selectItem itemValue="#{p}" itemLabel="#{demandeBean.selectedDemande.fournisseur.nom}"/>
+                                <!--<f:converter converterId="prestataireConverter"/>-->
+                            </h:selectOneMenu>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <div class="col-sm-3">
+                            <label class="control-label" for="Alivrer">#{bundle.ALivrerA}</label>  
+                        </div>  
+                        <div class="col-sm-9">
+                            <input type="text" jsf:id="Alivrer" name="Alivrer" class="form-control" jsf:value="#{demandeBean.newBonDeCommande.beneficiaire}" placeholder="#{bundle.ALivrerA}" required="true"/>
+                        </div> 
+
+                    </div>
+                </div>
+                <div class="form-group form-actions">
+                    <div class="col-md-8 col-md-offset-4">
+                        <button type="button"  class="btn btn-primary hidden"  style="width: 35px" id="next2"  jsf:id="executeForm_id">
+                            <i class="ace-icon fa fa-plus"></i>
+                            <f:ajax execute="div1" render=":createDemandeForm:DataTableConfirmElement ConfirmTable" onevent="reinitChosen"/>
+                        </button>
+                        <button type="submit" class="btn btn-effect-ripple btn-primary" onclick="execute_Ajax()"  id="next1">Suivant</button>
+                    </div>
+                </div>
+            </div>
+        </ui:composition>
+    </body>
+</html>
