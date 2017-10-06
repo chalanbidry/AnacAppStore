@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package controller;
 
 
@@ -36,6 +32,9 @@ public class CategorieBean implements Serializable {
      * Creates a new instance of CategorieBean
      */
     public CategorieBean() {
+        
+        
+        
         
     }
 
